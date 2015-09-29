@@ -1,0 +1,17 @@
+<%= simple_form_for @user, :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.input :name %>
+  <%= error_span(@user[:name]) %>
+  <%= f.input :password %>
+  <%= error_span(@user[:password]) %>
+  <%= f.input :email %>
+  <%= error_span(@user[:email]) %>
+  <%= f.input :suspended %>
+  <%= error_span(@user[:suspended]) %>
+  ※create_at は、あくまでDateTimePicker用の一時的な項目です。<br/>
+  <%= f.input :created_at, as: :datetime_picker %>
+  <%= error_span(@user[:created_at]) %>
+
+  <%= f.button :submit, :class => 'btn-primary' %>
+  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                users_path, :class => 'btn btn-default' %>
+<% end %>

@@ -1,0 +1,87 @@
+AllCops:
+  Include:
+    - '**/*.rb'
+  Exclude:
+    - bin/*
+    - db/schema.rb
+    - db/migrate/*
+    - config/unicorn.rb
+    - config/unicorn_staging.rb
+    - spec/spec_helper.rb
+    - tmp/**/*
+
+AsciiComments:
+  Enabled: false
+
+HashSyntax:
+  Enabled: true
+
+Metrics/ClassLength:
+  Max: 200
+
+Metrics/CyclomaticComplexity:
+  Max: 5
+
+Metrics/LineLength:
+  Max: 120
+
+Metrics/MethodLength:
+  Max: 80
+
+Style/AsciiComments:
+  Enabled: false
+
+# Respect RubyMine formatter
+Style/CaseIndentation:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/DotPosition:
+  EnforcedStyle: trailing
+
+Style/GuardClause:
+  Enabled: false
+
+Style/IfUnlessModifier:
+  Enabled: false
+
+# Name reduce block params |a, e|.
+Style/SingleLineBlockParams:
+  Enabled: false
+
+# Respect RubyMine formatter
+Style/SpaceInsideHashLiteralBraces:
+  Enabled: false
+
+# Cannot deal with AR#eager_load
+Style/SymbolProc:
+  Enabled: false
+
+# Final newline missing.
+Style/TrailingBlankLines:
+  Enabled: false
+
+TrivialAccessors:
+  Enabled: true
+  ExactNameMatch: true
+
+Style/SpaceInsideBlockBraces:
+  Enabled: false
+
+Style/MultilineBlockChain:
+  Enabled: false
+
+Style/NumericLiterals:
+  Enabled: false
+
+Style/AlignArray:
+  Enabled: false
+
+# Do not prefix writer method names with set_
+Style/AccessorMethodName:
+  Enabled: false
+
+Style/TrailingWhitespace:
+  Enabled: false

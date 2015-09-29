@@ -1,0 +1,18 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+
+development:
+  <<: *default
+  database: flaccoer_development
+
+test:
+  <<: *default
+  database: flaccoer_test
+
+production:
+  <<: *default
+  database: flaccoer_production
+  username: flaccoer
+  password: <%= ENV['FLACCOER_DATABASE_PASSWORD'] %>

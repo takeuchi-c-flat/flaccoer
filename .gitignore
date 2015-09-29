@@ -1,0 +1,12 @@
+/.bundle
+/log/*
+!/log/.keep
+/tmp
+
+doc/
+*.swp
+*~
+.project
+.DS_Store
+.idea/
+.secret
