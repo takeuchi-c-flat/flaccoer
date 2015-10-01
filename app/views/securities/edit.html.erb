@@ -1,0 +1,11 @@
+<div class="page-header">
+  <h1><%=t '.title', :default => 'パスワードの変更' %></h1>
+</div>
+
+<%= simple_form_for @user, url: :security, :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.input :password %>
+  <%= f.input :new_password1 %>
+  <%= f.input :new_password2 %>
+
+  <%= f.button :submit, '変更', :class => 'btn-primary' %>
+<% end %>

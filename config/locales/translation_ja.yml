@@ -8,3 +8,5 @@ ja:
         email: メールアドレス
         password: パスワード
         suspended: アカウント無効
+        new_password1: 新しいパスワード
+        new_password2: 新しいパスワード(確認用)

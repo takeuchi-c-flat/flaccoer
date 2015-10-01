@@ -15,7 +15,7 @@ describe TopController, 'ログイン後' do
   end
 
   describe '#index' do
-    example '通常はuser/top/indexを表示' do
+    example '通常はtop/indexを表示' do
       get :index
       expect(response).to render_template('top/index')
     end
