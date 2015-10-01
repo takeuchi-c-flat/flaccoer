@@ -4,18 +4,18 @@ class SessionsController < BaseController
 
   def new
     if current_user
-      redirect_to :root
+      destroy
     else
-      @form = LoginForm.new
+      @user = User.new
       render action: 'new'
     end
   end
 
   def create
-    @form = LoginForm.new(params[:login_form])
-    Rails.logger.info "***U= #{@form.email} P=#{@form.password}"
-    if @form.email.present?
-      user = AuthenticationService.authenticate(@form.email, @form.password)
+    @user = User.new(params[:login_form])
+    @user.assign_attributes(user_params)
+    if @user.email.present?
+      user = AuthenticationService.authenticate(@user.email, @user.password)
     end
     if user && user.suspended?
       flash.now.alert = 'アカウントは停止されています。'
@@ -35,5 +35,9 @@ class SessionsController < BaseController
     session.delete(:user_id)
     flash.notice = 'ログアウトしました。'
     redirect_to :login
+  end
+
+  def user_params
+    params.require(:user).permit(:email, :password)
   end
 end

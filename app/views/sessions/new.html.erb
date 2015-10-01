@@ -2,8 +2,7 @@
   <h1><%=t '.title', :default => 'ログイン' %></h1>
 </div>
 
-<!-- TODO: ログインブロック用のcssクラスを作ろう -->
-<%= simple_form_for @form, url: :session, :html => { :class => 'form-horizontal' } do |f| %>
+<%= simple_form_for @user, url: :session, :html => { :class => 'form-horizontal' } do |f| %>
   <%= f.input :email %>
   <%= f.input :password %>
 

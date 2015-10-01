@@ -1,0 +1,16 @@
+@import 'colors';
+@import 'dimensions';
+
+footer {
+  bottom: 0;
+  position: absolute;
+  width: 100%;
+  background-color: $dark_gray;
+  font-size: small;
+  color: $very_light_gray;
+  p {
+    text-align: left;
+    padding: $moderate;
+    margin: 0;
+  }
+}
