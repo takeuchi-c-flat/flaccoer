@@ -52,6 +52,9 @@
               <li><%= link_to "設定", "/config"  %></li>
               <li><%= link_to "ログアウト", "/login"  %></li>
             <% end %>
+            <% if current_user && current_user.admin_user? %>
+              <li><%= link_to "ユーザ管理", "/users"  %></li>
+            <% end %>
           </ul>
         </div>
       </div>

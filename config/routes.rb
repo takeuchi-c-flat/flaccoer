@@ -12,5 +12,5 @@ Rails.application.routes.draw do
   patch 'security' => 'securities#update', as: :security
 
   # ユーザ管理(Admin用)
-  resources :users
+  resources :users, except: [:show]
 end

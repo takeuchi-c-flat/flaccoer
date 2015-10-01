@@ -1,12 +1,62 @@
 ja:
   activerecord:
     models:
-      user: ユーザー
+      user: ユーザ
     attributes:
       user:
         name: 名前
         email: メールアドレス
         password: パスワード
         suspended: アカウント無効
+        admin_user: 管理者
         new_password1: 新しいパスワード
         new_password2: 新しいパスワード(確認用)
+
+    errors:
+      format:
+        separator: ""
+      template:
+        header:
+          one:   "{{model}}にエラーが発生しました。"
+          other: "{{model}}に{{count}}つのエラーが発生しました。"
+        body: "次の項目を確認してください。"
+
+      messages:
+        inclusion: "一覧にありません。"
+        exclusion: "予約されています。"
+        invalid: "不正な値です。"
+        confirmation: "一致しません。"
+        accepted: "受諾してください。"
+        empty: "入力してください。"
+        blank: "入力してください。"
+        too_long: "{{count}}文字以内で入力してください。"
+        too_short: "{{count}}文字以上で入力してください。"
+        wrong_length: "{{count}}文字で入力してください。"
+        taken: "重複しています。他の値を設定してください。"
+        not_a_number: "数値で入力してください。"
+        greater_than: "{{count}}より大きい値にしてください。"
+        greater_than_or_equal_to: "{{count}}以上の値にしてください。"
+        equal_to: "{{count}}にしてください。"
+        less_than: "{{count}}より小さい値にしてください。"
+        less_than_or_equal_to: "{{count}}以下の値にしてください。"
+        odd: "奇数にしてください。"
+        even: "偶数にしてください。"
+
+  helpers:
+    actions: "操作"
+    links:
+      cancel: "キャンセル"
+      confirm: "本当にいいですか？"
+      new: "追加"
+      edit: "編集"
+      destroy: "削除"
+    titles:
+      edit: "%{model} 編集"
+      save: "保存"
+      new: "%{model} 追加"
+      delete: "削除"
+      list: "%{model} 一覧"
+    submit:
+      update: "更新"
+      submit: "保存"
+      new: "追加"

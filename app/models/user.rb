@@ -3,6 +3,10 @@ class User < ActiveRecord::Base
 
   attr_accessor :password, :new_password1, :new_password2
 
+  validates :email, presence: true, uniqueness: true
+  validates :password, presence: { if: :new_record? }
+  validates :name, presence: true
+
   before_validation do
     self.email_for_index = email.downcase if email
     if password.is_a?(String)
@@ -11,4 +15,8 @@ class User < ActiveRecord::Base
       self.hashed_password = nil
     end
   end
+
+  #def new_record?
+  #  self.new_record?
+  #end
 end
