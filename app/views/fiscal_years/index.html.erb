@@ -6,6 +6,7 @@
   <thead>
     <tr>
       <th><%= model_class.human_attribute_name(:title) %></th>
+      <th><%= model_class.human_attribute_name(:organization_name) %></th>
       <th><%= model_class.human_attribute_name(:account_type) %></th>
       <th><%= model_class.human_attribute_name(:date_from) %></th>
       <th><%= model_class.human_attribute_name(:date_to) %></th>
@@ -18,6 +19,7 @@
     <% @fiscal_years.each do |fiscal_year| %>
       <tr>
         <td><%= fiscal_year.title %></td>
+        <td><%= fiscal_year.organization_name %></td>
         <td><%= fiscal_year.account_type %></td>
         <td><%= fiscal_year.date_from %></td>
         <td><%= fiscal_year.date_to %></td>

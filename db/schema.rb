@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 20151003074807) do
     t.integer  "user_id",                                  null: false
     t.integer  "account_type_id",                          null: false
     t.integer  "subject_template_type_id",                 null: false
+    t.string   "organization_name",                        null: false
     t.string   "title",                                    null: false
     t.date     "date_from",                                null: false
     t.date     "date_to",                                  null: false

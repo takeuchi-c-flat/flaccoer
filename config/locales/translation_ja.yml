@@ -16,6 +16,7 @@ ja:
         new_password2: 新しいパスワード(確認用)
       fiscal_year:
         title: 名称
+        organization_name: 組織名など
         account_type: 会計種別
         subject_template_type: 科目テンプレート
         date_from: 開始日

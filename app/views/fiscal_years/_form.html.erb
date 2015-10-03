@@ -1,6 +1,8 @@
 <%= simple_form_for @fiscal_year, wrapper: "horizontal_form", :html => { :class => 'form-horizontal' } do |f| %>
   <%= f.input :title, input_wrapper_html: { class: "col-xs-5" } %>
   <%= error_span(@fiscal_year[:title]) %>
+  <%= f.input :organization_name, input_wrapper_html: { class: "col-xs-7" } %>
+  <%= error_span(@fiscal_year[:organization_name]) %>
   <% if f.object.new_record? %>
     <%= f.association :subject_template_type, input_wrapper_html: { class: "col-xs-5" } %>
     <%= error_span(@fiscal_year[:subject_template_type]) %>

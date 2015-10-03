@@ -51,6 +51,9 @@ Style/GuardClause:
 Style/IfUnlessModifier:
   Enabled: false
 
+Style/BlockDelimiters:
+  Enabled: false
+
 # Name reduce block params |a, e|.
 Style/SingleLineBlockParams:
   Enabled: false

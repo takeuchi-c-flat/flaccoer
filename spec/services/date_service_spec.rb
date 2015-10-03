@@ -29,7 +29,6 @@ RSpec.describe DateService do
     end
   end
 
-
   describe '#validate_date_order' do
     example 'validate OK' do
       expect(DateService.validate_date_order(Date.new(2015, 1, 1), Date.new(2015, 1, 1))).to eq(true)

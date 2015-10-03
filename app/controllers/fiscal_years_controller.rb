@@ -58,6 +58,8 @@ class FiscalYearsController < BaseController
   def fiscal_year_params
     params.
       require(:fiscal_year).
-      permit(:user_id, :account_type_id, :subject_template_type_id, :title, :date_from, :date_to, :locked)
+      permit(
+        :user_id, :account_type_id, :subject_template_type_id, :title, :organization_name,
+        :date_from, :date_to, :locked)
   end
 end
