@@ -56,6 +56,11 @@
               <li><%= link_to "ユーザ管理", "/users"  %></li>
             <% end %>
           </ul>
+          <div class="navbar-right">
+            <% if current_user %>
+              <%= current_user.name + ' さん' %>
+            <% end %>
+          </div>
         </div>
       </div>
     </div>

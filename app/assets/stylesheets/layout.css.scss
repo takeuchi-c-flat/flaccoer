@@ -1,6 +1,12 @@
 @import 'colors';
 @import 'dimensions';
 
+div.navbar-right {
+  float: right;
+  vertical-align: middle;
+  padding: 15px;
+}
+
 footer {
   bottom: 0;
   position: absolute;
