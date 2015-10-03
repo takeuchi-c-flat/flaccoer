@@ -75,6 +75,7 @@ ActiveRecord::Schema.define(version: 20151003035350) do
 
   add_index "users", ["email_for_index"], name: "index_users_on_email_for_index", unique: true, using: :btree
 
+  add_foreign_key "subject_template_types", "account_types"
   add_foreign_key "subject_templates", "subject_template_types"
   add_foreign_key "subject_templates", "subject_types"
   add_foreign_key "subject_types", "account_types"
