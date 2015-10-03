@@ -2,10 +2,10 @@
   <h1><%=t '.title', :default => 'パスワードの変更' %></h1>
 </div>
 
-<%= simple_form_for @user, url: :security, :html => { :class => 'form-horizontal' } do |f| %>
-  <%= f.input :password %>
-  <%= f.input :new_password1 %>
-  <%= f.input :new_password2 %>
+<%= simple_form_for @user, url: :security, wrapper: "horizontal_form", :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.input :password, input_wrapper_html: { class: "col-xs-5" } %>
+  <%= f.input :new_password1, input_wrapper_html: { class: "col-xs-5" } %>
+  <%= f.input :new_password2, input_wrapper_html: { class: "col-xs-5" } %>
 
   <%= f.button :submit, '変更', :class => 'btn-primary' %>
   <%= link_to t('.cancel', :default => t("helpers.links.cancel")),

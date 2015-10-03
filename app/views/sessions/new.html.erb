@@ -2,9 +2,9 @@
   <h1><%=t '.title', :default => 'ログイン' %></h1>
 </div>
 
-<%= simple_form_for @user, url: :session, :html => { :class => 'form-horizontal' } do |f| %>
-  <%= f.input :email %>
-  <%= f.input :password %>
+<%= simple_form_for @user, url: :session, wrapper: "horizontal_form", :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.input :email, input_wrapper_html: { class: "col-xs-5" } %>
+  <%= f.input :password, input_wrapper_html: { class: "col-xs-5" } %>
 
   <%= f.button :submit, 'ログイン', :class => 'btn-primary' %>
 <% end %>

@@ -15,8 +15,4 @@ class User < ActiveRecord::Base
       self.hashed_password = nil
     end
   end
-
-  #def new_record?
-  #  self.new_record?
-  #end
 end

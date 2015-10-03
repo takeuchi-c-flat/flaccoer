@@ -4,6 +4,6 @@ class AccountType < ActiveRecord::Base
   CODE_OF_MULTI = 'MULTI'
 
   def type_multi?
-    self.code == CODE_OF_MULTI
+    code == CODE_OF_MULTI
   end
 end
