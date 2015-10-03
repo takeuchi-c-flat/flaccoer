@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151003074807) do
+ActiveRecord::Schema.define(version: 20151003112101) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,21 @@ ActiveRecord::Schema.define(version: 20151003074807) do
   add_index "fiscal_years", ["account_type_id"], name: "index_fiscal_years_on_account_type_id", using: :btree
   add_index "fiscal_years", ["subject_template_type_id"], name: "index_fiscal_years_on_subject_template_type_id", using: :btree
   add_index "fiscal_years", ["user_id"], name: "index_fiscal_years_on_user_id", using: :btree
+
+  create_table "journals", force: :cascade do |t|
+    t.integer  "fiscal_year_id",                null: false
+    t.date     "journal_date",                  null: false
+    t.integer  "subject_debit_id",              null: false
+    t.integer  "subject_credit_id",             null: false
+    t.integer  "price",             default: 0, null: false
+    t.string   "comment"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+  end
+
+  add_index "journals", ["fiscal_year_id"], name: "index_journals_on_fiscal_year_id", using: :btree
+  add_index "journals", ["subject_credit_id"], name: "index_journals_on_subject_credit_id", using: :btree
+  add_index "journals", ["subject_debit_id"], name: "index_journals_on_subject_debit_id", using: :btree
 
   create_table "subject_template_types", force: :cascade do |t|
     t.integer  "account_type_id", null: false
@@ -79,6 +94,23 @@ ActiveRecord::Schema.define(version: 20151003074807) do
 
   add_index "subject_types", ["account_type_id"], name: "index_subject_types_on_account_type_id", using: :btree
 
+  create_table "subjects", force: :cascade do |t|
+    t.integer  "fiscal_year_id",             null: false
+    t.integer  "subject_type_id",            null: false
+    t.string   "code",             limit: 3, null: false
+    t.string   "name",                       null: false
+    t.integer  "report1_location"
+    t.integer  "report2_location"
+    t.integer  "report3_location"
+    t.integer  "report4_location"
+    t.integer  "report5_location"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "subjects", ["fiscal_year_id"], name: "index_subjects_on_fiscal_year_id", using: :btree
+  add_index "subjects", ["subject_type_id"], name: "index_subjects_on_subject_type_id", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                           null: false
     t.string   "email_for_index",                 null: false
@@ -94,8 +126,13 @@ ActiveRecord::Schema.define(version: 20151003074807) do
 
   add_foreign_key "fiscal_years", "subject_template_types"
   add_foreign_key "fiscal_years", "users"
+  add_foreign_key "journals", "fiscal_years"
+  add_foreign_key "journals", "subjects", column: "subject_credit_id"
+  add_foreign_key "journals", "subjects", column: "subject_debit_id"
   add_foreign_key "subject_template_types", "account_types"
   add_foreign_key "subject_templates", "subject_template_types"
   add_foreign_key "subject_templates", "subject_types"
   add_foreign_key "subject_types", "account_types"
+  add_foreign_key "subjects", "fiscal_years"
+  add_foreign_key "subjects", "subject_types"
 end
