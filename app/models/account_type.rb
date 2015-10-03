@@ -6,4 +6,8 @@ class AccountType < ActiveRecord::Base
   def type_multi?
     code == CODE_OF_MULTI
   end
+
+  def to_s
+    name
+  end
 end

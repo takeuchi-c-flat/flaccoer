@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151003035350) do
+ActiveRecord::Schema.define(version: 20151003074807) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,22 @@ ActiveRecord::Schema.define(version: 20151003035350) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "fiscal_years", force: :cascade do |t|
+    t.integer  "user_id",                                  null: false
+    t.integer  "account_type_id",                          null: false
+    t.integer  "subject_template_type_id",                 null: false
+    t.string   "title",                                    null: false
+    t.date     "date_from",                                null: false
+    t.date     "date_to",                                  null: false
+    t.boolean  "locked",                   default: false, null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+  end
+
+  add_index "fiscal_years", ["account_type_id"], name: "index_fiscal_years_on_account_type_id", using: :btree
+  add_index "fiscal_years", ["subject_template_type_id"], name: "index_fiscal_years_on_subject_template_type_id", using: :btree
+  add_index "fiscal_years", ["user_id"], name: "index_fiscal_years_on_user_id", using: :btree
 
   create_table "subject_template_types", force: :cascade do |t|
     t.integer  "account_type_id", null: false
@@ -75,6 +91,8 @@ ActiveRecord::Schema.define(version: 20151003035350) do
 
   add_index "users", ["email_for_index"], name: "index_users_on_email_for_index", unique: true, using: :btree
 
+  add_foreign_key "fiscal_years", "subject_template_types"
+  add_foreign_key "fiscal_years", "users"
   add_foreign_key "subject_template_types", "account_types"
   add_foreign_key "subject_templates", "subject_template_types"
   add_foreign_key "subject_templates", "subject_types"

@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   get 'configure' => 'configure#index', as: :configure
   get 'security' => 'securities#edit', as: :change_password
   patch 'security' => 'securities#update', as: :security
+  resources :fiscal_years, except: [:show]
 
   # ユーザ管理(Admin用)
   resources :users, except: [:show]

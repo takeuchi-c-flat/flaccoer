@@ -2,6 +2,9 @@ ja:
   activerecord:
     models:
       user: ユーザ
+      account_type: 会計種別
+      subject_template_type: 科目テンプレート
+      fiscal_year: 会計年度
     attributes:
       user:
         name: 名前
@@ -11,7 +14,13 @@ ja:
         admin_user: 管理者
         new_password1: 新しいパスワード
         new_password2: 新しいパスワード(確認用)
-
+      fiscal_year:
+        title: 名称
+        account_type: 会計種別
+        subject_template_type: 科目テンプレート
+        date_from: 開始日
+        date_to: 終了日
+        locked: ロック済
     errors:
       format:
         separator: ""
