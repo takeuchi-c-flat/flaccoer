@@ -8,4 +8,6 @@
   <%= f.input :new_password2 %>
 
   <%= f.button :submit, '変更', :class => 'btn-primary' %>
+  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+          configure_path, :class => 'btn btn-default' %>
 <% end %>

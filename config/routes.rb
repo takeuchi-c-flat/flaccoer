@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   delete 'session' => 'sessions#destroy'
 
   # ユーザ用設定画面
+  get 'configure' => 'configure#index', as: :configure
   get 'security' => 'securities#edit', as: :change_password
   patch 'security' => 'securities#update', as: :security
 

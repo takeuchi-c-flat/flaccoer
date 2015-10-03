@@ -28,7 +28,7 @@ gem 'momentjs-rails'
 gem 'datetimepicker-rails', github: 'zpaulovics/datetimepicker-rails', branch: 'master', submodules: true
 
 group :test do
-  gem 'rspec-rails', '~> 3.0.0.beta2'
+  gem 'rspec-rails'
   gem 'spring-commands-rspec', '~> 1.0.1'
   gem 'capybara', '~> 2.2.1'
   gem 'factory_girl_rails', '~> 4.4.1'
