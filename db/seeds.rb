@@ -1,11 +1,11 @@
 # UserMember
-def create_seed(table_name, seq_number)
-  path = Rails.root.join('db', 'seeds', "#{table_name}_#{seq_number}.rb")
+def create_seed(date, table_name)
+  path = Rails.root.join('db', 'seeds', "#{date}_#{table_name}.rb")
   if File.exist?(path)
-    puts "■Creating #{table_name}...."
+    puts "■■■■Creating #{table_name}...."
     require(path)
   end
 end
 
-create_seed('subject_template_type', '001')
-create_seed('subject_template', '001')
+create_seed('20151003', 'subject_template_type')
+create_seed('20151003', 'subject_template')
