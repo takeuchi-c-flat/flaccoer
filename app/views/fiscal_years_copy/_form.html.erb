@@ -1,12 +1,8 @@
-<%= simple_form_for @fiscal_year, wrapper: "horizontal_form", :html => { :class => 'form-horizontal' } do |f| %>
+<%= simple_form_for @fiscal_year, url: :fiscal_year_clone, wrapper: "horizontal_form", :html => { :class => 'form-horizontal' } do |f| %>
   <%= f.input :title, input_wrapper_html: { class: "col-xs-5" } %>
   <%= error_span(@fiscal_year[:title]) %>
   <%= f.input :organization_name, input_wrapper_html: { class: "col-xs-7" } %>
   <%= error_span(@fiscal_year[:organization_name]) %>
-  <% if f.object.new_record? && !@with_copy %>
-    <%= f.association :subject_template_type, input_wrapper_html: { class: "col-xs-5" } %>
-    <%= error_span(@fiscal_year[:subject_template_type]) %>
-  <% end %>
   <%= f.input :date_from, input_wrapper_html: { class: "col-xs-5" }, as: :date_picker %>
   <%= error_span(@fiscal_year[:date_from]) %>
   <%= f.input :date_to, input_wrapper_html: { class: "col-xs-5" }, as: :date_picker %>

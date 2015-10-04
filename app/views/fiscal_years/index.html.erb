@@ -26,7 +26,11 @@
         <td><%= fiscal_year.locked %></td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                  edit_fiscal_year_path(fiscal_year), :class => 'btn btn-default btn-sm' %>
+                  edit_fiscal_year_path(fiscal_year), :class => 'btn btn-info btn-sm' %>
+          <%= link_to t('.copy', :default => t("helpers.links.copy")),
+                  fiscal_year_copy_path(fiscal_year), :class => 'btn btn-default btn-sm' %>
+          <%= link_to t('.maintenance', :default => t("helpers.links.maintenance")),
+                  fiscal_year_maintenance_path(fiscal_year), :class => 'btn btn-warning btn-sm' %>
           <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
                   fiscal_year_path(fiscal_year),
                   :method => :delete,
@@ -40,4 +44,4 @@
 
 <%= link_to t('.new', :default => t("helpers.links.new")),
         new_fiscal_year_path,
-        :class => 'btn btn-primary' %>
+        :class => 'btn btn-primary btn-sm' %>

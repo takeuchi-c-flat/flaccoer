@@ -26,4 +26,111 @@ RSpec.describe FiscalYearService do
       expect(FiscalYearService.validate_journal_date(fiscal_year, Date.new(2016, 1, 1))).to eq(false)
     end
   end
+
+  describe '#subjects_from_template' do
+    example 'create_subjects' do
+      template_type = create(:subject_template_type)
+      subject_type = create(:subject_type)
+      [
+        { code: '001', name: '科目１', loc1: 101, loc2: 201, loc3: 301 },
+        { code: '002', name: '科目２', loc4: 402, loc5: 502 },
+        { code: '003', name: '科目３' }
+      ].each { |hash|
+        FactoryGirl.create(
+          :subject_template,
+          subject_template_type: template_type,
+          subject_type: subject_type,
+          code: hash[:code],
+          name: hash[:name],
+          report1_location: hash[:loc1],
+          report2_location: hash[:loc2],
+          report3_location: hash[:loc3],
+          report4_location: hash[:loc4],
+          report5_location: hash[:loc5]
+        )
+      }
+      new_fiscal_year = create(:fiscal_year)
+
+      actual = FiscalYearService.subjects_from_template(template_type, new_fiscal_year)
+      expect(actual.length).to eq(3)
+      expect(actual[0].fiscal_year).to eq(new_fiscal_year)
+      expect(actual[0].subject_type).to eq(subject_type)
+      expect(actual[0].code).to eq('001')
+      expect(actual[0].name).to eq('科目１')
+      expect(actual[0].report1_location).to eq(101)
+      expect(actual[0].report2_location).to eq(201)
+      expect(actual[0].report3_location).to eq(301)
+      expect(actual[1].code).to eq('002')
+      expect(actual[1].report4_location).to eq(402)
+      expect(actual[1].report5_location).to eq(502)
+      expect(actual[2].code).to eq('003')
+    end
+  end
+
+  describe '#subjects_from_base_fiscal_year' do
+    example 'create_subjects' do
+      base_fiscal_year = create(:fiscal_year)
+      new_fiscal_year = create(:fiscal_year)
+      subject_type = create(:subject_type)
+      [
+        { code: '001', name: '科目１', loc1: 101, loc2: 201, loc3: 301 },
+        { code: '002', name: '科目２', loc4: 402, loc5: 502 },
+        { code: '003', name: '科目３' }
+      ].each { |hash|
+        FactoryGirl.create(
+          :subject,
+          fiscal_year: base_fiscal_year,
+          subject_type: subject_type,
+          code: hash[:code],
+          name: hash[:name],
+          report1_location: hash[:loc1],
+          report2_location: hash[:loc2],
+          report3_location: hash[:loc3],
+          report4_location: hash[:loc4],
+          report5_location: hash[:loc5]
+        )
+      }
+
+      actual = FiscalYearService.subjects_from_base_fiscal_year(base_fiscal_year, new_fiscal_year)
+      expect(actual.length).to eq(3)
+      expect(actual[0].fiscal_year).to eq(new_fiscal_year)
+      expect(actual[0].subject_type).to eq(subject_type)
+      expect(actual[0].code).to eq('001')
+      expect(actual[0].name).to eq('科目１')
+      expect(actual[0].report1_location).to eq(101)
+      expect(actual[0].report2_location).to eq(201)
+      expect(actual[0].report3_location).to eq(301)
+      expect(actual[1].code).to eq('002')
+      expect(actual[1].report4_location).to eq(402)
+      expect(actual[1].report5_location).to eq(502)
+      expect(actual[2].code).to eq('003')
+    end
+  end
+
+  describe '#fiscal_year_can_delete?' do
+    let(:fiscal_year) { create(:fiscal_year) }
+
+    example 'delete OK' do
+      expect(FiscalYearService.fiscal_year_can_delete?(fiscal_year)).to eq(true)
+    end
+
+    example 'delete OK (with Journal)' do
+      FactoryGirl.create(:journal, fiscal_year: fiscal_year)
+
+      expect(FiscalYearService.fiscal_year_can_delete?(fiscal_year)).to eq(false)
+    end
+
+    # TODO: 予算・残高もチェック
+  end
+
+  describe '#get_subjects_by_fiscal_year' do
+    let(:fiscal_year) { create(:fiscal_year) }
+
+    example 'get' do
+      subject1 = FactoryGirl.create(:subject, fiscal_year: fiscal_year)
+      subject2 = FactoryGirl.create(:subject, fiscal_year: fiscal_year)
+
+      expect(FiscalYearService.get_subjects_by_fiscal_year(fiscal_year)).to eq([subject1, subject2])
+    end
+  end
 end
