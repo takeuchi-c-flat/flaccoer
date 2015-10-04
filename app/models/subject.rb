@@ -8,6 +8,10 @@ class Subject < ActiveRecord::Base
     [report1_location, report2_location, report3_location, report4_location, report5_location]
   end
 
+  def to_s
+    name
+  end
+
   def set_report_locations(locations)
     self.report1_location = locations[0]
     self.report2_location = locations[1]

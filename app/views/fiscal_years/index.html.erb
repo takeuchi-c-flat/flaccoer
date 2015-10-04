@@ -2,6 +2,12 @@
 <div class="page-header">
   <h1><%=t '.title', :default => [:'helpers.titles.list', '%{model}'], :model => model_class.model_name.human.titleize %></h1>
 </div>
+<h3>
+  <%= link_to t('.new', :default => t("helpers.links.new")),
+          new_fiscal_year_path,
+          :class => 'btn btn-primary btn-sm' %>
+</h3>
+
 <table class="table table-striped">
   <thead>
     <tr>
@@ -42,6 +48,7 @@
   </tbody>
 </table>
 
-<%= link_to t('.new', :default => t("helpers.links.new")),
-        new_fiscal_year_path,
-        :class => 'btn btn-primary btn-sm' %>
+<%= link_to t('.back', :default => t("helpers.links.back")),
+        configure_path,
+        :class => 'btn btn-default btn-lg' %>
+

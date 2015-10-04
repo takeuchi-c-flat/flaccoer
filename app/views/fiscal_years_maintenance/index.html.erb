@@ -1,0 +1,63 @@
+<%- model_class = FiscalYear -%>
+<%- model_name = model_class.model_name.human.titleize -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => [:'helpers.titles.maintenance', '%{model}'], :model => model_name %></h1>
+</div>
+
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>利用状況</th>
+    <th>登録件数</th>
+    <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    <th><%=t '.export', :default => t("helpers.import") %></th>
+    <th><%=t '.import', :default => t("helpers.export") %></th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>取引明細</td>
+      <td><%= "#{@journals_count}件" %></td>
+      <td>
+        <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                trunc_journals_path(@fiscal_year),
+                :method => :delete,
+                :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                :class => 'btn btn-sm btn-danger' %>
+      </td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>期首残高の登録</td>
+      <td><%= "#{@balances_count}件" %></td>
+      <td>
+        <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                trunc_balances_path(@fiscal_year),
+                :method => :delete,
+                :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                :class => 'btn btn-sm btn-danger' %>
+      </td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>年間予算の登録</td>
+      <td><%= "#{@badgets_count}件" %></td>
+      <td>
+        <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                trunc_badgets_path(@fiscal_year),
+                :method => :delete,
+                :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                :class => 'btn btn-sm btn-danger' %>
+      </td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<%= link_to t('.back', :default => t("helpers.links.back")),
+        fiscal_years_path,
+        :class => 'btn btn-default btn-lg' %>
+

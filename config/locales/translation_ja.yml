@@ -5,6 +5,11 @@ ja:
       account_type: 会計種別
       subject_template_type: 科目テンプレート
       fiscal_year: 会計年度
+      subject: 勘定科目
+      subject_debit: 借方科目
+      subject_credit: 貸方科目
+      balance: 残高
+      badget: 予算
     attributes:
       user:
         name: 名前
@@ -22,6 +27,12 @@ ja:
         date_from: 開始日
         date_to: 終了日
         locked: ロック済
+      balance:
+        subject: 勘定科目
+        top_balance: 期首残高
+      badget:
+        subject: 勘定科目
+        total_badget: 通期予算
     errors:
       format:
         separator: ""
@@ -54,6 +65,8 @@ ja:
 
   helpers:
     actions: "操作"
+    import: "インポート"
+    export: "エクスポート"
     links:
       cancel: "キャンセル"
       confirm: "本当にいいですか？"
@@ -62,6 +75,7 @@ ja:
       destroy: "削除"
       copy: "複製"
       maintenance: "保守"
+      back: "戻る"
     titles:
       edit: "%{model}の編集"
       copy: "%{model}の複製"
@@ -69,6 +83,8 @@ ja:
       new: "%{model}の追加"
       delete: "削除"
       list: "%{model}の一覧"
+      maintenance: "%{model}の保守"
+      status: "%{model}の利用状況"
     submit:
       update: "更新"
       submit: "保存"

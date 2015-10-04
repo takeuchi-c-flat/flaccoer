@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151003112101) do
+ActiveRecord::Schema.define(version: 20151004114106) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,28 @@ ActiveRecord::Schema.define(version: 20151003112101) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "badgets", force: :cascade do |t|
+    t.integer  "fiscal_year_id",             null: false
+    t.integer  "subject_id",                 null: false
+    t.integer  "total_badget",   default: 0, null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "badgets", ["fiscal_year_id"], name: "index_badgets_on_fiscal_year_id", using: :btree
+  add_index "badgets", ["subject_id"], name: "index_badgets_on_subject_id", using: :btree
+
+  create_table "balances", force: :cascade do |t|
+    t.integer  "fiscal_year_id",             null: false
+    t.integer  "subject_id",                 null: false
+    t.integer  "top_balance",    default: 0, null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "balances", ["fiscal_year_id"], name: "index_balances_on_fiscal_year_id", using: :btree
+  add_index "balances", ["subject_id"], name: "index_balances_on_subject_id", using: :btree
 
   create_table "fiscal_years", force: :cascade do |t|
     t.integer  "user_id",                                  null: false
@@ -124,6 +146,10 @@ ActiveRecord::Schema.define(version: 20151003112101) do
 
   add_index "users", ["email_for_index"], name: "index_users_on_email_for_index", unique: true, using: :btree
 
+  add_foreign_key "badgets", "fiscal_years"
+  add_foreign_key "badgets", "subjects"
+  add_foreign_key "balances", "fiscal_years"
+  add_foreign_key "balances", "subjects"
   add_foreign_key "fiscal_years", "subject_template_types"
   add_foreign_key "fiscal_years", "users"
   add_foreign_key "journals", "fiscal_years"

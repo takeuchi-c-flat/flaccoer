@@ -14,6 +14,13 @@ RSpec.describe Subject do
     end
   end
 
+  describe '#to_s' do
+    example 'get' do
+      subject = create(:subject).tap { |m| m.name = '科目名称' }
+      expect(subject.to_s).to eq('科目名称')
+    end
+  end
+
   describe '#set_report_locations' do
     example 'set' do
       subject = create(:subject)

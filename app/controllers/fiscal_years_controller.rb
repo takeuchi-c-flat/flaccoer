@@ -22,7 +22,6 @@ class FiscalYearsController < BaseController
           format.html { redirect_to fiscal_years_url, notice: '会計年度を登録しました。' }
           format.json { render :index, status: :created, location: @fiscal_years }
         else
-          Rails.logger.error '==========CREATE ERROR==========='
           format.html { render :new }
           format.json { render json: @fiscal_year.errors, status: :unprocessable_entity }
         end
