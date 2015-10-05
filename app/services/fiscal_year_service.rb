@@ -34,14 +34,23 @@ module FiscalYearService
     subjects
   end
 
-  # 会計年度分の取引明細を取得して、削除が可能かをチェックします。
-  # TODO: この先、予算・残高もチェックします。
+  # 会計年度分の取引明細・残高・予算を取得して、削除が可能かをチェックします。
   def fiscal_year_can_delete?(fiscal_year)
-    Journal.where(fiscal_year: fiscal_year).empty?
+    Journal.find_by(fiscal_year: fiscal_year).nil? &&
+      Balance.find_by(fiscal_year: fiscal_year).nil? &&
+      Badget.find_by(fiscal_year: fiscal_year).nil?
   end
 
   # 会計年度分の科目一覧を取得します。(削除用です)
   def get_subjects_by_fiscal_year(fiscal_year)
     Subject.where(fiscal_year: fiscal_year).to_a
+  end
+
+  # 会計年度の期間を元に、取引日の初期値を調整します。
+  def adjust_journal_date(journal_date, fiscal_year)
+    return Date.today if fiscal_year.nil?
+    return fiscal_year.date_from if journal_date < fiscal_year.date_from
+    return fiscal_year.date_to if fiscal_year.date_to < journal_date
+    journal_date
   end
 end

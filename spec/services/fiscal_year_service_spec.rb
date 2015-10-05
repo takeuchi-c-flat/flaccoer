@@ -114,13 +114,20 @@ RSpec.describe FiscalYearService do
       expect(FiscalYearService.fiscal_year_can_delete?(fiscal_year)).to eq(true)
     end
 
-    example 'delete OK (with Journal)' do
+    example 'delete NG (with Journal)' do
       FactoryGirl.create(:journal, fiscal_year: fiscal_year)
-
       expect(FiscalYearService.fiscal_year_can_delete?(fiscal_year)).to eq(false)
     end
 
-    # TODO: 予算・残高もチェック
+    example 'delete NG (with Balance)' do
+      FactoryGirl.create(:balance, fiscal_year: fiscal_year)
+      expect(FiscalYearService.fiscal_year_can_delete?(fiscal_year)).to eq(false)
+    end
+
+    example 'delete NG (with Badget)' do
+      FactoryGirl.create(:badget, fiscal_year: fiscal_year)
+      expect(FiscalYearService.fiscal_year_can_delete?(fiscal_year)).to eq(false)
+    end
   end
 
   describe '#get_subjects_by_fiscal_year' do
@@ -131,6 +138,32 @@ RSpec.describe FiscalYearService do
       subject2 = FactoryGirl.create(:subject, fiscal_year: fiscal_year)
 
       expect(FiscalYearService.get_subjects_by_fiscal_year(fiscal_year)).to eq([subject1, subject2])
+    end
+  end
+
+  describe '#adjust_journal_date' do
+    let(:fiscal_year) {
+      FactoryGirl.create(
+        :fiscal_year,
+        date_from: Date.new(2016, 1, 1),
+        date_to: Date.new(2016, 6, 30)
+      )
+    }
+
+    example 'without FiscalYear' do
+      today = Date.new(2016, 11, 1)
+      allow(Date).to receive(:today).and_return(today)
+      expect(FiscalYearService.adjust_journal_date(Date.new(2016, 1, 1), nil)).to eq(today)
+    end
+
+    example 'between FiscalYear date range' do
+      expect(FiscalYearService.adjust_journal_date(Date.new(2016, 1, 1), fiscal_year)).to eq(Date.new(2016, 1, 1))
+      expect(FiscalYearService.adjust_journal_date(Date.new(2016, 6, 30), fiscal_year)).to eq(Date.new(2016, 6, 30))
+    end
+
+    example 'not between FiscalYear date range' do
+      expect(FiscalYearService.adjust_journal_date(Date.new(2015, 12, 31), fiscal_year)).to eq(Date.new(2016, 1, 1))
+      expect(FiscalYearService.adjust_journal_date(Date.new(2016, 7, 1), fiscal_year)).to eq(Date.new(2016, 6, 30))
     end
   end
 end

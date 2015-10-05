@@ -33,4 +33,8 @@ class FiscalYear < ActiveRecord::Base
       self.account_type = nil
     end
   end
+
+  def select_box_name
+    "#{title} - #{organization_name}"
+  end
 end

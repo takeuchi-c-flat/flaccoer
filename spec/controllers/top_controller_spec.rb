@@ -12,6 +12,8 @@ describe TopController, 'ログイン後' do
   before do
     session[:user_id] = current_user.id
     session[:last_access_time] = 1.second.ago
+    session[:fiscal_year_id] = nil
+    session[:journal_date] = nil
   end
 
   describe '#index' do
@@ -32,6 +34,64 @@ describe TopController, 'ログイン後' do
       get :index
       expect(session[:user_id]).to be_nil
       expect(response).to redirect_to(login_url)
+    end
+
+    example 'セッション変数未設定状態＋会計年度なし' do
+      get :index
+      expect(session[:fiscal_year_id]).to be_nil
+      expect(session[:journal_date]).to be_nil
+      expect(assigns(:no_years)).to eq(true)
+    end
+
+    example 'セッション変数未設定状態＋会計年度あり' do
+      fiscal_year1 = FactoryGirl.create(
+        :fiscal_year, user: current_user, date_from: Date.new(2016, 1, 1), date_to: Date.new(2016, 12, 31))
+      fiscal_year2 = FactoryGirl.create(
+        :fiscal_year, user: current_user, date_from: Date.new(2017, 1, 1), date_to: Date.new(2017, 12, 31))
+      today = Date.new(2017, 3, 1)
+      allow(Date).to receive(:today).and_return(today)
+
+      get :index
+      expect(session[:fiscal_year_id]).to eq(fiscal_year2.id)
+      expect(session[:journal_date]).to eq(today.to_s)
+      expect(assigns(:no_years)).to eq(false)
+      expect(assigns(:fiscal_years)).to eq([fiscal_year2, fiscal_year1])
+      expect(assigns(:top_form).fiscal_year_id).to eq(fiscal_year2.id)
+      expect(assigns(:top_form).journal_date).to eq(today)
+    end
+
+    example 'セッション変数設定状態' do
+      fiscal_year1 = FactoryGirl.create(
+        :fiscal_year, user: current_user, date_from: Date.new(2016, 1, 1), date_to: Date.new(2016, 12, 31))
+      fiscal_year2 = FactoryGirl.create(
+        :fiscal_year, user: current_user, date_from: Date.new(2017, 1, 1), date_to: Date.new(2017, 12, 31))
+      today = Date.new(2017, 3, 1)
+      session[:fiscal_year_id] = fiscal_year1.id
+      session[:journal_date] = today
+
+      get :index
+      expect(session[:fiscal_year_id]).to eq(fiscal_year1.id)
+      expect(session[:journal_date]).to eq(today.to_s)
+      expect(assigns(:no_years)).to eq(false)
+      expect(assigns(:fiscal_years)).to eq([fiscal_year2, fiscal_year1])
+      expect(assigns(:top_form).fiscal_year_id).to eq(fiscal_year1.id)
+      expect(assigns(:top_form).journal_date).to eq(today)
+    end
+  end
+
+  describe '#start' do
+    example 'post' do
+      fiscal_year1 = FactoryGirl.create(
+        :fiscal_year, user: current_user, date_from: Date.new(2016, 1, 1), date_to: Date.new(2016, 12, 31))
+      FactoryGirl.create(
+        :fiscal_year, user: current_user, date_from: Date.new(2017, 1, 1), date_to: Date.new(2017, 12, 31))
+      today = Date.new(2017, 3, 1)
+
+      params_hash = { fiscal_year_id: fiscal_year1.id, journal_date: today }
+      post :start, top_form: params_hash
+      expect(session[:fiscal_year_id]).to eq(fiscal_year1.id.to_s)
+      expect(session[:journal_date]).to eq('2016-12-31')
+      expect(response).to redirect_to(root_url)
     end
   end
 end

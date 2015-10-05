@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   ### ユーザTOP画面
   root to: 'top#index'
+  post 'top' => 'top#start', as: :journal_start
 
   ### ユーザログイン管理
   get 'login' => 'sessions#new', as: :login

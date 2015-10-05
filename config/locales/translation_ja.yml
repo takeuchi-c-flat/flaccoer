@@ -62,7 +62,6 @@ ja:
         less_than_or_equal_to: "{{count}}以下の値にしてください。"
         odd: "奇数にしてください。"
         even: "偶数にしてください。"
-
   helpers:
     actions: "操作"
     import: "インポート"
@@ -76,6 +75,7 @@ ja:
       copy: "複製"
       maintenance: "保守"
       back: "戻る"
+      set_default: "設定"
     titles:
       edit: "%{model}の編集"
       copy: "%{model}の複製"
@@ -89,3 +89,4 @@ ja:
       update: "更新"
       submit: "保存"
       new: "追加"
+      default: "設定"

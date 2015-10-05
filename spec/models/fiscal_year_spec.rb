@@ -41,4 +41,11 @@ RSpec.describe FiscalYear do
       expect(fiscal_year.account_type).to be_nil
     end
   end
+
+  describe '#select_box_name' do
+    example 'get' do
+      fiscal_year = FactoryGirl.create(:fiscal_year, title: 'タイトル', organization_name: '企業名')
+      expect(fiscal_year.select_box_name).to eq('タイトル - 企業名')
+    end
+  end
 end
