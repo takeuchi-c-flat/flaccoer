@@ -3,6 +3,33 @@ class Subject < ActiveRecord::Base
 
   belongs_to :fiscal_year
   belongs_to :subject_type
+  has_one :balance
+  has_one :badget
+
+  scope :property_only, lambda {
+    enabled_only.joins(:subject_type).merge(SubjectType.debit_only).merge(SubjectType.debit_and_credit_only)
+  }
+  scope :debt_only, lambda {
+    enabled_only.joins(:subject_type).merge(SubjectType.credit_only).merge(SubjectType.debit_and_credit_only)
+  }
+  scope :profit_only, lambda {
+    enabled_only.joins(:subject_type).merge(SubjectType.credit_only).merge(SubjectType.profit_and_loss_only)
+  }
+  scope :loss_only, lambda {
+    enabled_only.joins(:subject_type).merge(SubjectType.debit_only).merge(SubjectType.profit_and_loss_only)
+  }
+
+  def self.debit_and_credit_only
+    enabled_only.joins(:subject_type).merge(SubjectType.debit_and_credit_only)
+  end
+
+  def self.profit_and_loss_only
+    enabled_only.joins(:subject_type).merge(SubjectType.profit_and_loss_only)
+  end
+
+  def self.enabled_only
+    where(disabled: false)
+  end
 
   def get_report_locations
     [report1_location, report2_location, report3_location, report4_location, report5_location]

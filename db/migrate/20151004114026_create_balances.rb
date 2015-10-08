@@ -7,5 +7,7 @@ class CreateBalances < ActiveRecord::Migration
 
       t.timestamps null: false
     end
+
+    add_index :balances, [:fiscal_year_id, :subject_id], unique: true
   end
 end

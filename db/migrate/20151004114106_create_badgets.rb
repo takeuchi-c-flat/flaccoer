@@ -7,5 +7,7 @@ class CreateBadgets < ActiveRecord::Migration
 
       t.timestamps null: false
     end
+
+    add_index :badgets, [:fiscal_year_id, :subject_id], unique: true
   end
 end

@@ -1,8 +1,7 @@
 require 'rails_helper'
 
-xdescribe FiscalYearsMaintenanceController, 'ログイン前' do
-  # indexに引数が必要な為、共通specが使えない
-  # it_behaves_like 'a protected base controller'
+describe FiscalYearsMaintenanceController, 'ログイン前' do
+  it_behaves_like 'a protected base controller for index with id'
 end
 
 describe FiscalYearsMaintenanceController, 'ログイン後' do

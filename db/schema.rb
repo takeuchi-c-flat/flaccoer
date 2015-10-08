@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 20151004114106) do
     t.datetime "updated_at",                 null: false
   end
 
+  add_index "badgets", ["fiscal_year_id", "subject_id"], name: "index_badgets_on_fiscal_year_id_and_subject_id", unique: true, using: :btree
   add_index "badgets", ["fiscal_year_id"], name: "index_badgets_on_fiscal_year_id", using: :btree
   add_index "badgets", ["subject_id"], name: "index_badgets_on_subject_id", using: :btree
 
@@ -42,6 +43,7 @@ ActiveRecord::Schema.define(version: 20151004114106) do
     t.datetime "updated_at",                 null: false
   end
 
+  add_index "balances", ["fiscal_year_id", "subject_id"], name: "index_balances_on_fiscal_year_id_and_subject_id", unique: true, using: :btree
   add_index "balances", ["fiscal_year_id"], name: "index_balances_on_fiscal_year_id", using: :btree
   add_index "balances", ["subject_id"], name: "index_balances_on_subject_id", using: :btree
 
@@ -117,19 +119,22 @@ ActiveRecord::Schema.define(version: 20151004114106) do
   add_index "subject_types", ["account_type_id"], name: "index_subject_types_on_account_type_id", using: :btree
 
   create_table "subjects", force: :cascade do |t|
-    t.integer  "fiscal_year_id",             null: false
-    t.integer  "subject_type_id",            null: false
-    t.string   "code",             limit: 3, null: false
-    t.string   "name",                       null: false
+    t.integer  "fiscal_year_id",                             null: false
+    t.integer  "subject_type_id",                            null: false
+    t.string   "code",             limit: 4,                 null: false
+    t.string   "name",                                       null: false
     t.integer  "report1_location"
     t.integer  "report2_location"
     t.integer  "report3_location"
     t.integer  "report4_location"
     t.integer  "report5_location"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.boolean  "disabled",                   default: false, null: false
+    t.boolean  "dash_board",                 default: false, null: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
   end
 
+  add_index "subjects", ["fiscal_year_id", "code"], name: "index_subjects_on_fiscal_year_id_and_code", unique: true, using: :btree
   add_index "subjects", ["fiscal_year_id"], name: "index_subjects_on_fiscal_year_id", using: :btree
   add_index "subjects", ["subject_type_id"], name: "index_subjects_on_subject_type_id", using: :btree
 

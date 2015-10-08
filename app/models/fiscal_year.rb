@@ -5,6 +5,28 @@ class FiscalYear < ActiveRecord::Base
   belongs_to :account_type
   belongs_to :subject_template_type
 
+  has_many \
+    :property_balances,
+    -> do joins(:subject).merge(Subject.property_only).order('subjects.code') end,
+    class_name: 'Balance'
+
+  has_many \
+    :debt_balances,
+    -> do joins(:subject).merge(Subject.debt_only).order('subjects.code') end,
+    class_name: 'Balance'
+  has_many \
+    :profit_badgets,
+    -> do joins(:subject).merge(Subject.profit_only).order('subjects.code') end,
+    class_name: 'Badget'
+  has_many \
+    :loss_badgets,
+    -> do joins(:subject).merge(Subject.loss_only).order('subjects.code') end,
+    class_name: 'Badget'
+  accepts_nested_attributes_for :property_balances
+  accepts_nested_attributes_for :debt_balances
+  accepts_nested_attributes_for :profit_badgets
+  accepts_nested_attributes_for :loss_badgets
+
   validates :title, presence: true
   validates :organization_name, presence: true
   validates :subject_template_type, presence: true

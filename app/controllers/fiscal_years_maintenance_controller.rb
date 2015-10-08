@@ -1,6 +1,5 @@
 class FiscalYearsMaintenanceController < BaseController
   def index
-    # TODO: 本当はindexに引数が必要なのはNGなのだろうか？
     @fiscal_year = FiscalYear.where(id: params[:id]).first
     unless @fiscal_year
       redirect_to :fiscal_years

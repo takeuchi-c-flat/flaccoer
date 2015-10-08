@@ -1,0 +1,52 @@
+<%- model_class = FiscalYear -%>
+<%- child_class = Balance -%>
+<div class="page-header">
+  <h1><%=t '.title', default: [:'helpers.titles.edit', 'Edit %{model}'], model: child_class.model_name.human.titleize %></h1>
+</div>
+
+<h3>
+  会計年度：<%= @fiscal_year.select_box_name %>
+</h3>
+
+<%= simple_form_for @fiscal_year, url: :balances, wrapper: "horizontal_form", html: { class: 'form-horizontal' } do |f| %>
+  <div style="margin: 20px 0px;">
+    <%= f.button :submit, class: 'btn-primary' %>
+    <%= link_to t('.cancel', default: t("helpers.links.cancel")), root_path, class: 'btn btn-default' %>
+  </div>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th colspan="2">借方科目</th>
+    </tr>
+    </thead>
+    <tbody>
+    <%= f.simple_fields_for :property_balances do |c| %>
+      <tr>
+        <td>
+          <%= c.input :subject, label: false, readonly: true, disabled: 'enable', input_wrapper_html: { class: "col-xs-5" } %>
+          <%= c.input :subject_id, as: :hidden %>
+        </td>
+        <td><%= c.input :top_balance, label: false, input_wrapper_html: { class: "col-xs-5" } %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th colspan="2">貸方科目</th>
+    </tr>
+    </thead>
+    <tbody>
+    <%= f.simple_fields_for :debt_balances do |c| %>
+      <tr>
+        <td>
+          <%= c.input :subject, label: false, readonly: true, disabled: 'enable', input_wrapper_html: { class: "col-xs-7" } %>
+          <%= c.input :subject_id, as: :hidden %>
+        </td>
+        <td><%= c.input :top_balance, label: false, input_wrapper_html: { class: "col-xs-5" } %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>

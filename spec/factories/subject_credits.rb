@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :subject_credit do
+  factory :subject_credit, class: Subject do
     fiscal_year
     subject_type
     code '001'

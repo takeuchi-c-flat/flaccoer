@@ -1,10 +1,7 @@
 require 'rails_helper'
 
 describe SecuritiesController, 'ログイン前' do
-  example 'ログインフォームにリダイレクト' do
-    get :edit
-    expect(response).to redirect_to(login_url)
-  end
+  it_behaves_like 'a protected base controller for edit with id'
 end
 
 describe SecuritiesController, 'ログイン後' do

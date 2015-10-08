@@ -134,8 +134,8 @@ RSpec.describe FiscalYearService do
     let(:fiscal_year) { create(:fiscal_year) }
 
     example 'get' do
-      subject1 = FactoryGirl.create(:subject, fiscal_year: fiscal_year)
-      subject2 = FactoryGirl.create(:subject, fiscal_year: fiscal_year)
+      subject1 = FactoryGirl.create(:subject, fiscal_year: fiscal_year, code: '101A')
+      subject2 = FactoryGirl.create(:subject, fiscal_year: fiscal_year, code: '101B')
 
       expect(FiscalYearService.get_subjects_by_fiscal_year(fiscal_year)).to eq([subject1, subject2])
     end

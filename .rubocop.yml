@@ -92,3 +92,7 @@ Style/AccessorMethodName:
 
 Style/TrailingWhitespace:
   Enabled: false
+
+# That's class has bug???
+Style/MultilineOperationIndentation:
+  Enabled: false

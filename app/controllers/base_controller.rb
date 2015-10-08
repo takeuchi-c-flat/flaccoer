@@ -11,6 +11,12 @@ class BaseController < ApplicationController
     end
   end
 
+  def current_fiscal_year
+    if session[:fiscal_year_id]
+      @current_fiscal_year = FiscalYear.find_by(id: session[:fiscal_year_id])
+    end
+  end
+
   def authorize
     unless current_user
       flash.alert = 'ログインしてください。'
@@ -39,5 +45,5 @@ class BaseController < ApplicationController
     end
   end
 
-  helper_method :current_user
+  helper_method :current_user, :current_fiscal_year
 end

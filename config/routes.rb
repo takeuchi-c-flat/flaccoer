@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   ### ユーザTOP画面
-  root to: 'top#index'
+  root to: 'top#index', as: :root
   post 'top' => 'top#start', as: :journal_start
 
   ### ユーザログイン管理
@@ -21,6 +21,17 @@ Rails.application.routes.draw do
   delete 'fiscal_year_maintenance/:id/balances' => 'fiscal_years_maintenance#trunc_balances', as: :trunc_balances
   delete 'fiscal_year_maintenance/:id/badgets' => 'fiscal_years_maintenance#trunc_badgets', as: :trunc_badgets
   resources :fiscal_years, except: [:show]
+
+  ### 科目・期首残高・予算画面
+  # 期首残高
+  get 'subject/:id' => 'subjects#edit', as: :subjects
+  post 'subject/:id' => 'subjects#update'
+  # 期首残高
+  get 'balance' => 'balances#edit', as: :balances
+  patch 'balance' => 'balances#update'
+  # 予算画面
+  get 'badget' => 'badgets#edit', as: :badgets
+  patch 'badget' => 'badgets#update'
 
   ### ユーザ管理(Admin用)
   resources :users, except: [:show]

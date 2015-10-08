@@ -33,6 +33,7 @@ class SessionsController < BaseController
 
   def destroy
     session.delete(:user_id)
+    session.delete(:fiscal_year_id)
     flash.notice = 'ログアウトしました。'
     redirect_to :login
   end
