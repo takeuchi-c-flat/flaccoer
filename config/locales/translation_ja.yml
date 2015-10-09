@@ -75,7 +75,7 @@ ja:
       copy: "複製"
       maintenance: "保守"
       back: "戻る"
-      set_default: "設定"
+      change: "変更"
     titles:
       edit: "%{model}の編集"
       copy: "%{model}の複製"
@@ -85,6 +85,7 @@ ja:
       list: "%{model}の一覧"
       maintenance: "%{model}の保守"
       status: "%{model}の利用状況"
+      change: "%{model}の変更"
     submit:
       update: "更新"
       submit: "保存"

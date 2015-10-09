@@ -3,6 +3,22 @@ module FiscalYearService
 
   MAX_MONTHS_COUNT = 18
 
+  # Userがアクセス可能な会計年度を取得します。
+  def accessible_fiscal_years(user)
+    my_fiscal_years(user) + permitted_fiscal_years(user)
+  end
+
+  # Userの所有する会計年度を取得します。
+  def my_fiscal_years(user)
+    FiscalYear.where(user: user).order(date_from: :desc)
+  end
+
+  # Userがアクセスを許可された会計年度を取得します。
+  def permitted_fiscal_years(_user)
+    # TODO: 実装(要TABLE追加)
+    FiscalYear.where(user_id: -1).order(date_from: :desc)
+  end
+
   # 月数が制限値以内かを確認します。
   def validate_months_range(date_from, date_to)
     DateService.months_count_from_date_span(date_from, date_to) <= MAX_MONTHS_COUNT

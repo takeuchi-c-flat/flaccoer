@@ -8,19 +8,18 @@
     <a class="navbar-brand" href="/">Flaccoer</a>
     <div class="navbar-collapse collapse navbar-responsive-collapse">
       <ul class="nav navbar-nav">
-        <% if current_user %>
-          <li><%= link_to "設定", "/configure"  %></li>
-        <% end %>
         <% if current_user && current_fiscal_year %>
+          <li><%= link_to "年度の選択", "/change_default"  %></li>
           <li><%= link_to "仕訳帳", "/journal"  %></li>
           <li><%= link_to "期首残高", "/balance"  %></li>
           <li><%= link_to "通期予算", "/badget"  %></li>
         <% end %>
+        <% if current_user %>
+          <li><%= link_to "設定", "/configure"  %></li>
+          <li><%= link_to "ログアウト", "/login"  %></li>
+        <% end %>
         <% if current_user && current_user.admin_user? %>
           <li><%= link_to "ユーザ管理", "/users"  %></li>
-        <% end %>
-        <% if current_user %>
-          <li><%= link_to "ログアウト", "/login"  %></li>
         <% end %>
       </ul>
     </div>

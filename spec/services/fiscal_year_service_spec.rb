@@ -1,6 +1,27 @@
 require 'rails_helper'
 
 RSpec.describe FiscalYearService do
+  describe '#accessible_fiscal_years' do
+    example 'only my_fiscal_year' do
+      user = create(:user)
+      year1 = FactoryGirl.create(
+        :fiscal_year,
+        user: user,
+        title: '年度１',
+        date_from: Date.new(2015, 4, 1),
+        date_to: Date.new(2016, 3, 31))
+      year2 = FactoryGirl.create(
+        :fiscal_year,
+        user: user,
+        title: '年度１',
+        date_from: Date.new(2016, 4, 1),
+        date_to: Date.new(2017, 3, 31))
+      expect(FiscalYearService.accessible_fiscal_years(user)).to eq([year2, year1])
+    end
+
+    # TODO: with permitted_fiscal_year pattern
+  end
+
   describe '#validate_months_range' do
     example 'validate OK' do
       expect(FiscalYearService.validate_months_range(Date.new(2015, 1, 1), Date.new(2015, 12, 31))).to eq(true)

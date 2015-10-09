@@ -1,12 +1,8 @@
-<div class="page-header">
-  <h1><%=t '.title', :default => 'こんにちは' %></h1>
-</div>
-
 <%=
     if @no_years
       render :partial => 'no_years'
     else
-      render :partial => 'start'
+      render :partial => 'dashboard'
     end
 %>
 
