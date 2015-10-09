@@ -1,5 +1,5 @@
 <%- model_class = FiscalYear -%>
-<%- child_class = Balance -%>
+<%- child_class = Badget -%>
 <div class="page-header">
   <h1><%=t '.title', default: [:'helpers.titles.edit', 'Edit %{model}'], model: child_class.model_name.human.titleize %></h1>
 </div>
@@ -8,7 +8,7 @@
   会計年度：<%= @fiscal_year.select_box_name %>
 </h3>
 
-<%= simple_form_for @fiscal_year, url: :balances, wrapper: "horizontal_form", html: { class: 'form-horizontal' } do |f| %>
+<%= simple_form_for @fiscal_year, url: :badgets, wrapper: "horizontal_form", html: { class: 'form-horizontal' } do |f| %>
   <div>
     <%= f.button :submit, class: 'btn-primary' %>
     <%= link_to t('.cancel', default: t("helpers.links.cancel")), root_path, class: 'btn btn-default' %>
@@ -16,17 +16,17 @@
   <table class="table table-striped">
     <thead>
     <tr>
-      <th colspan="2">借方科目</th>
+      <th colspan="2">収入</th>
     </tr>
     </thead>
     <tbody>
-    <%= f.simple_fields_for :property_balances do |c| %>
+    <%= f.simple_fields_for :profit_badgets do |c| %>
       <tr>
         <td>
           <%= c.input :subject, label: false, readonly: true, disabled: 'enable', input_wrapper_html: { class: "col-xs-5" } %>
           <%= c.input :subject_id, as: :hidden %>
         </td>
-        <td><%= c.input :top_balance, label: false, input_wrapper_html: { class: "col-xs-5" } %></td>
+        <td><%= c.input :total_badget, label: false, input_wrapper_html: { class: "col-xs-5" } %></td>
       </tr>
     <% end %>
     </tbody>
@@ -34,17 +34,17 @@
   <table class="table table-striped">
     <thead>
     <tr>
-      <th colspan="2">貸方科目</th>
+      <th colspan="2">支出</th>
     </tr>
     </thead>
     <tbody>
-    <%= f.simple_fields_for :debt_balances do |c| %>
+    <%= f.simple_fields_for :loss_badgets do |c| %>
       <tr>
         <td>
           <%= c.input :subject, label: false, readonly: true, disabled: 'enable', input_wrapper_html: { class: "col-xs-7" } %>
           <%= c.input :subject_id, as: :hidden %>
         </td>
-        <td><%= c.input :top_balance, label: false, input_wrapper_html: { class: "col-xs-5" } %></td>
+        <td><%= c.input :total_badget, label: false, input_wrapper_html: { class: "col-xs-5" } %></td>
       </tr>
     <% end %>
     </tbody>

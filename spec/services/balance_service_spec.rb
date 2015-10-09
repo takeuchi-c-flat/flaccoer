@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe BalanceService do
   describe '#pre_create_balances' do
     let(:fiscal_year) { create(:fiscal_year) }
-    let(:type_property) { SubjectType.find_by(credit: true, debit_and_credit: true) }
+    let(:type_property) { SubjectType.find_by(debit: true, debit_and_credit: true) }
     let(:type_debt) { SubjectType.find_by(credit: true, debit_and_credit: true) }
     let(:subjects) {
       [
@@ -26,8 +26,9 @@ RSpec.describe BalanceService do
       expect(Balance.find_by(fiscal_year: fiscal_year, subject: subjects[3])).to be_nil
     end
 
-    example 'need create' do
+    example 'need create and destroy' do
       FactoryGirl.create(:balance, fiscal_year: fiscal_year, subject: subjects[1], top_balance: 20)
+      FactoryGirl.create(:balance, fiscal_year: fiscal_year, subject: subjects[3], top_balance: 99)
 
       expect(BalanceService.pre_create_balances(fiscal_year)).to eq(2)
       expect(Balance.find_by(fiscal_year: fiscal_year, subject: subjects[0]).top_balance).to eq(0)

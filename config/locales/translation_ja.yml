@@ -8,8 +8,8 @@ ja:
       subject: 勘定科目
       subject_debit: 借方科目
       subject_credit: 貸方科目
-      balance: 残高
-      badget: 予算
+      balance: 期首残高
+      badget: 通期予算
     attributes:
       user:
         name: 名前
