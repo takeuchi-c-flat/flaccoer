@@ -6,10 +6,13 @@ class FiscalYear < ActiveRecord::Base
   belongs_to :subject_template_type
 
   has_many \
+    :subjects,
+    -> do eager_load(:subject_type).order('subjects.code') end,
+    class_name: 'Subject'
+  has_many \
     :property_balances,
     -> do joins(:subject).merge(Subject.property_only).order('subjects.code') end,
     class_name: 'Balance'
-
   has_many \
     :debt_balances,
     -> do joins(:subject).merge(Subject.debt_only).order('subjects.code') end,
@@ -22,6 +25,8 @@ class FiscalYear < ActiveRecord::Base
     :loss_badgets,
     -> do joins(:subject).merge(Subject.loss_only).order('subjects.code') end,
     class_name: 'Badget'
+
+  accepts_nested_attributes_for :subjects
   accepts_nested_attributes_for :property_balances
   accepts_nested_attributes_for :debt_balances
   accepts_nested_attributes_for :profit_badgets

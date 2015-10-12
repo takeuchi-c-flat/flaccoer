@@ -1,0 +1,16 @@
+<%- model_class = Subject -%>
+<div class="page-header">
+  <h1><%=t '.title', default: [:'helpers.titles.new', 'New %{model}'], model: model_class.model_name.human.titleize %></h1>
+</div>
+<%= simple_form_for @subject, wrapper: "horizontal_form", html: { class: 'form-horizontal' } do |f| %>
+  <%= f.association :subject_type, collection: @subject_types, input_wrapper_html: { class: "col-xs-5" } %>
+  <%= error_span(@subject[:subject_type]) %>
+  <%= f.input :code, input_wrapper_html: { class: "col-xs-3" } %>
+  <%= error_span(@subject[:code]) %>
+  <%= f.input :name, input_wrapper_html: { class: "col-xs-7" } %>
+  <%= error_span(@subject[:name]) %>
+
+  <%= f.button :submit, class: 'btn-primary' %>
+  <%= link_to t('.cancel', default: t("helpers.links.cancel")),
+          subjects_path, class: 'btn btn-default' %>
+<% end %>

@@ -1,0 +1,57 @@
+<%- child_class = Subject -%>
+<div class="page-header">
+  <h1><%=t '.title', default: [:'helpers.titles.edit', 'Edit %{model}'], model: child_class.model_name.human.titleize %></h1>
+</div>
+
+<h3>会計年度：<%= @fiscal_year.select_box_name %></h3>
+<h5>[追加]・[編集]・[削除]押下時は、一覧の編集内容は破棄されます。</h5>
+
+<%= simple_form_for @fiscal_year, url: :subjects, wrapper: "horizontal_form", html: { class: 'form-horizontal' } do |f| %>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <%= f.button :submit, class: 'btn-primary' %>
+        <%= link_to t('.cancel', default: t("helpers.links.cancel")), root_path, class: 'btn btn-default' %>
+      </div>
+      <div class="col-md-4">
+        <%= link_to t('.new', default: t("helpers.links.new")), new_subject_path, class: 'btn btn-success' %>
+      </div>
+      <div class="col-md-4">
+    </div>
+  </div>
+  <table class="table table-striped table-condensed">
+    <thead>
+      <tr>
+        <th><%= child_class.human_attribute_name(:subject_type) %></th>
+        <th><%= child_class.human_attribute_name(:code) %></th>
+        <th><%= child_class.human_attribute_name(:name) %></th>
+        <th colspan="2"><%= child_class.human_attribute_name(:disabled) %></th>
+        <th colspan="2"><%= child_class.human_attribute_name(:dash_board) %></th>
+        <th><%=t '.actions', default: t("helpers.actions") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= f.simple_fields_for :subjects do |c| %>
+      <tr>
+        <td><%= c.input :subject_type, label: false, readonly: true, disabled: 'enable' %></td>
+        <td><%= c.input :code, label: false %></td>
+        <td><%= c.input :name, label: false %></td>
+        <td><%= c.input :disabled, label: false %></td>
+        <td>&nbsp;</td>
+        <td><%= c.input :dash_board, label: false %></td>
+        <td>&nbsp;</td>
+        <td>
+          <% if c.object.from_template %>&nbsp;<% end %>
+          <% unless c.object.from_template %>
+            <%= link_to t('.destroy', default: t("helpers.links.destroy")),
+                    destroy_subject_path(c.object),
+                    method: :delete,
+                    data: { confirm: t('.confirm', default: t("helpers.links.confirm", default: 'Are you sure?')) },
+                    class: 'btn btn-sm btn-danger' %>
+          <% end %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

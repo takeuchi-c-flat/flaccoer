@@ -18,4 +18,8 @@ class SubjectType < ActiveRecord::Base
   def self.profit_and_loss_only
     where(profit_and_loss: true)
   end
+
+  def to_s
+    name
+  end
 end

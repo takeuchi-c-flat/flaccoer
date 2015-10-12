@@ -24,3 +24,12 @@ shared_examples 'a protected base controller for edit with id' do
     end
   end
 end
+
+shared_examples 'a protected base controller for new' do
+  describe '#new' do
+    example 'ログインフォームにリダイレクト' do
+      get :new
+      expect(response).to redirect_to(login_url)
+    end
+  end
+end

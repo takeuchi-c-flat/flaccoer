@@ -74,17 +74,25 @@ RSpec.describe FiscalYearService do
 
       actual = FiscalYearService.subjects_from_template(template_type, new_fiscal_year)
       expect(actual.length).to eq(3)
-      expect(actual[0].fiscal_year).to eq(new_fiscal_year)
-      expect(actual[0].subject_type).to eq(subject_type)
-      expect(actual[0].code).to eq('001')
-      expect(actual[0].name).to eq('科目１')
-      expect(actual[0].report1_location).to eq(101)
-      expect(actual[0].report2_location).to eq(201)
-      expect(actual[0].report3_location).to eq(301)
-      expect(actual[1].code).to eq('002')
-      expect(actual[1].report4_location).to eq(402)
-      expect(actual[1].report5_location).to eq(502)
-      expect(actual[2].code).to eq('003')
+      expect(actual[0]).to have_attributes(
+        fiscal_year: new_fiscal_year,
+        subject_type: subject_type,
+        code: '001',
+        name: '科目１',
+        report1_location: 101,
+        report2_location: 201,
+        report3_location: 301,
+        from_template: true)
+      expect(actual[1]).to have_attributes(
+        fiscal_year: new_fiscal_year,
+        code: '002',
+        report4_location: 402,
+        report5_location: 502,
+        from_template: true)
+      expect(actual[2]).to have_attributes(
+        fiscal_year: new_fiscal_year,
+        code: '003',
+        from_template: true)
     end
   end
 
@@ -94,9 +102,9 @@ RSpec.describe FiscalYearService do
       new_fiscal_year = create(:fiscal_year)
       subject_type = create(:subject_type)
       [
-        { code: '001', name: '科目１', loc1: 101, loc2: 201, loc3: 301 },
-        { code: '002', name: '科目２', loc4: 402, loc5: 502 },
-        { code: '003', name: '科目３' }
+        { code: '001', name: '科目１', from_template: true, loc1: 101, loc2: 201, loc3: 301 },
+        { code: '002', name: '科目２', from_template: true, loc4: 402, loc5: 502 },
+        { code: '003', name: '科目３', from_template: false }
       ].each { |hash|
         FactoryGirl.create(
           :subject,
@@ -108,23 +116,32 @@ RSpec.describe FiscalYearService do
           report2_location: hash[:loc2],
           report3_location: hash[:loc3],
           report4_location: hash[:loc4],
-          report5_location: hash[:loc5]
+          report5_location: hash[:loc5],
+          from_template: hash[:from_template]
         )
       }
 
       actual = FiscalYearService.subjects_from_base_fiscal_year(base_fiscal_year, new_fiscal_year)
       expect(actual.length).to eq(3)
-      expect(actual[0].fiscal_year).to eq(new_fiscal_year)
-      expect(actual[0].subject_type).to eq(subject_type)
-      expect(actual[0].code).to eq('001')
-      expect(actual[0].name).to eq('科目１')
-      expect(actual[0].report1_location).to eq(101)
-      expect(actual[0].report2_location).to eq(201)
-      expect(actual[0].report3_location).to eq(301)
-      expect(actual[1].code).to eq('002')
-      expect(actual[1].report4_location).to eq(402)
-      expect(actual[1].report5_location).to eq(502)
-      expect(actual[2].code).to eq('003')
+      expect(actual[0]).to have_attributes(
+        fiscal_year: new_fiscal_year,
+        subject_type: subject_type,
+        code: '001',
+        name: '科目１',
+        report1_location: 101,
+        report2_location: 201,
+        report3_location: 301,
+        from_template: true)
+      expect(actual[1]).to have_attributes(
+        fiscal_year: new_fiscal_year,
+        code: '002',
+        report4_location: 402,
+        report5_location: 502,
+        from_template: true)
+      expect(actual[2]).to have_attributes(
+        fiscal_year: new_fiscal_year,
+        code: '003',
+        from_template: false)
     end
   end
 

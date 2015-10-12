@@ -39,6 +39,7 @@ module FiscalYearService
         m.code = template.code
         m.name = template.name
         m.set_report_locations(template.get_report_locations)
+        m.from_template = true
       }
     }
   end

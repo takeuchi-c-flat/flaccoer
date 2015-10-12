@@ -10,6 +10,7 @@ class CreateSubjects < ActiveRecord::Migration
       t.integer    :report3_location
       t.integer    :report4_location
       t.integer    :report5_location
+      t.boolean    :from_template,    null: false,  default: false
       t.boolean    :disabled,         null: false,  default: false
       t.boolean    :dash_board,       null: false,  default: false
 

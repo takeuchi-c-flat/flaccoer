@@ -128,6 +128,7 @@ ActiveRecord::Schema.define(version: 20151004114106) do
     t.integer  "report3_location"
     t.integer  "report4_location"
     t.integer  "report5_location"
+    t.boolean  "from_template",              default: false, null: false
     t.boolean  "disabled",                   default: false, null: false
     t.boolean  "dash_board",                 default: false, null: false
     t.datetime "created_at",                                 null: false

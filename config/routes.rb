@@ -30,8 +30,12 @@ Rails.application.routes.draw do
   resources :fiscal_years, except: [:show]
 
   # 科目
-  get 'subject/:id' => 'subjects#edit', as: :subjects
-  post 'subject/:id' => 'subjects#update'
+  get 'subject' => 'subjects#edit_all', as: :subjects
+  get 'subject/new/' => 'subjects#new', as: :new_subject
+  post 'subject' => 'subjects#create', as: :create_subject
+  delete 'subject/:id/' => 'subjects#destroy', as: :destroy_subject
+  patch 'subject' => 'subjects#update_all'
+
   # 期首残高
   get 'balance' => 'balances#edit', as: :balances
   patch 'balance' => 'balances#update'

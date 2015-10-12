@@ -27,6 +27,12 @@ ja:
         date_from: 開始日
         date_to: 終了日
         locked: ロック済
+      subject:
+        subject_type: 種別
+        code: コード
+        name: 科目名称
+        disabled: 無効
+        dash_board: ダッシュボード表示
       balance:
         subject: 勘定科目
         top_balance: 期首残高

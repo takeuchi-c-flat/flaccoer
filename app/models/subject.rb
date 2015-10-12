@@ -19,6 +19,8 @@ class Subject < ActiveRecord::Base
     enabled_only.joins(:subject_type).merge(SubjectType.debit_only).merge(SubjectType.profit_and_loss_only)
   }
 
+  validates :code, uniqueness: { scope: [:fiscal_year, :code] }
+
   def self.debit_and_credit_only
     enabled_only.joins(:subject_type).merge(SubjectType.debit_and_credit_only)
   end
