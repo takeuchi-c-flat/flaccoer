@@ -19,4 +19,5 @@
 //= require moment/ja
 //= require bootstrap-datetimepicker
 //= require pickers
+//= require_tree ./journals
 //= require_tree ./shared

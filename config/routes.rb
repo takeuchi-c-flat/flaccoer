@@ -13,7 +13,13 @@ Rails.application.routes.draw do
   post 'change_default' => 'change_default#change'
 
   # 仕訳帳
-  get 'journals' => 'journals#edit', as: :journals
+  get 'journals' => 'journals#new', as: :journals
+  get 'journals/subjects_debit' => 'journals#subjects_debit'
+  get 'journals/subjects_credit' => 'journals#subjects_credit'
+  get 'journals/edit/:id/' => 'journals#edit'
+  post 'journals' => 'journals#create'
+  patch 'journals' => 'journals#update'
+  delete 'journals/:id' => 'journals#destroy', as: :destroy_journal
 
   # ユーザ用設定画面
   get 'configure' => 'configure#index', as: :configure
@@ -31,9 +37,9 @@ Rails.application.routes.draw do
 
   # 科目
   get 'subject' => 'subjects#edit_all', as: :subjects
-  get 'subject/new/' => 'subjects#new', as: :new_subject
+  get 'subject/new' => 'subjects#new', as: :new_subject
   post 'subject' => 'subjects#create', as: :create_subject
-  delete 'subject/:id/' => 'subjects#destroy', as: :destroy_subject
+  delete 'subject/:id' => 'subjects#destroy', as: :destroy_subject
   patch 'subject' => 'subjects#update_all'
 
   # 期首残高

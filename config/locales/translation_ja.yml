@@ -6,8 +6,7 @@ ja:
       subject_template_type: 科目テンプレート
       fiscal_year: 会計年度
       subject: 勘定科目
-      subject_debit: 借方科目
-      subject_credit: 貸方科目
+      journal: 取引明細
       balance: 期首残高
       badget: 通期予算
     attributes:
@@ -33,6 +32,12 @@ ja:
         name: 科目名称
         disabled: 無効
         dash_board: ダッシュボード表示
+      journal:
+        journal_date: 取引日
+        subject_debit: 借方科目
+        subject_credit: 貸方科目
+        price: 金額
+        comment: 摘要
       balance:
         subject: 勘定科目
         top_balance: 期首残高

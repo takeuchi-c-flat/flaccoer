@@ -1,0 +1,45 @@
+<%= simple_form_for @journal, wrapper: 'horizontal_form', html: { class: 'form-horizontal' } do |f| %>
+
+  <div class='container journal-field-container'>
+    <div class='row'>&nbsp;</div>
+    <div class='row'>
+      <div class='col-xs-1 journal-field-title'>取引日</div>
+      <div class='col-xs-3'><%= f.input :journal_date, label: false, as: :date_picker %></div>
+    </div>
+  </div>
+  <%= error_span(@journal[:journal_date]) %>
+  <div class='container journal-field-container'>
+    <div class='row'>
+      <div class='col-xs-1 journal-field-title'>借方</div>
+      <div class='col-xs-2'><%= f.association :subject_debit, label: false %></div>
+      <div class='col-xs-1 journal-field-title'>貸方</div>
+      <div class='col-xs-2'><%= f.association :subject_credit, label: false %></div>
+    </div>
+    <%= error_span(@journal[:subject_debit]) %>
+  </div>
+  <div class='container journal-field-container'>
+    <div class='row'>
+      <div class='col-xs-1 journal-field-title'>金額</div>
+      <div class='col-xs-2'><%= f.input :price, label: false %></div>
+    </div>
+  </div>
+  <%= error_span(@journal[:price]) %>
+  <div class='container journal-field-container'>
+    <div class='row'>
+      <div class='col-xs-1 journal-field-title'>摘要</div>
+      <div class='col-xs-5'><%= f.input :comment, label: false %></div>
+    </div>
+  </div>
+  <%= error_span(@journal[:comment]) %>
+  <div class='container journal-field-container'>
+    <div class='row'>
+      <div class='col-xs-2'>&nbsp;</div>
+      <div class='col-xs-4'>
+        <%= f.button :submit, class: 'btn-primary' %>
+        <%= link_to t('.cancel', default: t('helpers.links.cancel')),
+                journals_path, class: 'btn btn-default' %>
+      </div>
+      <div class='col-xs-2'>&nbsp;</div>
+    </div>
+  </div>
+<% end %>

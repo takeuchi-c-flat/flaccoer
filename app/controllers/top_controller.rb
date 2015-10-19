@@ -20,6 +20,5 @@ class TopController < BaseController
     @fiscal_year = @fiscal_years.find { |m| m.id == session[:fiscal_year_id].to_i }
     @journal_date = session[:journal_date].to_date
     # TODO: 実装
-    Rails.logger.info "=========fiscal_year = #{@fiscal_year}"
   end
 end
