@@ -5,12 +5,20 @@ class JournalsController < WithFiscalBaseController
 
   def subjects_debit
     @subjects = Subject.where(fiscal_year: current_fiscal_year)
+    @select_function_name = 'select_subject_debit'
     render 'subjects', layout: false
   end
 
   def subjects_credit
     @subjects = Subject.where(fiscal_year: current_fiscal_year)
+    @item_tag_class = 'select_subject_credit'
     render 'subjects', layout: false
+  end
+
+  def list
+    tab_name = params[:id]
+    @journals = JournalsService.journal_list_from_tab_name(tab_name, current_fiscal_year)
+    render 'list', layout: false
   end
 
   def new
@@ -58,6 +66,7 @@ class JournalsController < WithFiscalBaseController
 
   def set_fiscal_year
     @fiscal_year = current_fiscal_year
+    @journal_date = session[:journal_date].to_date
   end
 
   def set_journal
@@ -69,6 +78,6 @@ class JournalsController < WithFiscalBaseController
   end
 
   def create_tabs
-    # TODO: タブ一覧の生成(中身はjqueryで)
+    @journal_months = JournalsService.create_journal_months(@fiscal_year, @journal_date)
   end
 end

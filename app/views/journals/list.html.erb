@@ -1,0 +1,12 @@
+<table class="table table-striped">
+  <tbody>
+  <% @journals.each do |journal| %>
+    <tr>
+      <!-- TODO: CLICKで編集orコピーを可能に -->
+      <!-- TODO: ヘッダ部と内容をきちんと出力 -->
+      <td><%= journal.journal_date.strftime('%Y-%m-%d') %></td>
+      <td><%= journal.comment %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

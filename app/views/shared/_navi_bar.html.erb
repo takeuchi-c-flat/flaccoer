@@ -34,7 +34,8 @@
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">設定<b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
-              <li><%= link_to "会計年度の設定", "/configure"  %></li>
+              <li><%= link_to "パスワードの変更", "/security"  %></li>
+              <li><%= link_to "会計年度の設定", "/fiscal_years"  %></li>
               <% if current_user.admin_user? %>
                 <li><%= link_to "ユーザ管理", "/users"  %></li>
               <% end %>

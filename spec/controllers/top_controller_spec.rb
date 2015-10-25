@@ -47,8 +47,8 @@ describe TopController, 'ログイン後' do
       FactoryGirl.create(
         :fiscal_year, user: current_user, date_from: Date.new(2016, 1, 1), date_to: Date.new(2016, 12, 31))
       fiscal_year2 = FactoryGirl.create(
-        :fiscal_year, user: current_user, date_from: Date.new(2017, 1, 1), date_to: Date.new(2017, 12, 31))
-      today = Date.new(2017, 3, 1)
+        :fiscal_year, user: current_user, date_from: Date.new(2015, 1, 1), date_to: Date.new(2015, 12, 31))
+      today = Date.new(2015, 3, 1)
       allow(Date).to receive(:today).and_return(today)
 
       get :index
@@ -57,6 +57,20 @@ describe TopController, 'ログイン後' do
       expect(assigns(:no_years)).to eq(false)
       expect(assigns(:fiscal_year)).to eq(fiscal_year2)
       expect(assigns(:journal_date)).to eq(today)
+    end
+
+    example 'セッション変数未設定状態＋会計年度あり＋期間一致せず' do
+      fiscal_year1 = FactoryGirl.create(
+        :fiscal_year, user: current_user, date_from: Date.new(2016, 1, 1), date_to: Date.new(2016, 12, 31))
+      today = Date.new(2015, 3, 1)
+      allow(Date).to receive(:today).and_return(today)
+
+      get :index
+      expect(session[:fiscal_year_id]).to eq(fiscal_year1.id)
+      expect(session[:journal_date]).to eq(Date.new(2016, 1, 1))
+      expect(assigns(:no_years)).to eq(false)
+      expect(assigns(:fiscal_year)).to eq(fiscal_year1)
+      expect(assigns(:journal_date)).to eq(Date.new(2016, 1, 1))
     end
 
     example 'セッション変数設定状態' do

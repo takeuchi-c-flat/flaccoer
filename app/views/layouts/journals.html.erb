@@ -36,18 +36,29 @@
     </div>
   </div>
   <div class='journals-view-container'>
-    01タブエリア<br/>
-    02タブエリア<br/>
-    03タブエリア<br/>
-    04タブエリア<br/>
-    05タブエリア<br/>
-    06タブエリア<br/>
-    07タブエリア<br/>
-    08タブエリア<br/>
-    09タブエリア<br/>
-    10タブエリア<br/>
-    11タブエリア<br/>
-    12タブエリア<br/>
+    <div class='tabbable'>
+      <ul class='nav nav-tabs'>
+        <% @journal_months.each do |journal_month| %>
+        <%=
+          content_tag(
+            :li,
+            content_tag('a', journal_month[:title], { href: '#' + journal_month[:id], 'data-toggle' => 'tab' }),
+            class: journal_month[:class])
+        %>
+        <% end %>
+      </ul>
+      <div id='my-tab-content' class='tab-content'>
+        <% @journal_months.each do |journal_month| %>
+          <%=
+            content_tag(
+              :div,
+              journal_month[:title],
+              class: [journal_month[:class], 'tab-pane'],
+              id: journal_month[:id])
+          %>
+        <% end %>
+      </div>
+    </div>
   </div>
 </body>
 <%= javascript_include_tag "journals" %>

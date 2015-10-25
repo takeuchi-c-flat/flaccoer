@@ -63,6 +63,14 @@ module FiscalYearService
     Subject.where(fiscal_year: fiscal_year).to_a
   end
 
+  # 会計年度の初期値の候補を取得します。
+  def get_default_fiscal_year(date, fiscal_years, user)
+    # TODO: SPEC
+    default = fiscal_years.find { |m| m.date_from <= date && date <= m.date_to && !m.locked? && m.user == user }
+    return default if default.present?
+    fiscal_years.first
+  end
+
   # 会計年度の期間を元に、取引日の初期値を調整します。
   def adjust_journal_date(journal_date, fiscal_year)
     return Date.today if fiscal_year.nil?

@@ -13,8 +13,12 @@ class TopController < BaseController
     return if @no_years
 
     # 会計年度がある場合は、セッションに初期値を設定
-    session[:fiscal_year_id] ||= session[:fiscal_year_id] || @fiscal_years.first.id
-    session[:journal_date] ||= Date.today
+    if session[:fiscal_year_id].nil?
+      today = Date.today
+      default_fiscal_year = FiscalYearService.get_default_fiscal_year(today, @fiscal_years, current_user)
+      session[:fiscal_year_id] = default_fiscal_year.id
+      session[:journal_date] = FiscalYearService.adjust_journal_date(today, default_fiscal_year)
+    end
 
     # 会計年度がある場合は、ダッシュボードの内容を設定
     @fiscal_year = @fiscal_years.find { |m| m.id == session[:fiscal_year_id].to_i }

@@ -40,4 +40,10 @@ RSpec.describe DateService do
       expect(DateService.validate_date_order(Date.new(2015, 1, 1), Date.new(2014, 12, 31))).to eq(false)
     end
   end
+
+  describe '#date_range_from_year_month' do
+    example 'get' do
+      expect(DateService.date_range_from_year_month('201512')).to eq([Date.new(2015, 12, 1), Date.new(2015, 12, 31)])
+    end
+  end
 end

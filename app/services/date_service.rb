@@ -21,4 +21,10 @@ module DateService
   def validate_date_order(date_from, date_to)
     date_from <= date_to
   end
+
+  # 年月(%Y%m)から日付の範囲を取得します。
+  def date_range_from_year_month(year_month)
+    date = Date.strptime(year_month + '01', '%Y%m%d')
+    [date, date.end_of_month]
+  end
 end

@@ -16,13 +16,12 @@ Rails.application.routes.draw do
   get 'journals' => 'journals#new', as: :journals
   get 'journals/subjects_debit' => 'journals#subjects_debit'
   get 'journals/subjects_credit' => 'journals#subjects_credit'
+  get 'journals/list/:id/' => 'journals#list'
   get 'journals/edit/:id/' => 'journals#edit'
   post 'journals' => 'journals#create'
   patch 'journals' => 'journals#update'
-  delete 'journals/:id' => 'journals#destroy', as: :destroy_journal
+  delete 'journals/:id/' => 'journals#destroy', as: :destroy_journal
 
-  # ユーザ用設定画面
-  get 'configure' => 'configure#index', as: :configure
   ## パスワード変更
   get 'security' => 'securities#edit', as: :change_password
   patch 'security' => 'securities#update', as: :security

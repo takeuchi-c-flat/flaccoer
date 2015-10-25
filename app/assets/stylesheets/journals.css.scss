@@ -4,7 +4,6 @@ body {
 }
 
 .journal-input-container {
-  margin: 10px 15px;
   height: 40% !important;
   .journal-form-container {
     top: 0px;
@@ -18,7 +17,6 @@ body {
     height: 100%;
     padding: 6px;
     border: 4px solid chocolate;
-    border-radius: 10px;
   }
   .subjects-debit-container {
     float: left;
@@ -35,14 +33,12 @@ body {
   .journal-form {
     padding: 10px;
     border: 4px solid #337ab7;
-    border-radius: 10px;
   }
 }
 
 .journals-view-container {
+  margin: 15px 15px;
   height: 90% !important;
-  margin: 0px 15px;
-  background-color: #55cccc;
 }
 
 .journal-field-container {

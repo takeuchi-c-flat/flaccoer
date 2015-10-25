@@ -179,6 +179,49 @@ RSpec.describe FiscalYearService do
     end
   end
 
+  describe '#get_default_fiscal_year' do
+    let(:user) { create(:user) }
+    let(:other_user) { create(:user) }
+    let(:fiscal_year1) {
+      create(:fiscal_year).tap { |m|
+        m.title = '1'
+        m.user = other_user
+        m.date_from = Date.new(2015, 1, 1)
+        m.date_to = Date.new(2015, 12, 31)
+      }
+    }
+    let(:fiscal_year2) {
+      create(:fiscal_year).tap { |m|
+        m.user = user
+        m.date_from = Date.new(2015, 1, 1)
+        m.date_to = Date.new(2015, 12, 31)
+        m.locked = true
+      }
+    }
+    let(:fiscal_year3) {
+      create(:fiscal_year).tap { |m|
+        m.title = '2'
+        m.user = user
+        m.date_from = Date.new(2015, 1, 1)
+        m.date_to = Date.new(2015, 12, 31)
+      }
+    }
+    let(:fiscal_year4) {
+      create(:fiscal_year).tap { |m|
+        m.user = user
+        m.date_from = Date.new(2016, 1, 1)
+        m.date_to = Date.new(2016, 12, 31)
+      }
+    }
+
+    example 'get' do
+      fiscal_years = [fiscal_year1, fiscal_year2, fiscal_year3, fiscal_year4]
+      expect(FiscalYearService.get_default_fiscal_year(Date.new(2015, 12, 31), fiscal_years, user)).to eq(fiscal_year3)
+      expect(FiscalYearService.get_default_fiscal_year(Date.new(2016, 12, 31), fiscal_years, user)).to eq(fiscal_year4)
+      expect(FiscalYearService.get_default_fiscal_year(Date.new(2014, 12, 31), fiscal_years, user)).to eq(fiscal_year1)
+    end
+  end
+
   describe '#adjust_journal_date' do
     let(:fiscal_year) {
       FactoryGirl.create(
