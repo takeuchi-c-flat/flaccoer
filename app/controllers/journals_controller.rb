@@ -22,7 +22,6 @@ class JournalsController < WithFiscalBaseController
   end
 
   def new
-    @is_copy = false
     @journal = Journal.new.tap { |m|
       m.fiscal_year = current_fiscal_year
       m.journal_date = session[:journal_date].to_date
@@ -30,10 +29,12 @@ class JournalsController < WithFiscalBaseController
   end
 
   def copy
-    @is_copy = true
     @journal = @journal.dup.tap { |m|
       m.journal_date = session[:journal_date].to_date
     }
+  end
+
+  def edit
   end
 
   def create
@@ -47,9 +48,6 @@ class JournalsController < WithFiscalBaseController
         format.json { render json: @journals.errors, status: :unprocessable_entity }
       end
     end
-  end
-
-  def edit
   end
 
   def update

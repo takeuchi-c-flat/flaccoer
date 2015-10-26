@@ -12,9 +12,9 @@
   <div class='container journal-field-container'>
     <div class='row'>
       <div class='col-xs-1 journal-field-title'><%= model_class.human_attribute_name(:subject_debit) %></div>
-      <div class='col-xs-3'><%= f.association :subject_debit, label: false, input_wrapper_html: { class: "input_subject_debit" } %></div>
+      <div class='col-xs-2'><%= f.association :subject_debit, label: false, input_wrapper_html: { class: "input_subject_debit" } %></div>
       <div class='col-xs-1 journal-field-title'><%= model_class.human_attribute_name(:subject_credit) %></div>
-      <div class='col-xs-3'><%= f.association :subject_credit, label: false, input_wrapper_html: { class: "input_subject_credit" } %></div>
+      <div class='col-xs-2'><%= f.association :subject_credit, label: false, input_wrapper_html: { class: "input_subject_credit" } %></div>
     </div>
     <%= error_span(@journal[:subject_debit]) %>
   </div>

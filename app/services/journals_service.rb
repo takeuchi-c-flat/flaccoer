@@ -16,11 +16,9 @@ module JournalsService
   # タブ名称に応じた、取引明細を取得します。
   def journal_list_from_tab_name(tab_name, fiscal_year)
     (from, to) = DateService.date_range_from_year_month(tab_name.match(/\d{6}/)[0])
-    journals = Journal.
+    Journal.
       where(fiscal_year: fiscal_year).
       where('journal_date BETWEEN ? AND ?', from, to).
       order([:journal_date, :id])
-    Rails.logger.info "Journals GetCount =  #{journals.length}"
-    journals
   end
 end

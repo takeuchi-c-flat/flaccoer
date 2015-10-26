@@ -65,7 +65,6 @@ module FiscalYearService
 
   # 会計年度の初期値の候補を取得します。
   def get_default_fiscal_year(date, fiscal_years, user)
-    # TODO: SPEC
     default = fiscal_years.find { |m| m.date_from <= date && date <= m.date_to && !m.locked? && m.user == user }
     return default if default.present?
     fiscal_years.first
