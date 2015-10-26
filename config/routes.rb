@@ -30,7 +30,12 @@ Rails.application.routes.draw do
   get 'fiscal_year_copy/:id/new' => 'fiscal_years_copy#new', as: :fiscal_year_copy
   post 'fiscal_year_copy/:id/' => 'fiscal_years_copy#create', as: :fiscal_year_clone
   get 'fiscal_year_maintenance/:id/' => 'fiscal_years_maintenance#index', as: :fiscal_year_maintenance
+  get 'fiscal_year_maintenance/:id/export_journals' => 'fiscal_years_maintenance#export_journals', as: :export_journals
+  get 'fiscal_year_maintenance/:id/export_subjects' => 'fiscal_years_maintenance#export_subjects', as: :export_subjects
+  get 'fiscal_year_maintenance/:id/export_balances' => 'fiscal_years_maintenance#export_balances', as: :export_balances
+  get 'fiscal_year_maintenance/:id/export_badgets' => 'fiscal_years_maintenance#export_badgets', as: :export_badgets
   delete 'fiscal_year_maintenance/:id/journals' => 'fiscal_years_maintenance#trunc_journals', as: :trunc_journals
+  delete 'fiscal_year_maintenance/:id/subjects' => 'fiscal_years_maintenance#trunc_subjects', as: :trunc_subjects
   delete 'fiscal_year_maintenance/:id/balances' => 'fiscal_years_maintenance#trunc_balances', as: :trunc_balances
   delete 'fiscal_year_maintenance/:id/badgets' => 'fiscal_years_maintenance#trunc_badgets', as: :trunc_badgets
   resources :fiscal_years, except: [:show]
