@@ -36,11 +36,6 @@ body {
   }
 }
 
-.journals-view-container {
-  margin: 15px 15px;
-  height: 90% !important;
-}
-
 .journal-field-container {
   margin-top: 6px;
 }
@@ -48,4 +43,25 @@ body {
 .journal-field-title {
   padding-top: 8px;
   font-weight: bold;
+}
+
+.journals-view-container {
+  margin: 15px 15px;
+  height: 40% !important;
+}
+
+ul.nav-tabs {
+  background-color: #337ab7;
+}
+
+.select-subject:hover {
+  background-color: #ccffff !important;
+}
+
+.journal-list-table {
+  tbody {
+    tr:hover {
+      background-color: #ccffff !important;
+    }
+  }
 }

@@ -12,14 +12,15 @@ Rails.application.routes.draw do
   get 'change_default' => 'change_default#edit', as: :change_default
   post 'change_default' => 'change_default#change'
 
-  # 仕訳帳
+  # 取引明細(仕訳帳)
   get 'journals' => 'journals#new', as: :journals
   get 'journals/subjects_debit' => 'journals#subjects_debit'
   get 'journals/subjects_credit' => 'journals#subjects_credit'
   get 'journals/list/:id/' => 'journals#list'
-  get 'journals/edit/:id/' => 'journals#edit'
-  post 'journals' => 'journals#create'
-  patch 'journals' => 'journals#update'
+  get 'journals/edit/:id/' => 'journals#edit', as: :edit_journal
+  get 'journals/copy/:id/' => 'journals#copy'
+  post 'journals' => 'journals#create', as: :create_journal
+  patch 'journals/:id/' => 'journals#update', as: :journal
   delete 'journals/:id/' => 'journals#destroy', as: :destroy_journal
 
   ## パスワード変更

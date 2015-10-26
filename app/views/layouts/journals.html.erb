@@ -49,13 +49,7 @@
       </ul>
       <div id='my-tab-content' class='tab-content'>
         <% @journal_months.each do |journal_month| %>
-          <%=
-            content_tag(
-              :div,
-              journal_month[:title],
-              class: [journal_month[:class], 'tab-pane'],
-              id: journal_month[:id])
-          %>
+          <%= content_tag(:div, '', class: [journal_month[:class], 'tab-pane'], id: journal_month[:id]) %>
         <% end %>
       </div>
     </div>

@@ -34,8 +34,8 @@ ja:
         dash_board: ダッシュボード表示
       journal:
         journal_date: 取引日
-        subject_debit: 借方科目
-        subject_credit: 貸方科目
+        subject_debit: 借方
+        subject_credit: 貸方
         price: 金額
         comment: 摘要
       balance:

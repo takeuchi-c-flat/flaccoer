@@ -1,2 +1,6 @@
 <%- model_class = Journal -%>
-<h4><%=t '.title', default: [:'helpers.titles.edit', 'Edit %{model}'], model: model_class.model_name.human.titleize %></h4>
+<h4>
+  <%=t '.title', default: [:'helpers.titles.edit', 'Edit %{model}'], model: model_class.model_name.human.titleize %>
+  &nbsp; TODO:新規登録に戻るボタン
+</h4>
+<%= render partial: 'form' %>

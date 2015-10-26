@@ -2,8 +2,7 @@
   <tbody>
   <% @subjects.each do |subject| %>
     <tr>
-      <!-- TODO: スクリプトの呼び出しに変更する。idを渡しましょう -->
-      <td class="<%= @select_function_name %>"><%= subject.name %></td>
+      <td id="<%= subject.id %>" class="select-subject <%= @td_class_name %>"><%= subject.name %></td>
     </tr>
   <% end %>
   </tbody>

@@ -1,0 +1,6 @@
+<%- model_class = Journal -%>
+<h4 style='background-color: #ffaaaa;'>
+  <%=t '.title', default: [:'helpers.titles.copy', 'Copy %{model}'], model: model_class.model_name.human.titleize %>
+  &nbsp; TODO:新規登録に戻るボタン
+</h4>
+<%= render partial: 'form' %>
