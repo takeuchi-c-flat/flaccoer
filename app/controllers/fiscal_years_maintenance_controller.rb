@@ -15,7 +15,7 @@ class FiscalYearsMaintenanceController < BaseController
           any_records: !journals_count.zero?,
           can_delete: !journals_count.zero?,
           delete_path: trunc_journals_path(@fiscal_year),
-          export_path: export_journals_path(@fiscal_year)
+          export_path: export_journals_path(@fiscal_year, format: :csv)
         },
         {
           title: '勘定科目',
@@ -23,7 +23,7 @@ class FiscalYearsMaintenanceController < BaseController
           any_records: !subjects_count.zero?,
           can_delete: !subjects_count.zero? && journals_count.zero? && balances_count.zero? && badgets_count.zero?,
           delete_path: trunc_subjects_path(@fiscal_year),
-          export_path: export_subjects_path(@fiscal_year)
+          export_path: export_subjects_path(@fiscal_year, format: :csv)
         },
         {
           title: '期首残高',
@@ -31,7 +31,7 @@ class FiscalYearsMaintenanceController < BaseController
           any_records: !balances_count.zero?,
           can_delete: !balances_count.zero?,
           delete_path: trunc_balances_path(@fiscal_year),
-          export_path: export_balances_path(@fiscal_year)
+          export_path: export_balances_path(@fiscal_year, format: :csv)
         },
         {
           title: '年間予算',
@@ -39,7 +39,7 @@ class FiscalYearsMaintenanceController < BaseController
           any_records: !badgets_count.zero?,
           can_delete: !badgets_count.zero?,
           delete_path: trunc_badgets_path(@fiscal_year),
-          export_path: export_badgets_path(@fiscal_year)
+          export_path: export_badgets_path(@fiscal_year, format: :csv)
         }
       ]
   end
@@ -66,15 +66,39 @@ class FiscalYearsMaintenanceController < BaseController
   end
 
   def export_journals
+    @journals = Journal.where(fiscal_year: @fiscal_year).order([:journal_date, :id])
+    respond_to do |format|
+      format.csv do
+        send_data render_to_string, filename: "journals-#{Date.today}.csv", type: :csv
+      end
+    end
   end
 
   def export_subjects
+    @subjects = Subject.where(fiscal_year: @fiscal_year).order(:code)
+    respond_to do |format|
+      format.csv do
+        send_data render_to_string, filename: "subjects-#{Date.today}.csv", type: :csv
+      end
+    end
   end
 
   def export_balances
+    @balances = Balance.where(fiscal_year: @fiscal_year).where('top_balance != 0').sort_by { |m| m.subject.code }
+    respond_to do |format|
+      format.csv do
+        send_data render_to_string, filename: "balances-#{Date.today}.csv", type: :csv
+      end
+    end
   end
 
-  def export_badjets
+  def export_badgets
+    @badgets = Badget.where(fiscal_year: @fiscal_year).where('total_badget != 0').sort_by { |m| m.subject.code }
+    respond_to do |format|
+      format.csv do
+        send_data render_to_string, filename: "badgets-#{Date.today}.csv", type: :csv
+      end
+    end
   end
 
   private

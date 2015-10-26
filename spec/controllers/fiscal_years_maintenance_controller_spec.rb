@@ -7,6 +7,7 @@ end
 describe FiscalYearsMaintenanceController, 'ログイン後' do
   let(:fiscal_year) { create(:fiscal_year) }
   let(:current_user) { create(:user).tap { |u| u.admin_user = true } }
+  let(:other_fiscal_year) { create(:fiscal_year) }
 
   # 事前認証とタイムアウトチェックが通るようにしておきます。
   before do
@@ -34,7 +35,7 @@ describe FiscalYearsMaintenanceController, 'ログイン後' do
             any_records: true,
             can_delete: true,
             delete_path: trunc_journals_path(fiscal_year),
-            export_path: export_journals_path(fiscal_year)
+            export_path: export_journals_path(fiscal_year) + '.csv'
           },
           {
             title: '勘定科目',
@@ -42,7 +43,7 @@ describe FiscalYearsMaintenanceController, 'ログイン後' do
             any_records: true,
             can_delete: false,
             delete_path: trunc_subjects_path(fiscal_year),
-            export_path: export_subjects_path(fiscal_year)
+            export_path: export_subjects_path(fiscal_year) + '.csv'
           },
           {
             title: '期首残高',
@@ -50,7 +51,7 @@ describe FiscalYearsMaintenanceController, 'ログイン後' do
             any_records: true,
             can_delete: true,
             delete_path: trunc_balances_path(fiscal_year),
-            export_path: export_balances_path(fiscal_year)
+            export_path: export_balances_path(fiscal_year) + '.csv'
           },
           {
             title: '年間予算',
@@ -58,7 +59,7 @@ describe FiscalYearsMaintenanceController, 'ログイン後' do
             any_records: true,
             can_delete: true,
             delete_path: trunc_badgets_path(fiscal_year),
-            export_path: export_badgets_path(fiscal_year)
+            export_path: export_badgets_path(fiscal_year) + '.csv'
           }
         ])
     end
@@ -76,7 +77,7 @@ describe FiscalYearsMaintenanceController, 'ログイン後' do
             any_records: false,
             can_delete: false,
             delete_path: trunc_journals_path(fiscal_year),
-            export_path: export_journals_path(fiscal_year)
+            export_path: export_journals_path(fiscal_year) + '.csv'
           },
           {
             title: '勘定科目',
@@ -84,7 +85,7 @@ describe FiscalYearsMaintenanceController, 'ログイン後' do
             any_records: true,
             can_delete: true,
             delete_path: trunc_subjects_path(fiscal_year),
-            export_path: export_subjects_path(fiscal_year)
+            export_path: export_subjects_path(fiscal_year) + '.csv'
           },
           {
             title: '期首残高',
@@ -92,7 +93,7 @@ describe FiscalYearsMaintenanceController, 'ログイン後' do
             any_records: false,
             can_delete: false,
             delete_path: trunc_balances_path(fiscal_year),
-            export_path: export_balances_path(fiscal_year)
+            export_path: export_balances_path(fiscal_year) + '.csv'
           },
           {
             title: '年間予算',
@@ -100,7 +101,7 @@ describe FiscalYearsMaintenanceController, 'ログイン後' do
             any_records: false,
             can_delete: false,
             delete_path: trunc_badgets_path(fiscal_year),
-            export_path: export_badgets_path(fiscal_year)
+            export_path: export_badgets_path(fiscal_year) + '.csv'
           }
         ])
     end
@@ -111,9 +112,8 @@ describe FiscalYearsMaintenanceController, 'ログイン後' do
     end
   end
 
-  describe '#trunc_journals' do
-    example 'truncate' do
-      other_fiscal_year = create(:fiscal_year)
+  describe '#truncate' do
+    example 'journals' do
       FactoryGirl.create(:journal, fiscal_year: fiscal_year)
       FactoryGirl.create(:journal, fiscal_year: fiscal_year)
       FactoryGirl.create(:journal, fiscal_year: other_fiscal_year)
@@ -123,11 +123,8 @@ describe FiscalYearsMaintenanceController, 'ログイン後' do
       expect(Journal.where(fiscal_year: other_fiscal_year).length).to eq(1)
       expect(response).to redirect_to(fiscal_year_maintenance_path)
     end
-  end
 
-  describe '#trunc_subjects' do
-    example 'truncate' do
-      other_fiscal_year = create(:fiscal_year)
+    example 'subjects' do
       FactoryGirl.create(:subject, fiscal_year: fiscal_year, code: '100')
       FactoryGirl.create(:subject, fiscal_year: fiscal_year, code: '200')
       FactoryGirl.create(:subject, fiscal_year: other_fiscal_year, code: '100')
@@ -137,11 +134,8 @@ describe FiscalYearsMaintenanceController, 'ログイン後' do
       expect(Subject.where(fiscal_year: other_fiscal_year).length).to eq(1)
       expect(response).to redirect_to(fiscal_year_maintenance_path)
     end
-  end
 
-  describe '#trunc_balances' do
-    example 'truncate' do
-      other_fiscal_year = create(:fiscal_year)
+    example 'balances' do
       FactoryGirl.create(:balance, fiscal_year: fiscal_year)
       FactoryGirl.create(:balance, fiscal_year: fiscal_year)
       FactoryGirl.create(:balance, fiscal_year: other_fiscal_year)
@@ -151,11 +145,8 @@ describe FiscalYearsMaintenanceController, 'ログイン後' do
       expect(Balance.where(fiscal_year: other_fiscal_year).length).to eq(1)
       expect(response).to redirect_to(fiscal_year_maintenance_path)
     end
-  end
 
-  describe '#trunc_badgets' do
-    example 'truncate' do
-      other_fiscal_year = create(:fiscal_year)
+    example 'badgets' do
       FactoryGirl.create(:badget, fiscal_year: fiscal_year)
       FactoryGirl.create(:badget, fiscal_year: fiscal_year)
       FactoryGirl.create(:badget, fiscal_year: other_fiscal_year)
@@ -164,6 +155,49 @@ describe FiscalYearsMaintenanceController, 'ログイン後' do
       expect(Badget.where(fiscal_year: fiscal_year).empty?).to eq(true)
       expect(Badget.where(fiscal_year: other_fiscal_year).length).to eq(1)
       expect(response).to redirect_to(fiscal_year_maintenance_path)
+    end
+  end
+
+  describe '#export' do
+    let(:subject1) { create(:subject, fiscal_year: fiscal_year, code: '100') }
+    let(:subject2) { create(:subject, fiscal_year: fiscal_year, code: '200') }
+    let(:subject3) { create(:subject, fiscal_year: fiscal_year, code: '300') }
+
+    example 'journals' do
+      journal1 = FactoryGirl.create(:journal, fiscal_year: fiscal_year, journal_date: Date.new(2015, 1, 3))
+      journal2 = FactoryGirl.create(:journal, fiscal_year: fiscal_year, journal_date: Date.new(2015, 1, 1))
+      journal3 = FactoryGirl.create(:journal, fiscal_year: fiscal_year, journal_date: Date.new(2015, 1, 1))
+      FactoryGirl.create(:journal, fiscal_year: other_fiscal_year)
+
+      get :export_journals, id: fiscal_year.id, format: :csv
+      expect(assigns[:journals]).to eq([journal2, journal3, journal1])
+    end
+
+    example 'subjects' do
+      FactoryGirl.create(:subject, fiscal_year: other_fiscal_year)
+
+      get :export_subjects, id: fiscal_year.id, format: :csv
+      expect(assigns[:subjects]).to eq([subject1, subject2, subject3])
+    end
+
+    example 'balances' do
+      balance1 = FactoryGirl.create(:balance, fiscal_year: fiscal_year, subject: subject3, top_balance: 100)
+      balance2 = FactoryGirl.create(:balance, fiscal_year: fiscal_year, subject: subject2, top_balance: 200)
+      FactoryGirl.create(:balance, fiscal_year: fiscal_year, subject: subject1, top_balance: 0)
+      FactoryGirl.create(:balance, fiscal_year: other_fiscal_year, top_balance: 100)
+
+      get :export_balances, id: fiscal_year.id, format: :csv
+      expect(assigns[:balances]).to eq([balance2, balance1])
+    end
+
+    example 'badgets' do
+      badget1 = FactoryGirl.create(:badget, fiscal_year: fiscal_year, subject: subject3, total_badget: 100)
+      badget2 = FactoryGirl.create(:badget, fiscal_year: fiscal_year, subject: subject2, total_badget: 200)
+      FactoryGirl.create(:badget, fiscal_year: fiscal_year, subject: subject1, total_badget: 0)
+      FactoryGirl.create(:badget, fiscal_year: other_fiscal_year, total_badget: 100)
+
+      get :export_badgets, id: fiscal_year.id, format: :csv
+      expect(assigns[:badgets]).to eq([badget2, badget1])
     end
   end
 end
