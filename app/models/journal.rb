@@ -3,7 +3,6 @@ class Journal < ActiveRecord::Base
 
   belongs_to :fiscal_year
   belongs_to :subject_debit, class_name: 'Subject', foreign_key: 'subject_debit_id'
-  belongs_to :subject_debit, class_name: 'Subject', foreign_key: 'subject_debit_id'
   belongs_to :subject_credit, class_name: 'Subject', foreign_key: 'subject_credit_id'
 
   validates :journal_date, presence: true
