@@ -41,6 +41,8 @@ class FiscalYear < ActiveRecord::Base
 
   before_validation :set_account_type
 
+  attr_accessor :for_copy, :base_fiscal_year_id
+
   def validate_date_span
     unless DateService.validate_date_order(date_from, date_to)
       errors.add(:date_to, '日付の指定が正しくありません。')

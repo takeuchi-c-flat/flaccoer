@@ -1,24 +1,48 @@
 class FiscalYearsController < BaseController
-  before_action :set_fiscal_year, only: [:edit, :update, :destroy]
+  before_action :set_fiscal_year, only: [:copy, :edit, :update, :destroy]
 
   def index
     @fiscal_years = FiscalYear.where(user: current_user)
   end
 
   def new
-    @fiscal_year = FiscalYear.new.tap { |m| m.user = current_user }
+    @fiscal_year = FiscalYear.new.tap { |m|
+      m.user = current_user
+      m.base_fiscal_year_id = 0
+    }
+  end
+
+  def copy
+    @fiscal_year = FiscalYear.find(params[:id]).dup.tap { |m|
+      m.title = m.title + ' - コピー'
+      m.date_from = m.date_from.next_year
+      m.date_to = m.date_to.next_year
+      m.locked = false,
+      m.for_copy = 1,
+      m.base_fiscal_year_id = params[:id]
+    }
   end
 
   def edit
   end
 
   def create
-    @fiscal_year = FiscalYear.new(fiscal_year_params).tap { |m| m.user = current_user }
+    strong_params = fiscal_year_params
+    base_fiscal_year_id = strong_params[:base_fiscal_year_id].to_i
     ActiveRecord::Base.transaction do
       respond_to do |format|
         # 科目(Subject)を、科目テンプレートより生成
-        FiscalYearService.subjects_from_template(@fiscal_year.subject_template_type, @fiscal_year).each(&:save)
-        if @fiscal_year.save
+        if base_fiscal_year_id == 0
+          @fiscal_year = FiscalYear.new(strong_params).tap { |m| m.user = current_user }
+          FiscalYearService.subjects_from_template(@fiscal_year.subject_template_type, @fiscal_year).each(&:save)
+        else
+          base_fiscal_year = FiscalYear.find(base_fiscal_year_id)
+          @fiscal_year = base_fiscal_year.dup
+          @fiscal_year.update(strong_params)
+          FiscalYearService.subjects_from_base_fiscal_year(base_fiscal_year, @fiscal_year).each(&:save)
+        end
+
+        if @fiscal_year.save!
           format.html { redirect_to fiscal_years_url, notice: '会計年度を登録しました。' }
           format.json { render :index, status: :created, location: @fiscal_years }
         else
@@ -32,7 +56,7 @@ class FiscalYearsController < BaseController
   def update
     ActiveRecord::Base.transaction do
       respond_to do |format|
-        if @fiscal_year.update(fiscal_year_params)
+        if @fiscal_year.update!(fiscal_year_params)
           format.html { redirect_to fiscal_years_url, notice: '会計年度を更新しました。' }
           format.json { render :index, status: :ok, location: @fiscal_years }
         else
@@ -73,6 +97,7 @@ class FiscalYearsController < BaseController
       require(:fiscal_year).
       permit(
         :user_id, :account_type_id, :subject_template_type_id, :title, :organization_name,
-        :date_from, :date_to, :locked)
+        :date_from, :date_to, :locked,
+        :for_copy, :base_fiscal_year_id)
   end
 end

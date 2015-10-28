@@ -27,8 +27,9 @@ Rails.application.routes.draw do
   get 'security' => 'securities#edit', as: :change_password
   patch 'security' => 'securities#update', as: :security
   ## 会計年度の管理
-  get 'fiscal_year_copy/:id/new' => 'fiscal_years_copy#new', as: :fiscal_year_copy
-  post 'fiscal_year_copy/:id/' => 'fiscal_years_copy#create', as: :fiscal_year_clone
+  get 'fiscal_year/copy/:id/' => 'fiscal_years#copy', as: :copy_fiscal_year
+  resources :fiscal_years, except: [:show]
+  ## 会計年度の保守
   get 'fiscal_year_maintenance/:id/' => 'fiscal_years_maintenance#index', as: :fiscal_year_maintenance
   get 'fiscal_year_maintenance/:id/export_journals' => 'fiscal_years_maintenance#export_journals', as: :export_journals
   get 'fiscal_year_maintenance/:id/export_subjects' => 'fiscal_years_maintenance#export_subjects', as: :export_subjects
@@ -42,7 +43,6 @@ Rails.application.routes.draw do
   delete 'fiscal_year_maintenance/:id/subjects' => 'fiscal_years_maintenance#trunc_subjects', as: :trunc_subjects
   delete 'fiscal_year_maintenance/:id/balances' => 'fiscal_years_maintenance#trunc_balances', as: :trunc_balances
   delete 'fiscal_year_maintenance/:id/badgets' => 'fiscal_years_maintenance#trunc_badgets', as: :trunc_badgets
-  resources :fiscal_years, except: [:show]
 
   # 科目
   get 'subject' => 'subjects#edit_all', as: :subjects
