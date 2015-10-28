@@ -34,6 +34,10 @@ Rails.application.routes.draw do
   get 'fiscal_year_maintenance/:id/export_subjects' => 'fiscal_years_maintenance#export_subjects', as: :export_subjects
   get 'fiscal_year_maintenance/:id/export_balances' => 'fiscal_years_maintenance#export_balances', as: :export_balances
   get 'fiscal_year_maintenance/:id/export_badgets' => 'fiscal_years_maintenance#export_badgets', as: :export_badgets
+  post 'fiscal_year_maintenance/:id/import_journals' => 'fiscal_years_maintenance#import_journals', as: :import_journals
+  post 'fiscal_year_maintenance/:id/import_subjects' => 'fiscal_years_maintenance#import_subjects', as: :import_subjects
+  post 'fiscal_year_maintenance/:id/import_balances' => 'fiscal_years_maintenance#import_balances', as: :import_balances
+  post 'fiscal_year_maintenance/:id/import_badgets' => 'fiscal_years_maintenance#import_badgets', as: :import_badgets
   delete 'fiscal_year_maintenance/:id/journals' => 'fiscal_years_maintenance#trunc_journals', as: :trunc_journals
   delete 'fiscal_year_maintenance/:id/subjects' => 'fiscal_years_maintenance#trunc_subjects', as: :trunc_subjects
   delete 'fiscal_year_maintenance/:id/balances' => 'fiscal_years_maintenance#trunc_balances', as: :trunc_balances

@@ -51,9 +51,10 @@ RSpec.describe CsvExportService do
     actual = CsvExportService.create_subjects_export_csv_data(subjects)
     rows = actual.split("\n")
     expect(rows.length).to eq(5)
-    expect(rows[0]).to eq("\"type_id\",\"コード\",\"名称\"," \
-      + "\"帳票位置１\",\"帳票位置２\",\"帳票位置３\",\"帳票位置４\",\"帳票位置５\"," \
-      + "\"テンプレート項目\",\"無効\",\"ダッシュボード表示\"")
+    expect(rows[0]).to eq(
+      "\"type_id\",\"コード\",\"名称\"," \
+ + "\"帳票位置１\",\"帳票位置２\",\"帳票位置３\",\"帳票位置４\",\"帳票位置５\"," \
+ + "\"テンプレート項目\",\"無効\",\"ダッシュボード表示\"")
     expect(rows[1]).to eq("\"1\",\"101\",\"資産１\",\"10\",\"20\",\"30\",\"40\",\"50\",\"true\",\"false\",\"false\"")
     expect(rows[2]).to eq("\"1\",\"102\",\"資産２\",\"0\",\"0\",\"0\",\"0\",\"0\",\"false\",\"false\",\"true\"")
     expect(rows[3]).to eq("\"2\",\"201\",\"負債１\",\"0\",\"0\",\"0\",\"0\",\"0\",\"false\",\"false\",\"false\"")

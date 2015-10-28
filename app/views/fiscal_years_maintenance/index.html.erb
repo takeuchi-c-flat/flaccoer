@@ -9,8 +9,8 @@
     <tr>
       <th>利用状況</th>
       <th>登録件数</th>
-      <th><%=t '.import', :default => t("helpers.export") %></th>
-      <th><%=t '.export', :default => t("helpers.import") %></th>
+      <th><%=t '.export', :default => t("helpers.export") %></th>
+      <th colspan="2"><%=t '.import', :default => t("helpers.import") %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
@@ -30,7 +30,14 @@
           %>
         <% end %>
       </td>
-      <td></td>
+      <%= form_for @upload_file_form, url: item[:import_url] do |f| %>
+        <td>
+          <%= f.file_field :upload_file %>
+        </td>
+        <td>
+          <%= f.submit "インポート", class: 'btn btn-sm btn-warning' %>
+        </td>
+      <%end %>
       <td>
         <% if item[:can_delete] %>
           <%= link_to \
@@ -46,8 +53,5 @@
     <% end %>
   </tbody>
 </table>
-
-<%= link_to t('.back', :default => t("helpers.links.back")),
-        fiscal_years_path,
-        :class => 'btn btn-default btn-lg' %>
+<%= link_to t('.back', default: t("helpers.links.back")), fiscal_years_path, class: 'btn btn-default btn-lg' %>
 

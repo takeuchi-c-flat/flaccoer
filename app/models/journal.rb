@@ -13,14 +13,14 @@ class Journal < ActiveRecord::Base
 
   def validate_subject
     if subject_debit == subject_credit
-      errors.add(:subject_debit, '貸借に同じ科目が指定されています。')
+      errors.add(:subject_debit, ' 貸借に同じ科目が指定されています。')
       return
     end
   end
 
   def validate_journal_date
     unless FiscalYearService.validate_journal_date(fiscal_year, journal_date)
-      errors.add(:journal_date, '日付が年度の範囲外です。')
+      errors.add(:journal_date, ' 日付が年度の範囲外です。')
       return
     end
   end

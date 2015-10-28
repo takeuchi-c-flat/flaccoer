@@ -34,32 +34,36 @@ describe FiscalYearsMaintenanceController, 'ログイン後' do
             count: 2,
             any_records: true,
             can_delete: true,
-            delete_path: trunc_journals_path(fiscal_year),
-            export_path: export_journals_path(fiscal_year) + '.csv'
+            export_path: export_journals_path(fiscal_year) + '.csv',
+            import_url: import_journals_url,
+            delete_path: trunc_journals_path(fiscal_year)
           },
           {
             title: '勘定科目',
             count: 3,
             any_records: true,
             can_delete: false,
-            delete_path: trunc_subjects_path(fiscal_year),
-            export_path: export_subjects_path(fiscal_year) + '.csv'
+            export_path: export_subjects_path(fiscal_year) + '.csv',
+            import_url: import_subjects_url,
+            delete_path: trunc_subjects_path(fiscal_year)
           },
           {
             title: '期首残高',
             count: 2,
             any_records: true,
             can_delete: true,
-            delete_path: trunc_balances_path(fiscal_year),
-            export_path: export_balances_path(fiscal_year) + '.csv'
+            export_path: export_balances_path(fiscal_year) + '.csv',
+            import_url: import_balances_url,
+            delete_path: trunc_balances_path(fiscal_year)
           },
           {
             title: '年間予算',
             count: 1,
             any_records: true,
             can_delete: true,
-            delete_path: trunc_badgets_path(fiscal_year),
-            export_path: export_badgets_path(fiscal_year) + '.csv'
+            export_path: export_badgets_path(fiscal_year) + '.csv',
+            import_url: import_badgets_url,
+            delete_path: trunc_badgets_path(fiscal_year)
           }
         ])
     end
@@ -76,32 +80,36 @@ describe FiscalYearsMaintenanceController, 'ログイン後' do
             count: 0,
             any_records: false,
             can_delete: false,
-            delete_path: trunc_journals_path(fiscal_year),
-            export_path: export_journals_path(fiscal_year) + '.csv'
+            export_path: export_journals_path(fiscal_year) + '.csv',
+            import_url: import_journals_url,
+            delete_path: trunc_journals_path(fiscal_year)
           },
           {
             title: '勘定科目',
             count: 2,
             any_records: true,
             can_delete: true,
-            delete_path: trunc_subjects_path(fiscal_year),
-            export_path: export_subjects_path(fiscal_year) + '.csv'
+            export_path: export_subjects_path(fiscal_year) + '.csv',
+            import_url: import_subjects_url,
+            delete_path: trunc_subjects_path(fiscal_year)
           },
           {
             title: '期首残高',
             count: 0,
             any_records: false,
             can_delete: false,
-            delete_path: trunc_balances_path(fiscal_year),
-            export_path: export_balances_path(fiscal_year) + '.csv'
+            export_path: export_balances_path(fiscal_year) + '.csv',
+            import_url: import_balances_url,
+            delete_path: trunc_balances_path(fiscal_year)
           },
           {
             title: '年間予算',
             count: 0,
             any_records: false,
             can_delete: false,
-            delete_path: trunc_badgets_path(fiscal_year),
-            export_path: export_badgets_path(fiscal_year) + '.csv'
+            export_path: export_badgets_path(fiscal_year) + '.csv',
+            import_url: import_badgets_url,
+            delete_path: trunc_badgets_path(fiscal_year)
           }
         ])
     end
@@ -198,6 +206,37 @@ describe FiscalYearsMaintenanceController, 'ログイン後' do
 
       get :export_badgets, id: fiscal_year.id, format: :csv
       expect(assigns[:badgets]).to eq([badget2, badget1])
+    end
+  end
+
+  xdescribe '#import' do
+    # TODO: うまくファイルアップロードが偽装出来ず、保留中
+    let(:upload_file) { ActionDispatch::Http::UploadedFile.new(tempfile: 'dummy') }
+
+    before do
+      upload_params = { upload_file: upload_file }
+      expect(FiscalYearsMaintenanceController).to receive(:upload_params).and_return(upload_params)
+      expect(ActionDispatch::Http::UploadedFile).to receive(:read).and_return('DummyContent')
+    end
+
+    example 'journals' do
+      expect(CsvImportService).to receive(:import_csv_data).with(fiscal_year, :journals, 'DummyContent')
+      post :import_journals, id: fiscal_year.id
+    end
+
+    example 'subjects' do
+      expect(CsvImportService).to receive(:import_csv_data).with(fiscal_year, :subjects, 'DummyContent')
+      post :import_subjects, id: fiscal_year.id
+    end
+
+    example 'balances' do
+      expect(CsvImportService).to receive(:import_csv_data).with(fiscal_year, :balances, 'DummyContent')
+      post :import_balances, id: fiscal_year.id
+    end
+
+    example 'badgets' do
+      expect(CsvImportService).to receive(:import_csv_data).with(fiscal_year, :badgets, 'DummyContent')
+      post :import_badgets, id: fiscal_year.id
     end
   end
 end
