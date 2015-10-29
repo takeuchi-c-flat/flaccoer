@@ -12,9 +12,21 @@ class BaseController < ApplicationController
   end
 
   def current_fiscal_year
-    if session[:fiscal_year_id]
-      @current_fiscal_year = FiscalYear.find_by(id: session[:fiscal_year_id])
+    return unless session[:fiscal_year_id]
+    fiscal_year = FiscalYear.find_by(id: session[:fiscal_year_id])
+
+    # 選択されていた会計年度が削除された場合のリセット
+    if fiscal_year.nil?
+      session.delete(:fiscal_year_id)
+      session.delete(:journal_data)
     end
+
+    fiscal_year
+  end
+
+  def fiscal_years
+    return [] if current_user.nil?
+    FiscalYearService.accessible_fiscal_years(current_user)
   end
 
   def authorize
@@ -45,5 +57,5 @@ class BaseController < ApplicationController
     end
   end
 
-  helper_method :current_user, :current_fiscal_year
+  helper_method :current_user, :current_fiscal_year, :fiscal_years
 end
