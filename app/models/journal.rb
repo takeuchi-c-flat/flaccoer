@@ -11,6 +11,8 @@ class Journal < ActiveRecord::Base
   validate :validate_subject
   validate :validate_journal_date
 
+  attr_accessor :balance
+
   def validate_subject
     if subject_debit == subject_credit
       errors.add(:subject_debit, ' 貸借に同じ科目が指定されています。')

@@ -60,7 +60,6 @@ module CsvImportService
   end
 
   # 勘定科目のCSVデータをImportします。
-  # rubocop:disable Metrics/AbcSize
   def import_subjects_csv_data(params)
     fiscal_year = params[0]
     count = 0
@@ -93,7 +92,6 @@ module CsvImportService
     return [false, info] unless info.nil?
     [true, "#{count}行を取り込みました。"]
   end
-  # rubocop:enable Metrics/AbcSize
 
   # 期首残高のCSVデータをImportします。
   def import_balances_csv_data(params)

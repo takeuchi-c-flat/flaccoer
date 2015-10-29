@@ -1,10 +1,59 @@
-<h1>会計年度：<%= @fiscal_year.select_box_name %></h1>
-<h3>ダッシュボード (<%= @journal_date.strftime('%Y-%m-%d') %> 現在)</h3>
+<h1><%= @fiscal_year.select_box_name %></h1>
+<h3><%= @journal_date.strftime('%Y-%m-%d') %> 現在</h3>
+<br />
 <div class="container">
   <div class="row">
     <div class="col-md-6">
+      <h4>【貸借勘定】</h4>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <!-- TODO: ゆくゆくは元帳へリンク -->
+            <th colspan="2">勘定科目</th>
+            <th class="price">期首残高</th>
+            <th class="price">借方合計</th>
+            <th class="price">貸方合計</th>
+            <th class="price">残高</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @dashboards1.each do |dashboard| %>
+            <tr>
+              <td><%= dashboard.code %></td>
+              <td><%= dashboard.name %></td>
+              <td class="price"><%= dashboard.top_balance.jpy_comma %></td>
+              <td class="price"><%= dashboard.debit_total.jpy_comma %></td>
+              <td class="price"><%= dashboard.credit_total.jpy_comma %></td>
+              <td class="price"><%= dashboard.last_balance.jpy_comma %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
     </div>
     <div class="col-md-6">
+      <h4>【損益勘定】</h4>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <!-- TODO: ゆくゆくは元帳へリンク -->
+            <th colspan="2">勘定科目</th>
+            <th class="price">年間予算</th>
+            <th class="price">年間実績</th>
+            <th class="price">予算比</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @dashboards2.each do |dashboard| %>
+            <tr>
+              <td><%= dashboard.code %></td>
+              <td><%= dashboard.name %></td>
+              <td class="price"><%= dashboard.total_badget.jpy_comma %></td>
+              <td class="price"><%= dashboard.total_result.jpy_comma %></td>
+              <td class="price"><%= dashboard.achievement_ratio %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

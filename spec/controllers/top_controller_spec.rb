@@ -50,6 +50,10 @@ describe TopController, 'ログイン後' do
         :fiscal_year, user: current_user, date_from: Date.new(2015, 1, 1), date_to: Date.new(2015, 12, 31))
       today = Date.new(2015, 3, 1)
       allow(Date).to receive(:today).and_return(today)
+      allow(DashboardService).to receive(:create_dashboard_data_debit_and_credit).with(fiscal_year2, today).
+          and_return(['DUMMY1'])
+      allow(DashboardService).to receive(:create_dashboard_data_profit_and_loss).with(fiscal_year2, today).
+          and_return(['DUMMY2'])
 
       get :index
       expect(session[:fiscal_year_id]).to eq(fiscal_year2.id)
@@ -57,20 +61,29 @@ describe TopController, 'ログイン後' do
       expect(assigns(:no_years)).to eq(false)
       expect(assigns(:fiscal_year)).to eq(fiscal_year2)
       expect(assigns(:journal_date)).to eq(today)
+      expect(assigns(:dashboards1)).to eq(['DUMMY1'])
+      expect(assigns(:dashboards2)).to eq(['DUMMY2'])
     end
 
     example 'セッション変数未設定状態＋会計年度あり＋期間一致せず' do
+      span_top = Date.new(2016, 1, 1)
       fiscal_year1 = FactoryGirl.create(
-        :fiscal_year, user: current_user, date_from: Date.new(2016, 1, 1), date_to: Date.new(2016, 12, 31))
+        :fiscal_year, user: current_user, date_from: span_top, date_to: Date.new(2016, 12, 31))
       today = Date.new(2015, 3, 1)
       allow(Date).to receive(:today).and_return(today)
+      allow(DashboardService).to receive(:create_dashboard_data_debit_and_credit).with(fiscal_year1, span_top).
+          and_return(['DUMMY1'])
+      allow(DashboardService).to receive(:create_dashboard_data_profit_and_loss).with(fiscal_year1, span_top).
+          and_return(['DUMMY2'])
 
       get :index
       expect(session[:fiscal_year_id]).to eq(fiscal_year1.id)
-      expect(session[:journal_date]).to eq(Date.new(2016, 1, 1))
+      expect(session[:journal_date]).to eq(span_top)
       expect(assigns(:no_years)).to eq(false)
       expect(assigns(:fiscal_year)).to eq(fiscal_year1)
-      expect(assigns(:journal_date)).to eq(Date.new(2016, 1, 1))
+      expect(assigns(:journal_date)).to eq(span_top)
+      expect(assigns(:dashboards1)).to eq(['DUMMY1'])
+      expect(assigns(:dashboards2)).to eq(['DUMMY2'])
     end
 
     example 'セッション変数設定状態' do
@@ -81,6 +94,10 @@ describe TopController, 'ログイン後' do
       today = Date.new(2017, 3, 1)
       session[:fiscal_year_id] = fiscal_year1.id
       session[:journal_date] = today
+      allow(DashboardService).to receive(:create_dashboard_data_debit_and_credit).with(fiscal_year1, today).
+          and_return(['DUMMY1'])
+      allow(DashboardService).to receive(:create_dashboard_data_profit_and_loss).with(fiscal_year1, today).
+          and_return(['DUMMY2'])
 
       get :index
       expect(session[:fiscal_year_id]).to eq(fiscal_year1.id)
@@ -89,6 +106,8 @@ describe TopController, 'ログイン後' do
       expect(assigns(:fiscal_years)).to eq([fiscal_year2, fiscal_year1])
       expect(assigns(:fiscal_year)).to eq(fiscal_year1)
       expect(assigns(:journal_date)).to eq(today)
+      expect(assigns(:dashboards1)).to eq(['DUMMY1'])
+      expect(assigns(:dashboards2)).to eq(['DUMMY2'])
     end
   end
 end

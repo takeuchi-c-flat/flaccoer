@@ -23,6 +23,7 @@ class TopController < BaseController
     # 会計年度がある場合は、ダッシュボードの内容を設定
     @fiscal_year = @fiscal_years.find { |m| m.id == session[:fiscal_year_id].to_i }
     @journal_date = session[:journal_date].to_date
-    # TODO: 実装
+    @dashboards1 = DashboardService.create_dashboard_data_debit_and_credit(@fiscal_year, @journal_date)
+    @dashboards2 = DashboardService.create_dashboard_data_profit_and_loss(@fiscal_year, @journal_date)
   end
 end

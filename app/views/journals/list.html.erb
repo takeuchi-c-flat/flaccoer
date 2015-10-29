@@ -16,7 +16,7 @@
       <td><%= journal.journal_date.strftime('%Y-%m-%d') %></td>
       <td><%= journal.subject_debit %></td>
       <td><%= journal.subject_credit %></td>
-      <td style='text-align: right;'><%= journal.price.jpy_comma %></td>
+      <td class='price'><%= journal.price.jpy_comma %></td>
       <td><%= journal.comment %></td>
       <td>
         <%= link_to t('.edit', :default => t("helpers.links.edit")),
