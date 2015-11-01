@@ -1,16 +1,17 @@
 class JournalsController < WithFiscalBaseController
   before_action :set_fiscal_year, only: [:list, :new, :copy, :create, :edit, :update]
   before_action :set_journal, only: [:copy, :edit, :update, :destroy]
+  before_action :set_subjects, only: [:new, :copy, :create, :edit, :update]
   before_action :create_tabs, only: [:new, :copy, :create, :edit, :update]
 
   def subjects_debit
-    @subjects = Subject.where(fiscal_year: current_fiscal_year)
+    @subjects = JournalsService.get_subject_list_with_usage_ranking(current_fiscal_year, true)
     @td_class_name = 'select-subject-debit'
     render 'subjects', layout: false
   end
 
   def subjects_credit
-    @subjects = Subject.where(fiscal_year: current_fiscal_year)
+    @subjects = JournalsService.get_subject_list_with_usage_ranking(current_fiscal_year, false)
     @td_class_name = 'select-subject-credit'
     render 'subjects', layout: false
   end
@@ -79,6 +80,10 @@ class JournalsController < WithFiscalBaseController
 
   def set_journal
     @journal = Journal.find(params[:id])
+  end
+
+  def set_subjects
+    @subjects = JournalsService.get_subject_list(current_fiscal_year)
   end
 
   def journal_params

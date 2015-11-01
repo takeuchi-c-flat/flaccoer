@@ -70,6 +70,19 @@ ul.nav-tabs {
   text-align: right;
 }
 
+div.mark {
+  margin: 0px 6px;
+  padding: 4px;
+  float: left;
+  border-radius: 4px;
+  color: #ffffff;
+}
+
+div.mark-property { background-color: mediumblue; }
+div.mark-debt { background-color: firebrick; }
+div.mark-profit { background-color: skyblue; }
+div.mark-loss { background-color: palevioletred; }
+
 div.right-box {
   float: right;
 }

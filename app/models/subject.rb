@@ -21,6 +21,8 @@ class Subject < ActiveRecord::Base
 
   validates :code, uniqueness: { scope: [:fiscal_year, :code] }
 
+  attr_accessor :usage_count
+
   def self.debit_and_credit_only
     enabled_only.joins(:subject_type).merge(SubjectType.debit_and_credit_only)
   end
@@ -35,6 +37,24 @@ class Subject < ActiveRecord::Base
 
   def get_report_locations
     [report1_location, report2_location, report3_location, report4_location, report5_location]
+  end
+
+  def mark_class_name
+    return '' if subject_type.nil?
+    if subject_type.debit_and_credit?
+      subject_type.debit? ? 'mark-property' : 'mark-debt'
+    else
+      subject_type.debit? ? 'mark-loss' : 'mark-profit'
+    end
+  end
+
+  def mark_label_name
+    return '' if subject_type.nil?
+    if subject_type.debit_and_credit?
+      subject_type.debit? ? '資' : '負'
+    else
+      subject_type.debit? ? '支' : '収'
+    end
   end
 
   def to_s

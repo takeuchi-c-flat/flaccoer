@@ -2,7 +2,9 @@
   <tbody>
   <% @subjects.each do |subject| %>
     <tr>
-      <td id="<%= subject.id %>" class="select-subject <%= @td_class_name %>"><%= subject.name %></td>
+      <td id="<%= subject.id %>" class="select-subject <%= @td_class_name %>">
+        <div class="mark <%= subject.mark_class_name %>"><%= subject.mark_label_name %></div><%= subject.name %>
+      </td>
     </tr>
   <% end %>
   </tbody>
