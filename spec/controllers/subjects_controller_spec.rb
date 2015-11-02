@@ -43,6 +43,8 @@ describe SubjectsController, 'ログイン・会計年度選択後' do
 
   describe '#update_all' do
     example 'indexにリダイレクト' do
+      expect(SubjectService).to receive(:cleanup_subjects).with(fiscal_year)
+
       post :update_all, fiscal_year: params_hash
       expect(response).to redirect_to(subjects_url)
     end

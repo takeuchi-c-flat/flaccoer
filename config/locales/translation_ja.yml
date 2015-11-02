@@ -77,6 +77,7 @@ ja:
     actions: "操作"
     import: "インポート"
     export: "エクスポート"
+    backup: "バックアップ"
     links:
       cancel: "キャンセル"
       confirm: "本当にいいですか？"
@@ -87,6 +88,7 @@ ja:
       maintenance: "保守"
       back: "戻る"
       change: "変更"
+      backup: "バックアップ"
     titles:
       edit: "%{model}の編集"
       copy: "%{model}の複製"

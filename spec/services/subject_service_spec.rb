@@ -1,12 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe SubjectService do
+  let(:fiscal_year) { create(:fiscal_year) }
+  let(:dummy_subject1) { FactoryGirl.create(:subject, fiscal_year: fiscal_year, code: 'D1') }
+  let(:dummy_subject2) { FactoryGirl.create(:subject, fiscal_year: fiscal_year, code: 'D2') }
+  let(:disabled_subject) { FactoryGirl.create(:subject, fiscal_year: fiscal_year, code: 'D3', disabled: true) }
+
   describe '#subject_can_delete?' do
-    let(:fiscal_year) { create(:fiscal_year) }
     let(:subject_with_journal1) { FactoryGirl.create(:subject, fiscal_year: fiscal_year, code: '1') }
     let(:subject_with_journal2) { FactoryGirl.create(:subject, fiscal_year: fiscal_year, code: '2') }
-    let(:dummy_subject1) { FactoryGirl.create(:subject, fiscal_year: fiscal_year, code: 'D1') }
-    let(:dummy_subject2) { FactoryGirl.create(:subject, fiscal_year: fiscal_year, code: 'D2') }
 
     example 'can not delete(with debit subject)' do
       FactoryGirl.create(
@@ -28,6 +30,25 @@ RSpec.describe SubjectService do
 
       expect(SubjectService.subject_can_delete?(fiscal_year, subject_with_journal1)).to eq(true)
       expect(SubjectService.subject_can_delete?(fiscal_year, subject_with_journal2)).to eq(true)
+    end
+  end
+
+  describe '#cleanup_subjects?' do
+    example 'cleanup' do
+      create(:balance, fiscal_year: fiscal_year, subject: dummy_subject1, top_balance: 10)
+      create(:balance, fiscal_year: fiscal_year, subject: dummy_subject2, top_balance: 0)
+      create(:balance, fiscal_year: fiscal_year, subject: disabled_subject, top_balance: 10)
+      create(:badget, fiscal_year: fiscal_year, subject: dummy_subject1, total_badget: 0)
+      create(:badget, fiscal_year: fiscal_year, subject: dummy_subject2, total_badget: 20)
+      create(:badget, fiscal_year: fiscal_year, subject: disabled_subject, total_badget: 20)
+
+      SubjectService.cleanup_subjects(fiscal_year)
+      balances = Balance.where(fiscal_year: fiscal_year)
+      expect(balances.length).to eq(1)
+      expect(balances[0].subject.code).to eq('D1')
+      badgets = Badget.where(fiscal_year: fiscal_year)
+      expect(badgets.length).to eq(1)
+      expect(badgets[0].subject.code).to eq('D2')
     end
   end
 end

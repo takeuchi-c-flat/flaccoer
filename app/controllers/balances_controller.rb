@@ -9,8 +9,8 @@ class BalancesController < WithFiscalBaseController
   def update
     respond_to do |format|
       @fiscal_year.update(fiscal_year_params)
-      format.html { redirect_to root_url, notice: '期首残高を更新しました。' }
-      format.json { render :index, location: @root }
+      SubjectService.cleanup_subjects(@fiscal_year)
+      format.html { redirect_to balances_url, notice: '期首残高を更新しました。(バックアップをしましょう)' }
     end
   end
 

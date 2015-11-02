@@ -11,6 +11,8 @@
   <div>
     <%= f.button :submit, class: 'btn-primary' %>
     <%= link_to t('.cancel', default: t("helpers.links.cancel")), root_path, class: 'btn btn-default' %>
+    &nbsp;&nbsp;&nbsp;
+    <%= link_to t('.backup', default: t("helpers.links.backup")), export_badgets_path(@fiscal_year, format: :csv), class: 'btn btn-default' %>
   </div>
   <table class="table table-striped table-condensed">
     <thead>

@@ -8,7 +8,8 @@ class SubjectsController < WithFiscalBaseController
   def update_all
     respond_to do |format|
       @fiscal_year.update(fiscal_year_params)
-      format.html { redirect_to subjects_url, notice: '勘定科目を更新しました。' }
+      SubjectService.cleanup_subjects(@fiscal_year)
+      format.html { redirect_to subjects_url, notice: '勘定科目を更新しました。(バックアップをしましょう)' }
       format.json { render :index, location: @subjects }
     end
   end
@@ -22,7 +23,7 @@ class SubjectsController < WithFiscalBaseController
     respond_to do |format|
       @subject = Subject.new(subject_params).tap { |m| m.fiscal_year = current_fiscal_year }
       if @subject.save
-        format.html { redirect_to subjects_url, notice: '勘定科目を追加しました。' }
+        format.html { redirect_to subjects_url, notice: '勘定科目を追加しました。(バックアップをしましょう)' }
         format.json { render :index, status: :created, location: @subjects }
       else
         format.html { render :new }
@@ -39,8 +40,9 @@ class SubjectsController < WithFiscalBaseController
     end
 
     @subject.destroy
+    SubjectService.cleanup_subjects(@subject.fiscal_year)
     respond_to do |format|
-      format.html { redirect_to subjects_url, notice: '勘定科目を削除しました。' }
+      format.html { redirect_to subjects_url, notice: '勘定科目を削除しました。(バックアップをしましょう)' }
       format.json { head :no_content }
     end
   end
