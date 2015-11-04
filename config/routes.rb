@@ -23,6 +23,13 @@ Rails.application.routes.draw do
   patch 'journals/:id/' => 'journals#update', as: :journal
   delete 'journals/:id/' => 'journals#destroy', as: :destroy_journal
 
+  # 元帳
+  # 総勘定元帳
+  get 'ledger' => 'ledger#index', as: :ledger
+  post 'ledger' => 'ledger#list', as: :ledger_list
+  # 合計残高試算表
+  get 'balance_sheet' => 'balance_sheet#index', as: :balance_sheet
+
   ## パスワード変更
   get 'security' => 'securities#edit', as: :change_password
   patch 'security' => 'securities#update', as: :security

@@ -1,0 +1,14 @@
+<h3>総勘定元帳</h3>
+<br />
+<%= simple_form_for @ledger_form, url: :ledger_list do |f| %>
+  <%= f.input :subject_id,
+          label: '勘定科目',
+          collection: @subjects,
+          label_method: :to_s,
+          value_method: :id,
+          include_blank: false %>
+  <%= f.input :date_from, label: '取引日(自)', as: :date_picker %>
+  <%= f.input :date_to, label: '取引日(至)', as: :date_picker %>
+  <br />
+  <%= link_to '表示', '#', class: 'btn btn-primary', id: 'ledger-button' %>
+<% end %>

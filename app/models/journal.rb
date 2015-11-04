@@ -11,7 +11,11 @@ class Journal < ActiveRecord::Base
   validate :validate_subject
   validate :validate_journal_date
 
-  attr_accessor :balance
+  attr_accessor :ledger_subject, :price_debit, :price_credit, :balance
+
+  def self.with_subjects
+    eager_load(subject_debit: [:subject_type]).eager_load(subject_credit: [:subject_type])
+  end
 
   def validate_subject
     if subject_debit == subject_credit
