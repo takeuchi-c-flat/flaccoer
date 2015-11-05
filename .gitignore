@@ -1,7 +1,8 @@
 /.bundle
 /log/*
 !/log/.keep
-/tmp
+/tmp/*
+!/tmp/template
 
 doc/
 *.swp
