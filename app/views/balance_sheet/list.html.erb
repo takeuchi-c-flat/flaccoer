@@ -1,0 +1,29 @@
+<% @balance_sheet_list.each do |block| %>
+<h4><%= block[:title] %></h4>
+<table class='table table-striped condensed-table journal-list-table'>
+  <thead>
+    <tr>
+      <% (0..1).each do |_item| %>
+      <th>&nbsp;</th>
+      <th>勘定科目</th>
+      <th class='price'>前期間残</th>
+      <th class='price'>取引合計</th>
+      <th class='price'>繰越残高</th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% block[:list].each do |subject| %>
+    <tr>
+      <% subject.each do |item| %>
+      <td>&nbsp;</td>
+      <td><%= item.name %></td>
+      <td class='price'><%= item.carried.nil? ? '' : item.carried.jpy_comma %></td>
+      <td class='price'><%= item.total.nil? ? '' : item.total.jpy_comma %></td>
+      <td class='price'><%= item.last_balance.nil? ? '' : item.last_balance.jpy_comma %></td>
+      <% end %>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+<% end %>

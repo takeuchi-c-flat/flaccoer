@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   post 'ledger' => 'ledger#list', as: :ledger_list
   # 合計残高試算表
   get 'balance_sheet' => 'balance_sheet#index', as: :balance_sheet
+  post 'balance_sheet' => 'balance_sheet#list', as: :balance_sheet_list
 
   ## パスワード変更
   get 'security' => 'securities#edit', as: :change_password
