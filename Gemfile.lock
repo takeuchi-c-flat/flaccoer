@@ -111,6 +111,8 @@ GEM
       less (~> 2.6.0)
       sprockets (> 2, < 4)
       tilt
+    libreconv (0.9.1)
+      spoon
     libv8 (3.16.14.11)
     listen (3.0.3)
       rb-fsevent (>= 0.9.3)
@@ -198,7 +200,12 @@ GEM
       powerpack (~> 0.1)
       rainbow (>= 1.99.1, < 3.0)
       ruby-progressbar (~> 1.4)
+    ruby-ole (1.2.11.8)
     ruby-progressbar (1.7.5)
+    rubyXL (3.3.15)
+      nokogiri (>= 1.4.4)
+      rubyzip (>= 1.1.6)
+    rubyzip (1.1.7)
     sass (3.4.18)
     sass-rails (5.0.4)
       railties (>= 4.0.0, < 5.0)
@@ -214,6 +221,10 @@ GEM
       actionpack (~> 4.0)
       activemodel (~> 4.0)
     slop (3.6.0)
+    spoon (0.0.4)
+      ffi
+    spreadsheet (1.0.3)
+      ruby-ole (>= 1.0)
     spring (1.4.0)
     spring-commands-rspec (1.0.4)
       spring (>= 0.9.1)
@@ -266,14 +277,17 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   less-rails
+  libreconv
   momentjs-rails
   pg
   rails (= 4.2.3)
   rspec-rails
   rubocop
+  rubyXL
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   simple_form
+  spreadsheet
   spring
   spring-commands-rspec (~> 1.0.1)
   terminal-notifier-guard

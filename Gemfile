@@ -26,6 +26,10 @@ gem 'simple_form'
 gem 'momentjs-rails'
 gem 'datetimepicker-rails', github: 'zpaulovics/datetimepicker-rails', branch: 'master', submodules: true
 
+gem 'spreadsheet'
+gem 'libreconv'
+gem 'rubyXL'
+
 group :test do
   gem 'rspec-rails'
   gem 'spring-commands-rspec', '~> 1.0.1'

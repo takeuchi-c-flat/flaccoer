@@ -19,15 +19,15 @@
       <td>&nbsp;</td>
       <td class='price'><%= @carried_balance.jpy_comma %></td>
     </tr>
-    <% @ledger_list.each do |list| %>
+    <% @ledger_list.each do |row| %>
     <tr>
-      <td><%= list.journal_date.strftime('%Y-%m-%d') %></td>
-      <td><%= list.ledger_subject.code %></td>
-      <td><%= list.ledger_subject.name %></td>
-      <td><%= list.comment %></td>
-      <td class='price'><%= list.price_debit.jpy_comma %></td>
-      <td class='price'><%= list.price_credit.jpy_comma %></td>
-      <td class='price'><%= list.balance.jpy_comma %></td>
+      <td><%= row.journal_date.strftime('%Y-%m-%d') %></td>
+      <td><%= row.ledger_subject.code %></td>
+      <td><%= row.ledger_subject.name %></td>
+      <td><%= row.comment %></td>
+      <td class='price'><%= row.price_debit.jpy_comma %></td>
+      <td class='price'><%= row.price_credit.jpy_comma %></td>
+      <td class='price'><%= row.balance.jpy_comma %></td>
     </tr>
     <% end %>
   </tbody>

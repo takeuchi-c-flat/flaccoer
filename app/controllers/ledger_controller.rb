@@ -18,11 +18,20 @@ class LedgerController < WithFiscalBaseController
     render 'list', layout: false
   end
 
+  def excel
+    subject = Subject.find(params[:subject_id])
+    date_from = Date.strptime(params[:date_from], '%Y%m%d')
+    date_to = Date.strptime(params[:date_to], '%Y%m%d')
+    temp_file_name = LedgerExcelService.get_ledger_excel_file(@fiscal_year, subject, date_from, date_to)
+    respond_to do |format|
+      format.xlsx { send_file temp_file_name, type: 'application/xlsx' }
+    end
+  end
+
   private
 
   def set_fiscal_year
     @fiscal_year = current_fiscal_year
-    @journal_date = session[:journal_date].to_date
   end
 
   def ledger_params

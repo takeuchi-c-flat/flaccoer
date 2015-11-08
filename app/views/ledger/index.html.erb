@@ -9,6 +9,10 @@
           include_blank: false %>
   <%= f.input :date_from, label: '取引日(自)', as: :date_picker %>
   <%= f.input :date_to, label: '取引日(至)', as: :date_picker %>
-  <br />
-  <%= link_to '表示', '#', class: 'btn btn-primary', id: 'ledger-button' %>
+  <div style="margin-top: 6px;">
+    <%= link_to '表示', '#', class: 'btn btn-primary', id: 'ledger-button' %>
+  </div>
+  <div style="margin-top: 6px;">
+    <%= link_to 'Excel出力', '#', class: 'btn btn-info', id: 'ledger-excel-button' %>
+  </div>
 <% end %>
