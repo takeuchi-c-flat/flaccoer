@@ -10,17 +10,17 @@ module LedgerExcelService
   ODD_COLOR = 'eeeeee'
 
   # 総勘定元帳のExcelファイルを生成して、ファイル名を返します。
-  def get_ledger_excel_file(fiscal_year, subject, date_from, date_to)
+  def create_excel_file(fiscal_year, subject, date_from, date_to)
     sheet_name = "#{subject.code}-#{subject.name}"
     temp_file_name = ExcelService.create_temp_file_name("総勘定元帳_#{sheet_name}.xlsx")
     workbook = ExcelService.create_workbook_from_template(TEMPLATE_FILE_NAME, temp_file_name, sheet_name)
     sheet = ExcelService.get_first_sheet(workbook)
-    format_subject_ledger(sheet, fiscal_year, subject, date_from, date_to)
+    format(sheet, fiscal_year, subject, date_from, date_to)
     ExcelService.write_workbook(workbook)
   end
 
-  # 総勘定元帳を編集します。
-  def format_subject_ledger(sheet, fiscal_year, subject, date_from, date_to)
+  # 帳票を編集します。
+  def format(sheet, fiscal_year, subject, date_from, date_to)
     # ヘッダ部の編集
     format_header_contents(sheet, fiscal_year, subject, date_from, date_to)
 

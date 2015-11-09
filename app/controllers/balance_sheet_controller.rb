@@ -26,7 +26,24 @@ class BalanceSheetController < WithFiscalBaseController
     render 'list', layout: false
   end
 
+  def excel_bs
+    response_excel_file(true)
+  end
+
+  def excel_pl
+    response_excel_file(false)
+  end
+
   private
+
+  def response_excel_file(is_balance_sheet)
+    date_from = Date.strptime(params[:date_from], '%Y%m%d')
+    date_to = Date.strptime(params[:date_to], '%Y%m%d')
+    temp_file_name = BalanceSheetExcelService.create_excel_file(@fiscal_year, date_from, date_to, is_balance_sheet)
+    respond_to do |format|
+      format.xlsx { send_file temp_file_name, type: 'application/xlsx' }
+    end
+  end
 
   def set_fiscal_year
     @fiscal_year = current_fiscal_year

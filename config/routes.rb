@@ -31,8 +31,8 @@ Rails.application.routes.draw do
   # 合計残高試算表
   get 'balance_sheet' => 'balance_sheet#index', as: :balance_sheet
   post 'balance_sheet' => 'balance_sheet#list', as: :balance_sheet_list
-  get 'balance_sheet/bs/excel/' => 'balance_sheet#excel_bs', as: :balance_sheet_bs_excel
-  get 'balance_sheet/pl/excel/' => 'balance_sheet#excel_pl', as: :balance_sheet_pl_excel
+  get 'balance_sheet/excel/bs/:date_from/:date_to' => 'balance_sheet#excel_bs', as: :balance_sheet_bs_excel
+  get 'balance_sheet/excel/pl/:date_from/:date_to' => 'balance_sheet#excel_pl', as: :balance_sheet_pl_excel
 
   # 科目と残高
   ## 勘定科目

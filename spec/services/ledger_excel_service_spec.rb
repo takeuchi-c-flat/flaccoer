@@ -34,7 +34,7 @@ RSpec.describe LedgerExcelService do
     ]
   }
 
-  describe '#get_ledger_excel_file' do
+  describe '#create_excel_file' do
     example 'get' do
       date_from = Date.new(2015, 8, 1)
       date_to = Date.new(2015, 12, 31)
@@ -108,7 +108,7 @@ RSpec.describe LedgerExcelService do
 
       expect(ExcelService).to receive(:write_workbook).with('DUMMY_BOOK').and_return(tmp_file_name)
 
-      expect(LedgerExcelService.get_ledger_excel_file(fiscal_year, subject, date_from, date_to)).to eq(tmp_file_name)
+      expect(LedgerExcelService.create_excel_file(fiscal_year, subject, date_from, date_to)).to eq(tmp_file_name)
     end
   end
 end
