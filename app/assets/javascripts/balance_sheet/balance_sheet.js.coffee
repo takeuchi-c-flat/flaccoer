@@ -12,3 +12,4 @@ $ ->
     link.href = href
     link.download = ""
     link.click()
+  $("a#balance-sheet-button").trigger('click')

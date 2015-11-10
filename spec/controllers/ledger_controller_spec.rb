@@ -29,7 +29,19 @@ describe LedgerController, 'ログイン・会計年度選択後' do
       get :index
       expect(assigns[:ledger_form]).to have_attributes(
         date_from: current_fiscal_year.date_from,
-        date_to: current_fiscal_year.date_to)
+        date_to: current_fiscal_year.date_to,
+        subject_id: nil)
+      expect(assigns[:subjects]).to eq(['DUMMY'])
+    end
+
+    example 'set @ledger_form and more with subject_id' do
+      allow(LedgerService).to receive(:get_subject_list).with(current_fiscal_year).and_return(['DUMMY'])
+
+      get :index, subject_id: 55
+      expect(assigns[:ledger_form]).to have_attributes(
+        date_from: current_fiscal_year.date_from,
+        date_to: current_fiscal_year.date_to,
+        subject_id: '55')
       expect(assigns[:subjects]).to eq(['DUMMY'])
     end
   end

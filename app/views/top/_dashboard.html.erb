@@ -5,7 +5,7 @@
   <div class="row">
     <div class="col-md-6">
       <h4>【貸借勘定】</h4>
-      <table class="table table-striped">
+      <table class="table table-striped journal-list-table">
         <thead>
           <tr>
             <th colspan="2">勘定科目</th>
@@ -17,7 +17,7 @@
         </thead>
         <tbody>
           <% @dashboards1.each do |dashboard| %>
-            <tr>
+            <tr class="dashboard-list-item" id="<%= dashboard.id %>">
               <td><%= dashboard.code %></td>
               <td><%= dashboard.name %></td>
               <td class="price"><%= dashboard.top_balance.jpy_comma %></td>
@@ -31,7 +31,7 @@
     </div>
     <div class="col-md-6">
       <h4>【損益勘定】</h4>
-      <table class="table table-striped">
+      <table class="table table-striped journal-list-table">
         <thead>
           <tr>
             <th colspan="2">勘定科目</th>
@@ -42,7 +42,7 @@
         </thead>
         <tbody>
           <% @dashboards2.each do |dashboard| %>
-            <tr>
+            <tr class="dashboard-list-item" id="<%= dashboard.id %>">
               <td><%= dashboard.code %></td>
               <td><%= dashboard.name %></td>
               <td class="price"><%= dashboard.total_badget.jpy_comma %></td>

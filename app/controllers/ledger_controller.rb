@@ -5,6 +5,7 @@ class LedgerController < WithFiscalBaseController
     @ledger_form = LedgerForm.new.tap { |f|
       f.date_from = @fiscal_year.date_from
       f.date_to = @fiscal_year.date_to
+      f.subject_id = params[:subject_id]
     }
     @subjects = LedgerService.get_subject_list(@fiscal_year)
   end

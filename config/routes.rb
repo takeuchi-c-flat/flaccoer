@@ -16,9 +16,9 @@ Rails.application.routes.draw do
   get 'journals' => 'journals#new', as: :journals
   get 'journals/subjects_debit' => 'journals#subjects_debit'
   get 'journals/subjects_credit' => 'journals#subjects_credit'
-  get 'journals/list/:id/' => 'journals#list'
-  get 'journals/edit/:id/' => 'journals#edit', as: :edit_journal
-  get 'journals/copy/:id/' => 'journals#copy'
+  get 'journals/list/:id' => 'journals#list'
+  get 'journals/edit/:id' => 'journals#edit', as: :edit_journal
+  get 'journals/copy/:id' => 'journals#copy'
   post 'journals' => 'journals#create', as: :create_journal
   patch 'journals/:id/' => 'journals#update', as: :journal
   delete 'journals/:id/' => 'journals#destroy', as: :destroy_journal
@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   # 元帳
   # 総勘定元帳
   get 'ledger' => 'ledger#index', as: :ledger
+  get 'ledger/:subject_id' => 'ledger#index', as: :ledger_with_subject
   post 'ledger' => 'ledger#list', as: :ledger_list
   get 'ledger/excel/:subject_id/:date_from/:date_to' => 'ledger#excel', as: :ledger_excel
   # 合計残高試算表

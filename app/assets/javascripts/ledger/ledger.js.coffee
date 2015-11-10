@@ -12,3 +12,4 @@ $ ->
     link.href = href
     link.download = ""
     link.click()
+  $("a#ledger-button").trigger('click')
