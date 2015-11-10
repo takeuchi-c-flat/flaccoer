@@ -51,7 +51,7 @@ module BalanceSheetExcelService
     to = date_to.strftime('%_m月%e日') + (date_to == fiscal_year.date_to ? '(期末)' : '')
     contents_list = [
       { row: 0, col: 1, contents: title_hash[:title] },
-      { row: 0, col: 11, contents: fiscal_year.organization_name },
+      { row: 0, col: 11, contents: fiscal_year.select_box_name },
       { row: 2, col: 11, contents: "(自) #{date_from.strftime('%Y-%m-%d')} (至) #{date_to.strftime('%Y-%m-%d')}" },
       { row: 4, col: 2, contents: title_hash[:section1] },
       { row: 4, col: 8, contents: title_hash[:section2] },

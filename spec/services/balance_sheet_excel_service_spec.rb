@@ -6,6 +6,7 @@ RSpec.describe BalanceSheetExcelService do
       :fiscal_year,
       date_from: Date.new(2015, 1, 1),
       date_to: Date.new(2015, 12, 31),
+      title: '平成２７年度',
       organization_name: '組織名')
   }
 
@@ -29,7 +30,7 @@ RSpec.describe BalanceSheetExcelService do
             'DUMMY_SHEET',
             [
               { row: 0, col: 1, contents: '貸借対照表' },
-              { row: 0, col: 11, contents: '組織名' },
+              { row: 0, col: 11, contents: '平成２７年度 - 組織名' },
               { row: 2, col: 11, contents: '(自) 2015-01-01 (至) 2015-12-31' },
               { row: 4, col: 2, contents: '資産の部' },
               { row: 4, col: 8, contents: '負債・資本の部' },
@@ -152,7 +153,7 @@ RSpec.describe BalanceSheetExcelService do
             'DUMMY_SHEET',
             [
               { row: 0, col: 1, contents: '損益計算書' },
-              { row: 0, col: 11, contents: '組織名' },
+              { row: 0, col: 11, contents: '平成２７年度 - 組織名' },
               { row: 2, col: 11, contents: '(自) 2015-02-01 (至) 2015-11-30' },
               { row: 4, col: 2, contents: '支出の部' },
               { row: 4, col: 8, contents: '収入の部' },

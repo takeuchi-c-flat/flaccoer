@@ -6,6 +6,7 @@ RSpec.describe LedgerExcelService do
       :fiscal_year,
       date_from: Date.new(2015, 7, 1),
       date_to: Date.new(2015, 12, 31),
+      title: '平成２７年度',
       organization_name: '組織名')
   }
   let(:subject) { create(:subject, fiscal_year: fiscal_year, code: '199', name: '科目199') }
@@ -53,7 +54,7 @@ RSpec.describe LedgerExcelService do
           with(
             'DUMMY_SHEET',
             [
-              { row: 0, col: 7, contents: '組織名' },
+              { row: 0, col: 7, contents: '平成２７年度 - 組織名' },
               { row: 2, col: 7, contents: '(自) 2015-08-01 (至) 2015-12-31' },
               { row: 2, col: 2, contents: '199' },
               { row: 2, col: 3, contents: '科目199' }

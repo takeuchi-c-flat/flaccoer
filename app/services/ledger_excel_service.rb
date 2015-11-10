@@ -36,7 +36,7 @@ module LedgerExcelService
   # ヘッダ部の編集
   def format_header_contents(sheet, fiscal_year, subject, date_from, date_to)
     contents_list = [
-      { row: 0, col: 7, contents: fiscal_year.organization_name },
+      { row: 0, col: 7, contents: fiscal_year.select_box_name },
       { row: 2, col: 7, contents: "(自) #{date_from.strftime('%Y-%m-%d')} (至) #{date_to.strftime('%Y-%m-%d')}" },
       { row: 2, col: 2, contents: subject.code },
       { row: 2, col: 3, contents: subject.name }
