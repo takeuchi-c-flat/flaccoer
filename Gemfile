@@ -42,3 +42,7 @@ group :test do
   gem 'guard-rubocop'
   gem 'terminal-notifier-guard'
 end
+
+group :production do
+  gem 'rails_12factor', '0.0.2'
+end
