@@ -9,10 +9,6 @@ class User < ActiveRecord::Base
 
   before_validation do
     self.email_for_index = email.downcase if email
-    if password.is_a?(String)
-      self.hashed_password = BCrypt::Password.create(password)
-    else
-      self.hashed_password = nil
-    end
+    self.hashed_password = BCrypt::Password.create(password) if password.is_a?(String)
   end
 end
