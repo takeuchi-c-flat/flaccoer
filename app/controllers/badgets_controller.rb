@@ -9,7 +9,7 @@ class BadgetsController < WithFiscalBaseController
   def update
     respond_to do |format|
       @fiscal_year.update(fiscal_year_params)
-      SubjectService.cleanup_subjects(@fiscal_year)
+      SubjectsService.cleanup_subjects(@fiscal_year)
       format.html { redirect_to badgets_url, notice: '年間予算を更新しました。(バックアップをしましょう)' }
     end
   end

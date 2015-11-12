@@ -27,7 +27,7 @@ describe JournalsController, 'ログイン・会計年度選択後' do
 
   describe '#subjects_debit' do
     example 'set @subjects' do
-      allow(JournalsService).to receive(:get_subject_list_with_usage_ranking).
+      allow(SubjectsCacheService).to receive(:get_subject_list_with_usage_ranking).
           with(current_fiscal_year, true).
           and_return(['DUMMY'])
 
@@ -39,7 +39,7 @@ describe JournalsController, 'ログイン・会計年度選択後' do
 
   describe '#subjects_credit' do
     example 'set @subjects' do
-      allow(JournalsService).to receive(:get_subject_list_with_usage_ranking).
+      allow(SubjectsCacheService).to receive(:get_subject_list_with_usage_ranking).
           with(current_fiscal_year, false).
           and_return(['DUMMY'])
 
@@ -66,7 +66,7 @@ describe JournalsController, 'ログイン・会計年度選択後' do
 
   describe '#new' do
     example 'set @journal and more' do
-      allow(JournalsService).to \
+      allow(SubjectsCacheService).to \
         receive(:get_subject_list).with(current_fiscal_year).and_return([subject1, subject2, subject3])
 
       get :new
@@ -80,7 +80,7 @@ describe JournalsController, 'ログイン・会計年度選択後' do
   describe '#copy' do
     example 'set @journal and more' do
       create(:journal, id: 9999, fiscal_year: current_fiscal_year, journal_date: Date.new(2015, 1, 31), comment: '1')
-      allow(JournalsService).to \
+      allow(SubjectsCacheService).to \
         receive(:get_subject_list).with(current_fiscal_year).and_return([subject1, subject2, subject3])
 
       get :copy, id: 9999
@@ -99,7 +99,7 @@ describe JournalsController, 'ログイン・会計年度選択後' do
     example 'set @journal and more' do
       journal = create(
         :journal, id: 9999, fiscal_year: current_fiscal_year, journal_date: Date.new(2015, 1, 31), comment: '1')
-      allow(JournalsService).to \
+      allow(SubjectsCacheService).to \
         receive(:get_subject_list).with(current_fiscal_year).and_return([subject1, subject2, subject3])
 
       get :edit, id: 9999

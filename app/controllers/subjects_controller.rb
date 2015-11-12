@@ -8,7 +8,8 @@ class SubjectsController < WithFiscalBaseController
   def update_all
     respond_to do |format|
       @fiscal_year.update(fiscal_year_params)
-      SubjectService.cleanup_subjects(@fiscal_year)
+      SubjectsService.cleanup_subjects(@fiscal_year)
+      SubjectsCacheService.clear_subjects_cache(@fiscal_year)
       format.html { redirect_to subjects_url, notice: '勘定科目を更新しました。(バックアップをしましょう)' }
       format.json { render :index, location: @subjects }
     end
@@ -22,6 +23,7 @@ class SubjectsController < WithFiscalBaseController
   def create
     respond_to do |format|
       @subject = Subject.new(subject_params).tap { |m| m.fiscal_year = current_fiscal_year }
+      SubjectsCacheService.clear_subjects_cache(@subject.fiscal_year)
       if @subject.save
         format.html { redirect_to subjects_url, notice: '勘定科目を追加しました。(バックアップをしましょう)' }
         format.json { render :index, status: :created, location: @subjects }
@@ -34,13 +36,14 @@ class SubjectsController < WithFiscalBaseController
 
   def destroy
     @subject = Subject.find(params[:id])
-    unless SubjectService.subject_can_delete?(current_fiscal_year, @subject)
+    unless SubjectsService.subject_can_delete?(current_fiscal_year, @subject)
       flash.now.alert = '取引明細が存在する勘定科目は削除できません。'
       return
     end
 
     @subject.destroy
-    SubjectService.cleanup_subjects(@subject.fiscal_year)
+    SubjectsService.cleanup_subjects(@subject.fiscal_year)
+    SubjectsCacheService.clear_subjects_cache(@subject.fiscal_year)
     respond_to do |format|
       format.html { redirect_to subjects_url, notice: '勘定科目を削除しました。(バックアップをしましょう)' }
       format.json { head :no_content }

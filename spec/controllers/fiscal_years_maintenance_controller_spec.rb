@@ -125,6 +125,7 @@ describe FiscalYearsMaintenanceController, 'ログイン後' do
       FactoryGirl.create(:journal, fiscal_year: fiscal_year)
       FactoryGirl.create(:journal, fiscal_year: fiscal_year)
       FactoryGirl.create(:journal, fiscal_year: other_fiscal_year)
+      expect(SubjectsCacheService).to receive(:clear_subjects_cache).with(fiscal_year)
 
       delete :trunc_journals, id: fiscal_year.id
       expect(Journal.where(fiscal_year: fiscal_year).empty?).to eq(true)
@@ -136,6 +137,7 @@ describe FiscalYearsMaintenanceController, 'ログイン後' do
       FactoryGirl.create(:subject, fiscal_year: fiscal_year, code: '100')
       FactoryGirl.create(:subject, fiscal_year: fiscal_year, code: '200')
       FactoryGirl.create(:subject, fiscal_year: other_fiscal_year, code: '100')
+      expect(SubjectsCacheService).to receive(:clear_subjects_cache).with(fiscal_year)
 
       delete :trunc_subjects, id: fiscal_year.id
       expect(Subject.where(fiscal_year: fiscal_year).empty?).to eq(true)
@@ -220,11 +222,13 @@ describe FiscalYearsMaintenanceController, 'ログイン後' do
     end
 
     example 'journals' do
+      expect(SubjectsCacheService).to receive(:clear_subjects_cache).with(fiscal_year)
       expect(CsvImportService).to receive(:import_csv_data).with(fiscal_year, :journals, 'DummyContent')
       post :import_journals, id: fiscal_year.id
     end
 
     example 'subjects' do
+      expect(SubjectsCacheService).to receive(:clear_subjects_cache).with(fiscal_year)
       expect(CsvImportService).to receive(:import_csv_data).with(fiscal_year, :subjects, 'DummyContent')
       post :import_subjects, id: fiscal_year.id
     end

@@ -53,11 +53,13 @@ class FiscalYearsMaintenanceController < BaseController
 
   def trunc_journals
     Journal.where(fiscal_year: @fiscal_year).each { |m| m.destroy! }
+    SubjectsCacheService.clear_subjects_cache(@fiscal_year)
     redirect_to :fiscal_year_maintenance
   end
 
   def trunc_subjects
     Subject.where(fiscal_year: @fiscal_year).each { |m| m.destroy! }
+    SubjectsCacheService.clear_subjects_cache(@fiscal_year)
     redirect_to :fiscal_year_maintenance
   end
 
@@ -143,6 +145,7 @@ class FiscalYearsMaintenanceController < BaseController
   end
 
   def do_import(type)
+    SubjectsCacheService.clear_subjects_cache(@fiscal_year)
     if @upload_file_content.present?
       (result, infos) = CsvImportService.import_csv_data(@fiscal_year, type, @upload_file_content)
       notice = infos if result

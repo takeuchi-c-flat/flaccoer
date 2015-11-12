@@ -31,7 +31,7 @@ describe BalancesController, 'ログイン・会計年度選択後' do
 
   describe '#update' do
     example 'indexにリダイレクト' do
-      expect(SubjectService).to receive(:cleanup_subjects).with(current_fiscal_year)
+      expect(SubjectsService).to receive(:cleanup_subjects).with(current_fiscal_year)
 
       post :update, fiscal_year: params_hash
       expect(response).to redirect_to(balances_url)

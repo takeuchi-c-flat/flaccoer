@@ -5,13 +5,13 @@ class JournalsController < WithFiscalBaseController
   before_action :create_tabs, only: [:new, :copy, :create, :edit, :update]
 
   def subjects_debit
-    @subjects = JournalsService.get_subject_list_with_usage_ranking(current_fiscal_year, true)
+    @subjects = SubjectsCacheService.get_subject_list_with_usage_ranking(current_fiscal_year, true)
     @td_class_name = 'select-subject-debit'
     render 'subjects', layout: false
   end
 
   def subjects_credit
-    @subjects = JournalsService.get_subject_list_with_usage_ranking(current_fiscal_year, false)
+    @subjects = SubjectsCacheService.get_subject_list_with_usage_ranking(current_fiscal_year, false)
     @td_class_name = 'select-subject-credit'
     render 'subjects', layout: false
   end
@@ -83,7 +83,7 @@ class JournalsController < WithFiscalBaseController
   end
 
   def set_subjects
-    @subjects = JournalsService.get_subject_list(current_fiscal_year)
+    @subjects = SubjectsCacheService.get_subject_list(current_fiscal_year)
   end
 
   def journal_params
