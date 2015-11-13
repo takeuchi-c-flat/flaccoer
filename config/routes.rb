@@ -48,6 +48,9 @@ Rails.application.routes.draw do
   ## 通期予算
   get 'badget' => 'badgets#edit', as: :badgets
   patch 'badget' => 'badgets#update'
+  ## 帳票位置の設定
+  get 'locations' => 'locations#edit_all', as: :locations
+  patch 'locations' => 'locations#update_all'
 
   # 管理
   ## パスワード変更

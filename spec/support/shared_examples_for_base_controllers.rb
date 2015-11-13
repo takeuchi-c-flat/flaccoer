@@ -33,3 +33,12 @@ shared_examples 'a protected base controller for new' do
     end
   end
 end
+
+shared_examples 'a protected base controller for edit_all' do
+  describe '#edit_all' do
+    example 'ログインフォームにリダイレクト' do
+      get :edit_all
+      expect(response).to redirect_to(login_url)
+    end
+  end
+end

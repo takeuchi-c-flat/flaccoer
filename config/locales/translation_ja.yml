@@ -31,7 +31,12 @@ ja:
         code: コード
         name: 科目名称
         disabled: 無効
-        dash_board: ダッシュボード表示
+        dash_board: ダッシュボード
+        report1_location: 帳票１
+        report2_location: 帳票２
+        report3_location: 帳票３
+        report4_location: 帳票４
+        report5_location: 帳票５
       journal:
         journal_date: 取引日
         subject_debit: 借方
