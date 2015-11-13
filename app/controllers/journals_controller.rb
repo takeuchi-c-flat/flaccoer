@@ -23,6 +23,7 @@ class JournalsController < WithFiscalBaseController
   end
 
   def new
+    @new = true
     @journal = Journal.new.tap { |m|
       m.fiscal_year = current_fiscal_year
       m.journal_date = session[:journal_date].to_date
