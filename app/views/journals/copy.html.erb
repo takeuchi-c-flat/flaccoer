@@ -1,6 +1,6 @@
 <%- model_class = Journal -%>
-<div class="right-box">
-  <%= link_to t('キャンセル', default: t('helpers.links.cancel')), journals_path, class: 'btn btn-warning' %>
-</div>
-<h4><%=t '.title', default: [:'helpers.titles.copy', 'Copy %{model}'], model: model_class.model_name.human.titleize %></h4>
+<h4 class="font_blue">
+  <%=t '.title', default: [:'helpers.titles.copy', 'Copy %{model}'], model: model_class.model_name.human.titleize %>
+  (元の取引がコピーされます)
+</h4>
 <%= render partial: 'form' %>

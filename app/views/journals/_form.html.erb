@@ -40,6 +40,9 @@
         <% if @new %>
         <%= link_to t('.cancel', default: t('helpers.links.cancel')),
                 journals_path, class: 'btn btn-default' %>
+        <% else %>
+        <%= link_to t('.back_to_new', default: t('helpers.links.back_to_new')),
+                journals_path, class: 'btn btn-warning' %>
         <% end %>
       </div>
       <div class='col-xs-3'>&nbsp;</div>

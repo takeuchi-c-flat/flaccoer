@@ -89,6 +89,7 @@ ja:
       back: "戻る"
       change: "変更"
       backup: "バックアップ"
+      back_to_new: "新規登録に戻る"
     titles:
       edit: "%{model}の編集"
       copy: "%{model}の複製"
