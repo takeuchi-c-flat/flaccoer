@@ -1,4 +1,4 @@
-<%- model_class = FiscalYear -%>
+<%- model_class = ChangeDefaultForm -%>
 <div class="page-header">
   <h1><%=t '.title', default: [:'helpers.titles.change', 'Change %{model}'], model: model_class.model_name.human.titleize %></h1>
 </div>
@@ -7,22 +7,30 @@
         url: change_default_path,
         wrapper: 'horizontal_form',
         html: { class: 'form-horizontal' } do |f| %>
-  <%= f.input :fiscal_year_id,
-          label: '会計年度',
-          collection: @fiscal_years,
-          label_method: :select_box_name,
-          value_method: :id,
-          include_blank: false,
-          input_wrapper_html: { class: 'col-xs-7' } %>
-  <%= f.input :journal_date,
-          label: '取引日',
-          input_wrapper_html: { class: 'col-xs-3' },
-          as: :date_picker %>
-  <div class='form-group'>
-    <br />
-    <label class='col-sm-3 control-label'></label>
-    <div class='col-xs-5'>
-      <%= f.submit '変更', class: 'btn btn-lg btn-primary' %>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-2 col-xs-12"><%= model_class.human_attribute_name(:fiscal_year_id) %></div>
+      <div class="col-sm-10 col-xs-12">
+        <%= f.input :fiscal_year_id,
+                label: false,
+                collection: @fiscal_years,
+                label_method: :select_box_name,
+                value_method: :id,
+                include_blank: false
+        %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-2 col-xs-12"><%= model_class.human_attribute_name(:journal_date) %></div>
+      <div class="col-sm-10 col-xs-12">
+        <%= f.input :journal_date, label: false, as: :date_picker %>
+      </div>
+    </div>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+      <div class="col-sm-6 col-xs-12">
+        <%= f.submit '変更', class: 'btn btn-lg btn-primary' %>
+      </div>
     </div>
   </div>
 <% end %>

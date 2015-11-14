@@ -24,10 +24,10 @@
     <%= f.simple_fields_for :property_balances do |c| %>
       <tr>
         <td>
-          <%= c.input :subject, label: false, readonly: true, disabled: 'enable', input_wrapper_html: { class: "col-xs-7" } %>
+          <%= c.input :subject, label: false, readonly: true, disabled: 'enable' %>
           <%= c.input :subject_id, as: :hidden %>
         </td>
-        <td><%= c.input :top_balance, label: false, input_wrapper_html: { class: "col-xs-5" } %></td>
+        <td><%= c.input :top_balance, label: false %></td>
       </tr>
     <% end %>
     </tbody>
@@ -42,10 +42,10 @@
     <%= f.simple_fields_for :debt_balances do |c| %>
       <tr>
         <td>
-          <%= c.input :subject, label: false, readonly: true, disabled: 'enable', input_wrapper_html: { class: "col-xs-7" } %>
+          <%= c.input :subject, label: false, readonly: true, disabled: 'enable' %>
           <%= c.input :subject_id, as: :hidden %>
         </td>
-        <td><%= c.input :top_balance, label: false, input_wrapper_html: { class: "col-xs-5" } %></td>
+        <td><%= c.input :top_balance, label: false %></td>
       </tr>
     <% end %>
     </tbody>

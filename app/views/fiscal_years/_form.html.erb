@@ -1,22 +1,54 @@
+<%- model_class = FiscalYear -%>
 <%= simple_form_for @fiscal_year, wrapper: "horizontal_form", :html => { :class => 'form-horizontal' } do |f| %>
   <%= f.input :for_copy, as: :hidden %>
   <%= f.input :base_fiscal_year_id, as: :hidden %>
-  <%= f.input :title, input_wrapper_html: { class: "col-xs-5" } %>
-  <%= error_span(@fiscal_year[:title]) %>
-  <%= f.input :organization_name, input_wrapper_html: { class: "col-xs-7" } %>
-  <%= error_span(@fiscal_year[:organization_name]) %>
-  <% if f.object.new_record? && !@with_copy %>
-    <%= f.association :subject_template_type, input_wrapper_html: { class: "col-xs-5" } %>
-    <%= error_span(@fiscal_year[:subject_template_type]) %>
-  <% end %>
-  <%= f.input :date_from, input_wrapper_html: { class: "col-xs-5" }, as: :date_picker %>
-  <%= error_span(@fiscal_year[:date_from]) %>
-  <%= f.input :date_to, input_wrapper_html: { class: "col-xs-5" }, as: :date_picker %>
-  <%= error_span(@fiscal_year[:date_to]) %>
-  <%= f.input :locked, input_wrapper_html: { class: "col-xs-9" } %>
-  <%= error_span(@fiscal_year[:locked]) %>
-
-  <%= f.button :submit, :class => 'btn-primary' %>
-  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-          fiscal_years_path, :class => 'btn btn-default' %>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-3 col-xs-12"><%= model_class.human_attribute_name(:title) %></div>
+      <div class="col-sm-9 col-xs-12">
+        <%= f.input :title, label: false %>
+        <%= error_span(@fiscal_year[:title]) %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3 col-xs-12"><%= model_class.human_attribute_name(:organization_name) %></div>
+      <div class="col-sm-9 col-xs-12">
+        <%= f.input :organization_name, label: false %>
+        <%= error_span(@fiscal_year[:organization_name]) %>
+      </div>
+    </div>
+    <% if f.object.new_record? && !@with_copy %>
+    <div class="row">
+      <div class="col-sm-3 col-xs-12"><%= model_class.human_attribute_name(:subject_template_type) %></div>
+      <div class="col-sm-9 col-xs-12">
+        <%= f.association :subject_template_type, label: false %>
+      </div>
+    </div>
+    <% end %>
+    <div class="row">
+      <div class="col-sm-3 col-xs-12"><%= model_class.human_attribute_name(:date_from) %></div>
+      <div class="col-sm-9 col-xs-12">
+        <%= f.input :date_from, label: false, as: :date_picker %>
+        <%= error_span(@fiscal_year[:date_from]) %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3 col-xs-12"><%= model_class.human_attribute_name(:date_to) %></div>
+      <div class="col-sm-9 col-xs-12">
+        <%= f.input :date_to, label: false, as: :date_picker %>
+        <%= error_span(@fiscal_year[:date_to]) %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3 col-xs-12">&nbsp;</div>
+      <div class="col-sm-9 col-xs-12"><%= f.input :locked %></div>
+    </div>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+      <div class="col-sm-6 col-xs-12">
+        <%= f.button :submit, :class => 'btn-primary' %>
+        <%= link_to t('.cancel', :default => t("helpers.links.cancel")), fiscal_years_path, :class => 'btn btn-default' %>
+      </div>
+    </div>
+  </div>
 <% end %>

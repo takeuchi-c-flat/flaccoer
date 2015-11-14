@@ -1,4 +1,20 @@
 ja:
+  activemodel:
+    models:
+      change_default_form: 会計年度
+      ledger_form: 総勘定元帳
+      balance_sheet_form: 合計残高試算表
+    attributes:
+      change_default_form:
+        fiscal_year_id: 会計年度
+        journal_date: 取引日
+      ledger_form:
+        subject_id: 勘定科目
+        date_from: 取引日(自)
+        date_to: 取引日(至)
+      balance_sheet_form:
+        date_from: 取引日(自)
+        date_to: 取引日(至)
   activerecord:
     models:
       user: ユーザ

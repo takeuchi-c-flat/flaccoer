@@ -24,16 +24,26 @@ Rails.application.routes.draw do
   delete 'journals/:id/' => 'journals#destroy', as: :destroy_journal
 
   # 元帳
-  # 総勘定元帳
+  ## 総勘定元帳
   get 'ledger' => 'ledger#index', as: :ledger
   get 'ledger/:subject_id' => 'ledger#index', as: :ledger_with_subject
   post 'ledger' => 'ledger#list', as: :ledger_list
   get 'ledger/excel/:subject_id/:date_from/:date_to' => 'ledger#excel', as: :ledger_excel
-  # 合計残高試算表
+  ## 合計残高試算表
   get 'balance_sheet' => 'balance_sheet#index', as: :balance_sheet
   post 'balance_sheet' => 'balance_sheet#list', as: :balance_sheet_list
   get 'balance_sheet/excel/bs/:date_from/:date_to' => 'balance_sheet#excel_bs', as: :balance_sheet_bs_excel
   get 'balance_sheet/excel/pl/:date_from/:date_to' => 'balance_sheet#excel_pl', as: :balance_sheet_pl_excel
+  ## 青色申告系
+  get 'reports_blue' => 'reports_blue#index', as: :reports_blue
+  ### 月別売上(決算書２頁目)
+  get 'reports_blue/report1' => 'reports_blue#report1', as: :reports_blue1
+  ## 出納帳系
+  get 'cash_book' => 'cash_book#index', as: :cash_book
+  ### 現預金出納帳
+  get 'cash_book/1' => 'cash_book#report1', as: :cash_book1
+  ### 決算書
+  get 'cash_book/2' => 'cash_book#report2', as: :cash_book2
 
   # 科目と残高
   ## 勘定科目

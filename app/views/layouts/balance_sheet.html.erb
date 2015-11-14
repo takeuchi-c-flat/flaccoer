@@ -21,9 +21,17 @@
 </head>
 <body>
   <%= render 'shared/navi_bar' %>
-  <%= bootstrap_flash %>
-  <%= yield %>
-  <div id='balance-sheet-list'></div>
+  <div class='container'>
+    <div class='row'>
+      <div class='col-sm-12 col-xs-12'>
+        <%= bootstrap_flash %>
+        <%= yield %>
+      </div>
+      <div class='col-sm-12 col-xs-12'>
+        <div id='balance-sheet-list'></div>
+      </div>
+    </div>
+  </div>
 </body>
 <%= javascript_include_tag "balance_sheet" %>
 </html>

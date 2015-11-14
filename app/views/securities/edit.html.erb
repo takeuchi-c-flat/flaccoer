@@ -1,13 +1,28 @@
+<%- model_class = User -%>
 <div class="page-header">
   <h1><%=t '.title', :default => 'パスワードの変更' %></h1>
 </div>
 
 <%= simple_form_for @user, url: :security, wrapper: "horizontal_form", :html => { :class => 'form-horizontal' } do |f| %>
-  <%= f.input :password, input_wrapper_html: { class: "col-xs-5" } %>
-  <%= f.input :new_password1, input_wrapper_html: { class: "col-xs-5" } %>
-  <%= f.input :new_password2, input_wrapper_html: { class: "col-xs-5" } %>
-
-  <%= f.button :submit, '変更', :class => 'btn-primary' %>
-  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-          root_path, :class => 'btn btn-default' %>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-3 col-xs-12"><%= model_class.human_attribute_name(:password) %></div>
+      <div class="col-sm-9 col-xs-12"><%= f.input :password, label: false %></div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3 col-xs-12"><%= model_class.human_attribute_name(:new_password1) %></div>
+      <div class="col-sm-9 col-xs-12"><%= f.input :new_password1, label: false %></div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3 col-xs-12"><%= model_class.human_attribute_name(:new_password2) %></div>
+      <div class="col-sm-9 col-xs-12"><%= f.input :new_password2, label: false %></div>
+    </div>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+      <div class="col-sm-6 col-xs-12">
+        <%= f.button :submit, '変更', :class => 'btn-primary' %>
+        <%= link_to t('.cancel', :default => t("helpers.links.cancel")), root_path, :class => 'btn btn-default' %>
+      </div>
+    </div>
+  </div>
 <% end %>

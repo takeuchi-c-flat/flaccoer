@@ -12,7 +12,9 @@
   <%= f.input :admin_user %>
   <%= error_span(@user[:admin_user]) %>
 
-  <%= f.button :submit, :class => 'btn-primary' %>
-  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                users_path, :class => 'btn btn-default' %>
+  <div>&nbsp;</div>
+  <div>
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")), users_path, :class => 'btn btn-default' %>
+  </div>
 <% end %>
