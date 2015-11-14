@@ -21,36 +21,48 @@
 </head>
 <body>
   <%= render 'shared/navi_bar' %>
-  <div class='journal-input-container' id='journal-input-container'>
-    <div class='subjects subjects-debit-container'>
-      <div class='scroll-container' id='subjects-debit'></div>
-    </div>
-    <div class='subjects subjects-credit-container'>
-      <div class='scroll-container' id='subjects-credit'></div>
-    </div>
-    <div class='journal-form-container'>
-      <div class='journal-form scroll-container' id='journal-form'>
+  <div class='container'>
+    <div class='row'>
+      <div class='col-xs-12'>
         <%= bootstrap_flash %>
-        <%= yield %>
+        <div class='container journal-input-container' id='journal-input-container'>
+          <div class='row'>
+            <div class='col-sm-2 hidden-xs subjects' id='subjects-debit-container'>
+              <div class='scroll-container' id='subjects-debit'></div>
+            </div>
+            <div class='col-sm-8 col-xs-12' id='journal-form-container'>
+              <div class='journal-form' id='journal-form'>
+                <%= yield %>
+              </div>
+            </div>
+            <div class='col-sm-2 hidden-xs subjects' id='subjects-credit-container'>
+              <div class='scroll-container' id='subjects-credit'></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  <div class='journals-view-container'>
-    <div class='tabbable'>
-      <ul class='nav nav-tabs'>
-        <% @journal_months.each do |journal_month| %>
-        <%=
-          content_tag(
-            :li,
-            content_tag('a', journal_month[:title], { href: '#' + journal_month[:id], 'data-toggle' => 'tab' }),
-            class: journal_month[:class])
-        %>
-        <% end %>
-      </ul>
-      <div id='my-tab-content' class='tab-content'>
-        <% @journal_months.each do |journal_month| %>
-          <%= content_tag(:div, '', class: [journal_month[:class], 'tab-pane'], id: journal_month[:id]) %>
-        <% end %>
+    <div class='row'>
+      <div class='col-xs-12'>
+        <div class='journals-view-container'>
+          <div class='tabbable'>
+            <ul class='nav nav-tabs'>
+              <% @journal_months.each do |journal_month| %>
+              <%=
+                content_tag(
+                  :li,
+                  content_tag('a', journal_month[:title], { href: '#' + journal_month[:id], 'data-toggle' => 'tab' }),
+                  class: journal_month[:class])
+              %>
+              <% end %>
+            </ul>
+            <div id='my-tab-content' class='tab-content'>
+              <% @journal_months.each do |journal_month| %>
+                <%= content_tag(:div, '', class: [journal_month[:class], 'tab-pane'], id: journal_month[:id]) %>
+              <% end %>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -4,35 +4,19 @@ body {
 }
 
 .journal-input-container {
-  height: 40% !important;
-  .journal-form-container {
-    top: 0px;
-    margin: 3px;
-    height: 100%;
+  #journal-form-container {
+    padding: 6px 2px;
+    margin: 0px;
+    border: 2px solid #44cccc;
   }
   .subjects {
-    margin: 3px;
-    position: relative;
-    width: 18%;
-    height: 100%;
-    padding: 6px;
-    border: 4px solid chocolate;
-  }
-  .subjects-debit-container {
-    float: left;
-    top: -3px;
-  }
-  .subjects-credit-container {
-    top: -3px;
-    float: right;
+    padding: 6px 2px;
+    margin: 0px;
+    border: 2px solid #44cccc;
   }
   .scroll-container {
-    overflow: scroll;
+    overflow-y: scroll;
     height: 100%;
-  }
-  .journal-form {
-    padding: 10px;
-    border: 4px solid #44cccc;
   }
 }
 

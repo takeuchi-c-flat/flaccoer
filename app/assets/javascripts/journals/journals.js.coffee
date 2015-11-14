@@ -1,4 +1,8 @@
 $ ->
+  $(window).on 'resize', ->
+    height = $("div#journal-form-container").height()
+    $("div#subjects-debit-container").height(height)
+    $("div#subjects-credit-container").height(height)
   $.ajax({ url: "/journals/subjects_debit", dataType: "html" }).done (data) ->
     $("#subjects-debit").html(data)
     $("td.select-subject-debit").on 'click', (e) ->
@@ -19,3 +23,4 @@ $ ->
         id = $(this).attr("id")
         window.location.href = '/journals/copy/' + id
   $("li.active").find('a[data-toggle="tab"]').trigger('click')
+  $(window).trigger('resize')

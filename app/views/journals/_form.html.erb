@@ -2,50 +2,53 @@
 <%= simple_form_for @journal, wrapper: 'horizontal_form', html: { class: 'form-horizontal' } do |f| %>
 
   <div class='container journal-field-container'>
-    <div class='row'>&nbsp;</div>
+    <div class='row hidden-xs'>&nbsp;</div>
     <div class='row'>
-      <div class='col-xs-1 journal-field-title'><%= model_class.human_attribute_name(:journal_date) %></div>
-      <div class='col-xs-3'><%= f.input :journal_date, label: false, as: :date_picker %></div>
+      <div class='col-sm-1 col-xs-12 journal-field-title'><%= model_class.human_attribute_name(:journal_date) %></div>
+      <div class='col-sm-3 col-xs-8'><%= f.input :journal_date, label: false, as: :date_picker %></div>
     </div>
+    <%= error_span(@journal[:journal_date]) %>
   </div>
-  <%= error_span(@journal[:journal_date]) %>
   <div class='container journal-field-container'>
     <div class='row'>
-      <div class='col-xs-1 journal-field-title'><%= model_class.human_attribute_name(:subject_debit) %></div>
-      <div class='col-xs-2'><%= f.association :subject_debit, collection: @subjects, label: false, input_wrapper_html: { class: "input_subject_debit" } %></div>
-      <div class='col-xs-1 journal-field-title'><%= model_class.human_attribute_name(:subject_credit) %></div>
-      <div class='col-xs-2'><%= f.association :subject_credit, collection: @subjects, label: false, input_wrapper_html: { class: "input_subject_credit" } %></div>
+      <div class='col-sm-1 hidden-xs'>&nbsp;</div>
+      <div class='col-sm-3 col-xs-6 journal-field-title'><%= model_class.human_attribute_name(:subject_debit) %></div>
+      <div class='col-sm-1 col-xs-6 journal-field-title'><%= model_class.human_attribute_name(:subject_credit) %></div>
+    </div>
+    <div class='row'>
+      <div class='col-sm-1 hidden-xs'>&nbsp;</div>
+      <div class='col-sm-3 col-xs-6'><%= f.association :subject_debit, collection: @subjects, label: false, input_wrapper_html: { class: "input_subject_debit" } %></div>
+      <div class='col-sm-3 col-xs-6'><%= f.association :subject_credit, collection: @subjects, label: false, input_wrapper_html: { class: "input_subject_credit" } %></div>
     </div>
     <%= error_span(@journal[:subject_debit]) %>
   </div>
   <div class='container journal-field-container'>
     <div class='row'>
-      <div class='col-xs-1 journal-field-title'><%= model_class.human_attribute_name(:price) %></div>
-      <div class='col-xs-2'><%= f.input :price, label: false %></div>
+      <div class='col-sm-1 col-xs-12 journal-field-title'><%= model_class.human_attribute_name(:price) %></div>
+      <div class='col-sm-3 col-xs-8'><%= f.input :price, label: false %></div>
     </div>
+    <%= error_span(@journal[:price]) %>
   </div>
-  <%= error_span(@journal[:price]) %>
   <div class='container journal-field-container'>
     <div class='row'>
-      <div class='col-xs-1 journal-field-title'><%= model_class.human_attribute_name(:comment) %></div>
-      <div class='col-xs-5'><%= f.input :comment, label: false %></div>
+      <div class='col-sm-1 col-xs-12 journal-field-title'><%= model_class.human_attribute_name(:comment) %></div>
+      <div class='col-sm-7 col-xs-12'><%= f.input :comment, label: false %></div>
     </div>
   </div>
   <%= error_span(@journal[:comment]) %>
   <div class='container journal-field-container'>
     <div class='row'>
-      <div class='col-xs-1'>&nbsp;</div>
-      <div class='col-xs-2'><%= f.button :submit, class: 'btn-primary' %></div>
-      <div class='col-xs-2'>
+      <div class='col-sm-1 hidden-xs'>&nbsp;</div>
+      <div class='col-sm-7 col-xs-12'>
+        <%= f.button :submit, class: 'btn-primary' %>
         <% if @new %>
-        <%= link_to t('.cancel', default: t('helpers.links.cancel')),
-                journals_path, class: 'btn btn-default' %>
+          <%= link_to t('.cancel', default: t('helpers.links.cancel')),
+                  journals_path, class: 'btn btn-default' %>
         <% else %>
-        <%= link_to t('.back_to_new', default: t('helpers.links.back_to_new')),
-                journals_path, class: 'btn btn-warning' %>
+          <%= link_to t('.back_to_new', default: t('helpers.links.back_to_new')),
+                  journals_path, class: 'btn btn-warning' %>
         <% end %>
       </div>
-      <div class='col-xs-3'>&nbsp;</div>
     </div>
   </div>
 <% end %>
