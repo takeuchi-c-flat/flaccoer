@@ -36,7 +36,7 @@ Rails.application.routes.draw do
   get 'balance_sheet/excel/pl/:date_from/:date_to' => 'balance_sheet#excel_pl', as: :balance_sheet_pl_excel
   ## 青色申告系
   get 'reports_blue' => 'reports_blue#index', as: :reports_blue
-  ### 月別売上(決算書２頁目)
+  ### 月別売上／仕入
   get 'reports_blue/report1' => 'reports_blue#report1', as: :reports_blue1
   ## 出納帳系
   get 'cash_book' => 'cash_book#index', as: :cash_book

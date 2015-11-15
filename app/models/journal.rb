@@ -18,6 +18,10 @@ class Journal < ActiveRecord::Base
     eager_load(subject_debit: [:subject_type]).eager_load(subject_credit: [:subject_type])
   end
 
+  def self.select_by_subject(subject)
+    where('subject_debit_id = ? OR subject_credit_id = ?', subject.id, subject.id)
+  end
+
   def validate_subject
     errors.add(:subject_debit, ' 貸借に同じ科目が指定されています。') if subject_debit == subject_credit
   end
