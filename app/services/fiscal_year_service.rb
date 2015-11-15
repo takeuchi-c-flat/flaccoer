@@ -26,6 +26,7 @@ module FiscalYearService
 
   # 取引日付を確認します。
   def validate_journal_date(fiscal_year, date)
+    return false if date.nil?
     fiscal_year.date_from <= date && date <= fiscal_year.date_to
   end
 

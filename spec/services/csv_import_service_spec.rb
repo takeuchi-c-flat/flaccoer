@@ -47,7 +47,7 @@ RSpec.describe CsvImportService do
 
       (result, info) = CsvImportService.import_csv_data(fiscal_year, :journals, csv_data)
       expect(result).to eq(false)
-      expect(info).to eq('3行目でエラーが発生しました。[バリデーションに失敗しました 取引日 日付が年度の範囲外です。]')
+      expect(info).to eq('3行目でエラーが発生しました。[バリデーションに失敗しました 日付 年度の範囲外です。]')
       expect(Journal.where(fiscal_year: fiscal_year).length).to eq(0)
     end
 

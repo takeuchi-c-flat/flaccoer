@@ -19,6 +19,7 @@ module DateService
 
   # 日付の指定順序を確認します。
   def validate_date_order(date_from, date_to)
+    return false if date_from.nil? || date_to.nil?
     date_from <= date_to
   end
 

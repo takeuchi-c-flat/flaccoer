@@ -52,7 +52,6 @@ class FiscalYear < ActiveRecord::Base
       errors.add(:date_to, '年度の範囲が制限を超えています。')
       return
     end
-    # TODO: 更新の場合に、取引明細との関連のチェックを追加
   end
 
   def set_account_type

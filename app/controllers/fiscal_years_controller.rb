@@ -42,7 +42,7 @@ class FiscalYearsController < BaseController
           FiscalYearService.subjects_from_base_fiscal_year(base_fiscal_year, @fiscal_year).each(&:save)
         end
 
-        if @fiscal_year.save!
+        if @fiscal_year.save
           format.html { redirect_to fiscal_years_url, notice: '会計年度を登録しました。' }
           format.json { render :index, status: :created, location: @fiscal_years }
         else
@@ -56,7 +56,7 @@ class FiscalYearsController < BaseController
   def update
     ActiveRecord::Base.transaction do
       respond_to do |format|
-        if @fiscal_year.update!(fiscal_year_params)
+        if @fiscal_year.update(fiscal_year_params)
           format.html { redirect_to fiscal_years_url, notice: '会計年度を更新しました。' }
           format.json { render :index, status: :ok, location: @fiscal_years }
         else

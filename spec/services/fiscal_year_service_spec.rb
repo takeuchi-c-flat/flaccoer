@@ -43,6 +43,7 @@ RSpec.describe FiscalYearService do
     end
 
     example 'validate NG' do
+      expect(FiscalYearService.validate_journal_date(fiscal_year, nil)).to eq(false)
       expect(FiscalYearService.validate_journal_date(fiscal_year, Date.new(2014, 12, 31))).to eq(false)
       expect(FiscalYearService.validate_journal_date(fiscal_year, Date.new(2016, 1, 1))).to eq(false)
     end

@@ -37,6 +37,8 @@ RSpec.describe DateService do
     end
 
     example 'validate NG' do
+      expect(DateService.validate_date_order(nil, Date.new(2014, 12, 31))).to eq(false)
+      expect(DateService.validate_date_order(Date.new(2015, 1, 1), nil)).to eq(false)
       expect(DateService.validate_date_order(Date.new(2015, 1, 1), Date.new(2014, 12, 31))).to eq(false)
     end
   end
