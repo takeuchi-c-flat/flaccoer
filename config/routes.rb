@@ -66,6 +66,8 @@ Rails.application.routes.draw do
   ## パスワード変更
   get 'security' => 'securities#edit', as: :change_password
   patch 'security' => 'securities#update', as: :security
+  ## 閲覧者の設定
+  resources :watch_users, except: [:show]
   ## 会計年度の設定
   get 'fiscal_year/copy/:id/' => 'fiscal_years#copy', as: :copy_fiscal_year
   resources :fiscal_years, except: [:show]

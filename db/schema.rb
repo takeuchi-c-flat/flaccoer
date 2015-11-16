@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151004114106) do
+ActiveRecord::Schema.define(version: 20151116101601) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -152,6 +152,18 @@ ActiveRecord::Schema.define(version: 20151004114106) do
 
   add_index "users", ["email_for_index"], name: "index_users_on_email_for_index", unique: true, using: :btree
 
+  create_table "watch_users", force: :cascade do |t|
+    t.integer  "fiscal_year_id",                 null: false
+    t.integer  "user_id",                        null: false
+    t.boolean  "can_modify",     default: false, null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+  end
+
+  add_index "watch_users", ["fiscal_year_id", "user_id"], name: "index_watch_users_on_fiscal_year_id_and_user_id", unique: true, using: :btree
+  add_index "watch_users", ["fiscal_year_id"], name: "index_watch_users_on_fiscal_year_id", using: :btree
+  add_index "watch_users", ["user_id"], name: "index_watch_users_on_user_id", using: :btree
+
   add_foreign_key "badgets", "fiscal_years"
   add_foreign_key "badgets", "subjects"
   add_foreign_key "balances", "fiscal_years"
@@ -167,4 +179,6 @@ ActiveRecord::Schema.define(version: 20151004114106) do
   add_foreign_key "subject_types", "account_types"
   add_foreign_key "subjects", "fiscal_years"
   add_foreign_key "subjects", "subject_types"
+  add_foreign_key "watch_users", "fiscal_years"
+  add_foreign_key "watch_users", "users"
 end

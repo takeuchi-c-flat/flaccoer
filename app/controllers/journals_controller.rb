@@ -77,6 +77,7 @@ class JournalsController < WithFiscalBaseController
   def set_fiscal_year
     @fiscal_year = current_fiscal_year
     @journal_date = session[:journal_date].to_date
+    @can_modify = current_fiscal_year.can_modify?(current_user)
   end
 
   def set_journal

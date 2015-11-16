@@ -1,0 +1,34 @@
+<%- model_class = WatchUser -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => [:'helpers.titles.list', '%{model}'], :model => model_class.model_name.human.titleize %></h1>
+</div>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th><%= model_class.human_attribute_name(:user) %></th>
+    <th><%= model_class.human_attribute_name(:can_modify) %></th>
+    <th><%=t '.actions', :default => t("helpers.actions") %></th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @watch_users.each do |watch_user| %>
+    <tr>
+      <td><%= watch_user.user %></td>
+      <td><%= watch_user.can_modify %></td>
+      <td>
+        <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                edit_watch_user_path(watch_user), :class => 'btn btn-default btn-sm' %>
+        <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                watch_user_path(watch_user),
+                :method => :delete,
+                :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                :class => 'btn btn-sm btn-danger' %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<%= link_to t('.new', :default => t("helpers.links.new")),
+        new_watch_user_path,
+        :class => 'btn btn-primary' %>

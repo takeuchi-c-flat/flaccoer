@@ -25,6 +25,7 @@ class FiscalYear < ActiveRecord::Base
     :loss_badgets,
     -> do joins(:subject).merge(Subject.loss_only).order('subjects.code') end,
     class_name: 'Badget'
+  has_many :watch_users
 
   accepts_nested_attributes_for :subjects
   accepts_nested_attributes_for :property_balances
@@ -60,6 +61,16 @@ class FiscalYear < ActiveRecord::Base
     else
       self.account_type = nil
     end
+  end
+
+  def can_access?(user)
+    return true if self.user == user
+    watch_users.any? { |m| m.user == user }
+  end
+
+  def can_modify?(user)
+    return true if self.user == user
+    watch_users.find { |m| m.user == user }.try(&:can_modify?)
   end
 
   def select_box_name

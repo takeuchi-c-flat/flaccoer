@@ -4,9 +4,7 @@ class WithFiscalBaseController < BaseController
   private
 
   def check_user_match
-    fiscal_year = current_fiscal_year
-    return if fiscal_year.present? && fiscal_year.user == current_user
-
+    return if FiscalYearService.user_match?(current_fiscal_year, current_user)
     flash.now.alert = '不正なページにアクセスされました。'
     redirect_to :root
   end

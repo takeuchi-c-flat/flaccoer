@@ -5,7 +5,7 @@ module FiscalYearService
 
   # Userがアクセス可能な会計年度を取得します。
   def accessible_fiscal_years(user)
-    my_fiscal_years(user) + permitted_fiscal_years(user)
+    my_fiscal_years(user) + can_watch_fiscal_years(user)
   end
 
   # Userの所有する会計年度を取得します。
@@ -14,9 +14,17 @@ module FiscalYearService
   end
 
   # Userがアクセスを許可された会計年度を取得します。
-  def permitted_fiscal_years(_user)
-    # TODO: 実装(要TABLE追加)
-    FiscalYear.where(user_id: -1).order(date_from: :desc)
+  def can_watch_fiscal_years(user)
+    WatchUser.where(user: user).eager_load(:fiscal_year).
+      map { |m| m.fiscal_year }.
+      sort_by { |m| m.date_from }.
+      reverse
+  end
+
+  # 現在の会計年度とUserがマッチしているかを確認します。
+  def user_match?(current_fiscal_year, current_user)
+    return false if current_fiscal_year.nil?
+    current_fiscal_year.user == current_user || current_fiscal_year.can_access?(current_user)
   end
 
   # 月数が制限値以内かを確認します。

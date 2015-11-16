@@ -11,4 +11,8 @@ class User < ActiveRecord::Base
     self.email_for_index = email.downcase if email
     self.hashed_password = BCrypt::Password.create(password) if password.is_a?(String)
   end
+
+  def to_s
+    name
+  end
 end

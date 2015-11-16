@@ -2,8 +2,10 @@ require 'rails_helper'
 
 RSpec.describe FiscalYearService do
   describe '#accessible_fiscal_years' do
+    let(:user) { create(:user) }
+    let(:other_user) { create(:user) }
+
     example 'only my_fiscal_year' do
-      user = create(:user)
       year1 = FactoryGirl.create(
         :fiscal_year,
         user: user,
@@ -19,7 +21,56 @@ RSpec.describe FiscalYearService do
       expect(FiscalYearService.accessible_fiscal_years(user)).to eq([year2, year1])
     end
 
-    # TODO: with permitted_fiscal_year pattern
+    example 'with can_watch_fiscal_year' do
+      year1 = FactoryGirl.create(
+        :fiscal_year,
+        user: user,
+        title: '年度１',
+        date_from: Date.new(2015, 4, 1),
+        date_to: Date.new(2016, 3, 31))
+      other_year1 = FactoryGirl.create(
+        :fiscal_year,
+        user: other_user,
+        title: '他者年度１',
+        date_from: Date.new(2015, 7, 1),
+        date_to: Date.new(2016, 3, 31))
+      other_year2 = FactoryGirl.create(
+        :fiscal_year,
+        user: other_user,
+        title: '他者年度２',
+        date_from: Date.new(2016, 7, 1),
+        date_to: Date.new(2017, 3, 31))
+      create(:watch_user, fiscal_year: other_year1, user: user)
+      create(:watch_user, fiscal_year: other_year2, user: user)
+      expect(FiscalYearService.accessible_fiscal_years(user)).to eq([year1, other_year2, other_year1])
+    end
+  end
+
+  describe '#user_match?' do
+    let(:user) { create(:user) }
+    let(:other_user1) { create(:user) }
+    let(:other_user2) { create(:user) }
+    let(:fiscal_year) { create(:fiscal_year, user: user) }
+
+    before do
+      create(:watch_user, fiscal_year: fiscal_year, user: other_user1)
+    end
+
+    example 'without fiscal_year' do
+      expect(FiscalYearService.user_match?(nil, user)).to eq(false)
+    end
+
+    example 'with my fiscal_year' do
+      expect(FiscalYearService.user_match?(fiscal_year, user)).to eq(true)
+    end
+
+    example 'with can watch user' do
+      expect(FiscalYearService.user_match?(fiscal_year, other_user1)).to eq(true)
+    end
+
+    example 'without can watch user' do
+      expect(FiscalYearService.user_match?(fiscal_year, other_user2)).to eq(false)
+    end
   end
 
   describe '#validate_months_range' do

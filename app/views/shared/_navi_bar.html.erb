@@ -14,22 +14,23 @@
         <% if current_user && current_fiscal_year %>
           <li><%= link_to "仕訳帳", "/journals"  %></li>
           <li>
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">元帳<b class="caret"></b>
-            </a>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">元帳<b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li><%= link_to "総勘定元帳", "/ledger"  %></li>
               <li><%= link_to "合計残高試算表", "/balance_sheet"  %></li>
               <li><%= link_to "青色申告系帳票", "/reports_blue"  %></li>
             </ul>
           </li>
+        <% end %>
+        <% if current_user && current_fiscal_year && current_fiscal_year.can_modify?(current_user) %>
           <li>
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">科目と残高<b class="caret"></b>
-            </a>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">科目と残高<b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li><%= link_to "勘定科目", "/subject"  %></li>
               <li><%= link_to "期首残高", "/balance"  %></li>
               <li><%= link_to "通期予算", "/badget"  %></li>
               <li><%= link_to "帳票位置の設定", "/locations"  %></li>
+              <li><%= link_to "閲覧者の設定", "/watch_users"  %></li>
             </ul>
           </li>
         <% end %>

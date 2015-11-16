@@ -21,6 +21,7 @@ ja:
       account_type: 会計種別
       subject_template_type: 科目テンプレート
       fiscal_year: 会計年度
+      watch_user: 閲覧者
       subject: 勘定科目
       journal: 取引明細
       balance: 期首残高
@@ -42,6 +43,9 @@ ja:
         date_from: 開始日
         date_to: 終了日
         locked: ロック済
+      watch_user:
+        user: 閲覧者
+        can_modify: 変更可能権限
       subject:
         subject_type: 種別
         code: コード
@@ -73,7 +77,6 @@ ja:
           one:   "{{model}}にエラーが発生しました。"
           other: "{{model}}に{{count}}つのエラーが発生しました。"
         body: "次の項目を確認してください。"
-
       messages:
         inclusion: "一覧にありません。"
         exclusion: "予約されています。"
@@ -120,6 +123,7 @@ ja:
       list: "%{model}の一覧"
       maintenance: "%{model}の保守"
       status: "%{model}の利用状況"
+      change: "%{model}の変更"
       change: "%{model}の変更"
     submit:
       update: "更新"

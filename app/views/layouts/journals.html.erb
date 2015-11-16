@@ -23,9 +23,10 @@
 <body>
   <%= render 'shared/navi_bar' %>
   <div class='container'>
+    <%= bootstrap_flash %>
+    <% if @can_modify %>
     <div class='row'>
       <div class='col-xs-12'>
-        <%= bootstrap_flash %>
         <div class='container journal-input-container' id='journal-input-container'>
           <div class='row'>
             <div class='col-sm-2 hidden-xs subjects' id='subjects-debit-container'>
@@ -43,8 +44,12 @@
         </div>
       </div>
     </div>
+    <% end %>
     <div class='row'>
       <div class='col-xs-12'>
+        <% unless @can_modify %>
+          <h4><%=t '.title', default: [:'helpers.titles.list', 'List %{model}'], model: Journal.model_name.human.titleize %></h4>
+        <% end %>
         <div class='journals-view-container'>
           <div class='tabbable'>
             <ul class='nav nav-tabs'>

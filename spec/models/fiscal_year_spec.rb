@@ -42,6 +42,53 @@ RSpec.describe FiscalYear do
     end
   end
 
+  describe '#can_access?' do
+    example 'my_fiscal_year' do
+      user = create(:user)
+      fiscal_year = FactoryGirl.create(:fiscal_year, user: user)
+      expect(fiscal_year.can_access?(user)).to eq(true)
+    end
+
+    example 'with watch_user can_modify' do
+      user = create(:user)
+      other_user = create(:user)
+      fiscal_year = FactoryGirl.create(:fiscal_year, user: user)
+      create(:watch_user, fiscal_year: fiscal_year, user: other_user, can_modify: false)
+      expect(fiscal_year.can_access?(other_user)).to eq(true)
+    end
+
+    example 'with watch_user can_not_modify' do
+      user = create(:user)
+      other_user = create(:user)
+      fiscal_year = FactoryGirl.create(:fiscal_year, user: user)
+      expect(fiscal_year.can_access?(other_user)).to eq(false)
+    end
+  end
+
+  describe '#can_modify?' do
+    example 'my_fiscal_year' do
+      user = create(:user)
+      fiscal_year = FactoryGirl.create(:fiscal_year, user: user)
+      expect(fiscal_year.can_modify?(user)).to eq(true)
+    end
+
+    example 'with watch_user can_modify' do
+      user = create(:user)
+      other_user = create(:user)
+      fiscal_year = FactoryGirl.create(:fiscal_year, user: user)
+      create(:watch_user, fiscal_year: fiscal_year, user: other_user, can_modify: true)
+      expect(fiscal_year.can_modify?(other_user)).to eq(true)
+    end
+
+    example 'with watch_user can_not_modify' do
+      user = create(:user)
+      other_user = create(:user)
+      fiscal_year = FactoryGirl.create(:fiscal_year, user: user)
+      create(:watch_user, fiscal_year: fiscal_year, user: other_user, can_modify: false)
+      expect(fiscal_year.can_modify?(other_user)).to eq(false)
+    end
+  end
+
   describe '#select_box_name' do
     example 'get' do
       fiscal_year = FactoryGirl.create(:fiscal_year, title: 'タイトル', organization_name: '企業名')
