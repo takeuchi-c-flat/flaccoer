@@ -29,9 +29,8 @@ class AddSubjectTemplateCashBook < ActiveRecord::Migration
         subject_type: subject[:type],
         code: subject[:code],
         name: subject[:name],
-        report1_location: subject.try(:report1_location),
-        report2_location: subject.try(:report2_location)
-      )
+        report1_location: subject[:report1_location],
+        report2_location: subject[:report2_location])
     end
   end
 end
