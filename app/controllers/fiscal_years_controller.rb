@@ -34,15 +34,21 @@ class FiscalYearsController < BaseController
         # 科目(Subject)を、科目テンプレートより生成
         if base_fiscal_year_id == 0
           @fiscal_year = FiscalYear.new(strong_params).tap { |m| m.user = current_user }
-          FiscalYearService.subjects_from_template(@fiscal_year.subject_template_type, @fiscal_year).each(&:save)
+          result = @fiscal_year.save!
+          if result
+            FiscalYearService.subjects_from_template(@fiscal_year.subject_template_type, @fiscal_year).each(&:save)
+          end
         else
           base_fiscal_year = FiscalYear.find(base_fiscal_year_id)
           @fiscal_year = base_fiscal_year.dup
           @fiscal_year.update(strong_params)
-          FiscalYearService.subjects_from_base_fiscal_year(base_fiscal_year, @fiscal_year).each(&:save)
+          result = @fiscal_year.save!
+          if result
+            FiscalYearService.subjects_from_base_fiscal_year(base_fiscal_year, @fiscal_year).each(&:save)
+          end
         end
 
-        if @fiscal_year.save
+        if result
           format.html { redirect_to fiscal_years_url, notice: '会計年度を登録しました。' }
           format.json { render :index, status: :created, location: @fiscal_years }
         else

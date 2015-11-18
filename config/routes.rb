@@ -39,9 +39,9 @@ Rails.application.routes.draw do
   ### 月別売上／仕入
   get 'reports_blue/report1' => 'reports_blue#report1', as: :reports_blue1
   ## 出納帳系
-  get 'cash_book' => 'cash_book#index', as: :cash_book
+  get 'reports_cash_book' => 'reports_cash_book#index', as: :reports_cash_book
   ### 現預金出納帳
-  get 'cash_book/1' => 'cash_book#report1', as: :cash_book1
+  get 'reports_cash_book/report1' => 'reports_cash_book#report1', as: :reports_cash_book1
 
   # 科目と残高
   ## 勘定科目

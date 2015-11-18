@@ -3,7 +3,7 @@ require 'rubyXL'
 module ReportsBlueExcelService
   module_function
 
-  TEMPLATE_FILE_NAME_REPORT1 = 'sales_per_month.xlsx'
+  REPORT1_TEMPLATE_FILE_NAME = 'sales_per_month.xlsx'
   REPORT1_MAPPING_TABLE = [
     { location: 1, row: 5, col: 2, per_month: true },
     { location: 2, row: 17, col: 2, per_month: false },
@@ -14,7 +14,7 @@ module ReportsBlueExcelService
   # 月別売上のExcelファイルを生成して、ファイル名を返します。
   def create_report1_excel_file(fiscal_year)
     temp_file_name = ExcelService.create_temp_file_name('月別売上仕入.xlsx')
-    workbook = ExcelService.create_workbook_from_template(TEMPLATE_FILE_NAME_REPORT1, temp_file_name, '月別売上仕入')
+    workbook = ExcelService.create_workbook_from_template(REPORT1_TEMPLATE_FILE_NAME, temp_file_name, '月別売上仕入')
     sheet = ExcelService.get_first_sheet(workbook)
     format_report1(sheet, fiscal_year)
     ExcelService.write_workbook(workbook)
