@@ -81,7 +81,9 @@ module FiscalYearService
 
   # 会計年度の期間を元に、取引日の初期値を調整します。
   def adjust_journal_date(journal_date, fiscal_year)
-    return Date.today if fiscal_year.nil?
+    today = Date.today
+    return today if fiscal_year.nil?
+    journal_date = today if journal_date.nil?
     return fiscal_year.date_from if journal_date < fiscal_year.date_from
     return fiscal_year.date_to if fiscal_year.date_to < journal_date
     journal_date

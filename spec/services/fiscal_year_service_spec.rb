@@ -289,6 +289,12 @@ RSpec.describe FiscalYearService do
       expect(FiscalYearService.adjust_journal_date(Date.new(2016, 1, 1), nil)).to eq(today)
     end
 
+    example 'without JournalDate and today between FiscalYear date range' do
+      today = Date.new(2016, 6, 1)
+      allow(Date).to receive(:today).and_return(today)
+      expect(FiscalYearService.adjust_journal_date(nil, fiscal_year)).to eq(today)
+    end
+
     example 'between FiscalYear date range' do
       expect(FiscalYearService.adjust_journal_date(Date.new(2016, 1, 1), fiscal_year)).to eq(Date.new(2016, 1, 1))
       expect(FiscalYearService.adjust_journal_date(Date.new(2016, 6, 30), fiscal_year)).to eq(Date.new(2016, 6, 30))
