@@ -15,8 +15,6 @@ class WatchUsersController < WithFiscalBaseController
 
   def create
     @watch_user = WatchUser.new(watch_user_params).tap { |m| m.fiscal_year = @fiscal_year }
-    @watch_user.user = User.find_by(email: @watch_user.user_email)
-
     respond_to do |format|
       if @watch_user.save
         format.html { redirect_to watch_users_url, notice: '閲覧者を追加しました。' }
