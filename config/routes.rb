@@ -42,8 +42,6 @@ Rails.application.routes.draw do
   get 'cash_book' => 'cash_book#index', as: :cash_book
   ### 現預金出納帳
   get 'cash_book/1' => 'cash_book#report1', as: :cash_book1
-  ### 決算書
-  get 'cash_book/2' => 'cash_book#report2', as: :cash_book2
 
   # 科目と残高
   ## 勘定科目
