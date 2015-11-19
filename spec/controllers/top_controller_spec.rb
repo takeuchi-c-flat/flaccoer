@@ -40,6 +40,7 @@ describe TopController, 'ログイン後' do
       get :index
       expect(session[:fiscal_year_id]).to be_nil
       expect(session[:journal_date]).to be_nil
+      expect(assigns(:user)).to eq(current_user)
       expect(assigns(:no_years)).to eq(true)
     end
 
@@ -60,6 +61,7 @@ describe TopController, 'ログイン後' do
       expect(session[:journal_date]).to eq(today)
       expect(assigns(:no_years)).to eq(false)
       expect(assigns(:fiscal_year)).to eq(fiscal_year2)
+      expect(assigns(:user)).to eq(current_user)
       expect(assigns(:journal_date)).to eq(today)
       expect(assigns(:dashboards1)).to eq(['DUMMY1'])
       expect(assigns(:dashboards2)).to eq(['DUMMY2'])

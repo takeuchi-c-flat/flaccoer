@@ -10,6 +10,7 @@ class TopController < BaseController
 
     @fiscal_years = FiscalYearService.accessible_fiscal_years(current_user)
     @no_years = @fiscal_years.empty?
+    @user = current_user
     return if @no_years
 
     # 会計年度がある場合は、セッションに初期値を設定
