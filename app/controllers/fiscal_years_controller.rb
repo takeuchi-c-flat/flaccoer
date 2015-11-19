@@ -34,7 +34,7 @@ class FiscalYearsController < BaseController
         # 科目(Subject)を、科目テンプレートより生成
         if base_fiscal_year_id == 0
           @fiscal_year = FiscalYear.new(strong_params).tap { |m| m.user = current_user }
-          result = @fiscal_year.save!
+          result = @fiscal_year.save
           if result
             FiscalYearService.subjects_from_template(@fiscal_year.subject_template_type, @fiscal_year).each(&:save)
           end
@@ -42,7 +42,7 @@ class FiscalYearsController < BaseController
           base_fiscal_year = FiscalYear.find(base_fiscal_year_id)
           @fiscal_year = base_fiscal_year.dup
           @fiscal_year.update(strong_params)
-          result = @fiscal_year.save!
+          result = @fiscal_year.save
           if result
             FiscalYearService.subjects_from_base_fiscal_year(base_fiscal_year, @fiscal_year).each(&:save)
           end
@@ -76,7 +76,9 @@ class FiscalYearsController < BaseController
   def destroy
     # 取引明細の存在をチェック
     unless FiscalYearService.fiscal_year_can_delete?(@fiscal_year)
-      flash.now.alert = '保守画面から、取引明細・残高・予算を削除してください。'
+      respond_to do |format|
+        format.html { redirect_to fiscal_years_url, alert: '保守画面から、取引明細・残高・予算を削除してください。' }
+      end
       return
     end
 
