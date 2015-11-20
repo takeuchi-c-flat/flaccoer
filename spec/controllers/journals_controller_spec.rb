@@ -165,5 +165,36 @@ describe JournalsController, '編集権限のない閲覧ユーザでログイ�
       expect(assigns[:can_modify]).to eq(false)
     end
   end
+
+  describe '#set_mark' do
+    example 'set_mark success' do
+      create(:journal, id: 99999999, fiscal_year: current_fiscal_year, mark: false)
+
+      patch :set_mark, id: 99999999
+      expect(Journal.find(99999999).mark).to eq(true)
+    end
+
+    example 'fiscal_year not match' do
+      dummy_fiscal_year = create(:fiscal_year)
+      create(:journal, id: 99999999, fiscal_year: dummy_fiscal_year, mark: false)
+
+      patch :set_mark, id: 99999999
+      expect(Journal.find(99999999).mark).to eq(false)
+    end
+  end
+
+  describe '#reset_mark' do
+    example 'reset_mark success' do
+      create(:journal, id: 99999999, fiscal_year: current_fiscal_year, mark: true)
+
+      patch :reset_mark, id: 99999999
+      expect(Journal.find(99999999).mark).to eq(false)
+    end
+
+    example 'not found journal' do
+      patch :reset_mark, id: 99999999
+      expect(Journal.find_by(id: 99999999)).to be_nil
+    end
+  end
 end
 

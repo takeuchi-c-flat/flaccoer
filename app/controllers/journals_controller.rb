@@ -1,5 +1,5 @@
 class JournalsController < WithFiscalBaseController
-  before_action :set_fiscal_year, only: [:list, :new, :copy, :create, :edit, :update]
+  before_action :set_fiscal_year, only: [:list, :new, :copy, :create, :edit, :update, :set_mark, :reset_mark]
   before_action :set_journal, only: [:copy, :edit, :update, :destroy]
   before_action :set_subjects, only: [:new, :copy, :create, :edit, :update]
   before_action :create_tabs, only: [:new, :copy, :create, :edit, :update]
@@ -72,6 +72,16 @@ class JournalsController < WithFiscalBaseController
     end
   end
 
+  def set_mark
+    update_mark(params[:id], true)
+    render nothing: true
+  end
+
+  def reset_mark
+    update_mark(params[:id], false)
+    render nothing: true
+  end
+
   private
 
   def set_fiscal_year
@@ -94,5 +104,12 @@ class JournalsController < WithFiscalBaseController
 
   def create_tabs
     @journal_months = JournalsService.create_journal_months(@fiscal_year, @journal_date)
+  end
+
+  def update_mark(id, set)
+    journal = Journal.find_by(id: id)
+    return if journal.nil? || journal.fiscal_year != @fiscal_year
+    journal.mark = set
+    journal.save
   end
 end

@@ -22,6 +22,8 @@ Rails.application.routes.draw do
   post 'journals' => 'journals#create', as: :create_journal
   patch 'journals/:id/' => 'journals#update', as: :journal
   delete 'journals/:id/' => 'journals#destroy', as: :destroy_journal
+  patch 'journals/set_mark/:id/' => 'journals#set_mark', as: :set_mark_journal
+  patch 'journals/reset_mark/:id/' => 'journals#reset_mark', as: :reset_mark_journal
 
   # 元帳
   ## 総勘定元帳

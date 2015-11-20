@@ -63,6 +63,7 @@ ja:
         subject_credit: 貸方
         price: 金額
         comment: 摘要
+        mark: マーク
       balance:
         subject: 勘定科目
         top_balance: 期首残高

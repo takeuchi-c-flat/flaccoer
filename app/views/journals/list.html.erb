@@ -3,6 +3,7 @@
   <thead>
     <tr>
       <th><%= model_class.human_attribute_name(:journal_date) %></th>
+      <th><%= model_class.human_attribute_name(:mark) %></th>
       <th><%= model_class.human_attribute_name(:subject_debit) %></th>
       <th><%= model_class.human_attribute_name(:subject_credit) %></th>
       <th><%= model_class.human_attribute_name(:price) %></th>
@@ -16,6 +17,9 @@
     <% @journals.each do |journal| %>
     <tr id='<%= journal.id %>' class='journal-list-item'>
       <td><%= journal.journal_date.strftime('%Y-%m-%d') %></td>
+      <% mark = journal.mark? ? '1' : '0' %>
+      <% button_class = journal.mark? ? 'btn-marked btn-danger' : 'btn-default' %>
+      <td><a href='#' class='btn btn-sm <%= button_class %>' data-mark='<%= journal.mark? ? '1' : '0' %>' data-id='<%= journal.id %>'>　</a></td>
       <td><%= journal.subject_debit %></td>
       <td><%= journal.subject_credit %></td>
       <td class='price'><%= journal.price.jpy_comma %></td>

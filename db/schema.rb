@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151118230001) do
+ActiveRecord::Schema.define(version: 20151120104325) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,14 +65,15 @@ ActiveRecord::Schema.define(version: 20151118230001) do
   add_index "fiscal_years", ["user_id"], name: "index_fiscal_years_on_user_id", using: :btree
 
   create_table "journals", force: :cascade do |t|
-    t.integer  "fiscal_year_id",                null: false
-    t.date     "journal_date",                  null: false
-    t.integer  "subject_debit_id",              null: false
-    t.integer  "subject_credit_id",             null: false
-    t.integer  "price",             default: 0, null: false
+    t.integer  "fiscal_year_id",                    null: false
+    t.date     "journal_date",                      null: false
+    t.integer  "subject_debit_id",                  null: false
+    t.integer  "subject_credit_id",                 null: false
+    t.integer  "price",             default: 0,     null: false
     t.string   "comment"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.boolean  "mark",              default: false, null: false
   end
 
   add_index "journals", ["fiscal_year_id"], name: "index_journals_on_fiscal_year_id", using: :btree
