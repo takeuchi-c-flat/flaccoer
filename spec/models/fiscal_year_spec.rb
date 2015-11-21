@@ -72,6 +72,12 @@ RSpec.describe FiscalYear do
       expect(fiscal_year.can_modify?(user)).to eq(true)
     end
 
+    example 'my_fiscal_year and locked' do
+      user = create(:user)
+      fiscal_year = FactoryGirl.create(:fiscal_year, user: user, locked: true)
+      expect(fiscal_year.can_modify?(user)).to eq(false)
+    end
+
     example 'with watch_user can_modify' do
       user = create(:user)
       other_user = create(:user)

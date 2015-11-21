@@ -69,7 +69,7 @@ class FiscalYear < ActiveRecord::Base
   end
 
   def can_modify?(user)
-    return true if self.user == user
+    return !self.locked? if self.user == user
     watch_users.find { |m| m.user == user }.try(&:can_modify?)
   end
 
