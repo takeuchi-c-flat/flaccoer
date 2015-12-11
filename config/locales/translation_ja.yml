@@ -110,6 +110,7 @@ ja:
       edit: "編集"
       destroy: "削除"
       copy: "コピー"
+      carry: "繰越し"
       maintenance: "保守"
       back: "戻る"
       change: "変更"
@@ -118,6 +119,7 @@ ja:
     titles:
       edit: "%{model}の編集"
       copy: "%{model}のコピー"
+      carry: "%{model}の繰越し"
       save: "保存"
       new: "%{model}の追加"
       delete: "削除"

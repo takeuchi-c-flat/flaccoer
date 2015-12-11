@@ -13,14 +13,11 @@ class FiscalYearsController < BaseController
   end
 
   def copy
-    @fiscal_year = FiscalYear.find(params[:id]).dup.tap { |m|
-      m.title = m.title + ' - コピー'
-      m.date_from = m.date_from.next_year
-      m.date_to = m.date_to.next_year
-      m.locked = false,
-      m.for_copy = 1,
-      m.base_fiscal_year_id = params[:id]
-    }
+    copy_or_carry(false)
+  end
+
+  def carry
+    copy_or_carry(true)
   end
 
   def edit
@@ -31,24 +28,20 @@ class FiscalYearsController < BaseController
     base_fiscal_year_id = strong_params[:base_fiscal_year_id].to_i
     ActiveRecord::Base.transaction do
       respond_to do |format|
-        # 科目(Subject)を、科目テンプレートより生成
-        if base_fiscal_year_id == 0
+        if !strong_params[:for_copy]
+          # 科目(Subject)を、科目テンプレートより生成
           @fiscal_year = FiscalYear.new(strong_params).tap { |m| m.user = current_user }
-          result = @fiscal_year.save
-          if result
-            FiscalYearService.subjects_from_template(@fiscal_year.subject_template_type, @fiscal_year).each(&:save)
-          end
+          FiscalYearService.create_subjects_from_template(@fiscal_year.subject_template_type, @fiscal_year)
         else
+          # 科目(Subject)を、コピー／繰越元の科目より生成
           base_fiscal_year = FiscalYear.find(base_fiscal_year_id)
+          with_carry = strong_params[:with_carry]
           @fiscal_year = base_fiscal_year.dup
           @fiscal_year.update(strong_params)
-          result = @fiscal_year.save
-          if result
-            FiscalYearService.subjects_from_base_fiscal_year(base_fiscal_year, @fiscal_year).each(&:save)
-          end
+          FiscalYearService.create_subjects_from_base_fiscal_year(base_fiscal_year, @fiscal_year, with_carry)
         end
 
-        if result
+        if @fiscal_year.save
           format.html { redirect_to fiscal_years_url, notice: '会計年度を登録しました。' }
           format.json { render :index, status: :created, location: @fiscal_years }
         else
@@ -106,6 +99,18 @@ class FiscalYearsController < BaseController
       permit(
         :user_id, :account_type_id, :subject_template_type_id, :title, :organization_name,
         :date_from, :date_to, :locked,
-        :for_copy, :base_fiscal_year_id)
+        :for_copy, :with_carry, :base_fiscal_year_id)
+  end
+
+  def copy_or_carry(with_carry)
+    @fiscal_year = FiscalYear.find(params[:id]).dup.tap { |m|
+      m.title += '- コピー' unless with_carry
+      m.date_from = m.date_from.next_year
+      m.date_to = m.date_to.next_year
+      m.locked = false,
+      m.for_copy = true,
+      m.with_carry = with_carry,
+      m.base_fiscal_year_id = params[:id]
+    }
   end
 end

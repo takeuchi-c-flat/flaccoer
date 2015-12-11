@@ -100,7 +100,7 @@ RSpec.describe FiscalYearService do
     end
   end
 
-  describe '#subjects_from_template' do
+  describe '#create_subjects_from_template' do
     example 'create_subjects' do
       template_type = create(:subject_template_type)
       subject_type = create(:subject_type)
@@ -122,12 +122,13 @@ RSpec.describe FiscalYearService do
           report5_location: hash[:loc5]
         )
       }
-      new_fiscal_year = create(:fiscal_year)
+      new_year = create(:fiscal_year)
 
-      actual = FiscalYearService.subjects_from_template(template_type, new_fiscal_year)
-      expect(actual.length).to eq(3)
-      expect(actual[0]).to have_attributes(
-        fiscal_year: new_fiscal_year,
+      FiscalYearService.create_subjects_from_template(template_type, new_year)
+      subjects = new_year.subjects
+      expect(subjects.length).to eq(3)
+      expect(subjects[0]).to have_attributes(
+        fiscal_year: new_year,
         subject_type: subject_type,
         code: '001',
         name: '科目１',
@@ -135,23 +136,23 @@ RSpec.describe FiscalYearService do
         report2_location: 201,
         report3_location: 301,
         from_template: true)
-      expect(actual[1]).to have_attributes(
-        fiscal_year: new_fiscal_year,
+      expect(subjects[1]).to have_attributes(
+        fiscal_year: new_year,
         code: '002',
         report4_location: 402,
         report5_location: 502,
         from_template: true)
-      expect(actual[2]).to have_attributes(
-        fiscal_year: new_fiscal_year,
+      expect(subjects[2]).to have_attributes(
+        fiscal_year: new_year,
         code: '003',
         from_template: true)
     end
   end
 
-  describe '#subjects_from_base_fiscal_year' do
+  describe '#create_subjects_from_base_fiscal_year' do
     example 'create_subjects' do
-      base_fiscal_year = create(:fiscal_year)
-      new_fiscal_year = create(:fiscal_year)
+      base_year = create(:fiscal_year)
+      new_year = create(:fiscal_year)
       subject_type = create(:subject_type)
       [
         { code: '001', name: '科目１', from_template: true, loc1: 101, loc2: 201, loc3: 301 },
@@ -160,7 +161,7 @@ RSpec.describe FiscalYearService do
       ].each { |hash|
         FactoryGirl.create(
           :subject,
-          fiscal_year: base_fiscal_year,
+          fiscal_year: base_year,
           subject_type: subject_type,
           code: hash[:code],
           name: hash[:name],
@@ -173,27 +174,87 @@ RSpec.describe FiscalYearService do
         )
       }
 
-      actual = FiscalYearService.subjects_from_base_fiscal_year(base_fiscal_year, new_fiscal_year)
-      expect(actual.length).to eq(3)
-      expect(actual[0]).to have_attributes(
-        fiscal_year: new_fiscal_year,
+      FiscalYearService.create_subjects_from_base_fiscal_year(base_year, new_year)
+      subjects = new_year.subjects
+      expect(subjects.length).to eq(3)
+      expect(subjects[0]).to have_attributes(
+        fiscal_year: new_year,
         subject_type: subject_type,
         code: '001',
         name: '科目１',
         report1_location: 101,
         report2_location: 201,
         report3_location: 301,
+        balance: nil,
+        badget: nil,
         from_template: true)
-      expect(actual[1]).to have_attributes(
-        fiscal_year: new_fiscal_year,
+      expect(subjects[1]).to have_attributes(
+        fiscal_year: new_year,
         code: '002',
         report4_location: 402,
         report5_location: 502,
+        balance: nil,
+        badget: nil,
         from_template: true)
-      expect(actual[2]).to have_attributes(
-        fiscal_year: new_fiscal_year,
+      expect(subjects[2]).to have_attributes(
+        fiscal_year: new_year,
         code: '003',
+        balance: nil,
+        badget: nil,
         from_template: false)
+    end
+
+    example 'create_subjects with_carry' do
+      base_year = create(:fiscal_year)
+      new_year = create(:fiscal_year)
+      property = create(:subject_type, debit_and_credit: true, profit_and_loss: false, debit: true, credit: false)
+      profit = create(:subject_type, debit_and_credit: false, profit_and_loss: true, debit: false, credit: true)
+
+      subject1 = create(
+        :subject,
+        fiscal_year: base_year, code: '001', name: '科目１', subject_type: property,
+        balance: create(:balance, fiscal_year: base_year, top_balance: 10000),
+        from_template: true)
+      subject2 = create(
+        :subject,
+        fiscal_year: base_year, code: '002', name: '科目２', subject_type: property,
+        from_template: true)
+      subject3 = create(
+        :subject,
+        fiscal_year: base_year, code: '003', name: '科目３', subject_type: profit,
+        badget: create(:badget, fiscal_year: base_year, total_badget: 20000),
+        from_template: false)
+
+      create(:journal, fiscal_year: base_year, subject_debit: subject1, subject_credit: subject3, price: 5000)
+      create(:journal, fiscal_year: base_year, subject_debit: subject2, subject_credit: subject3, price: 5000)
+
+      FiscalYearService.create_subjects_from_base_fiscal_year(base_year, new_year, true)
+      subjects = new_year.subjects
+      expect(subjects.length).to eq(3)
+      expect(subjects[0]).to have_attributes(
+        fiscal_year: new_year,
+        subject_type: property,
+        code: '001',
+        name: '科目１',
+        badget: nil,
+        from_template: true)
+      expect(subjects[0].balance).to have_attributes(top_balance: 15000)
+
+      expect(subjects[1]).to have_attributes(
+        fiscal_year: new_year,
+        subject_type: property,
+        code: '002',
+        badget: nil,
+        from_template: true)
+      expect(subjects[1].balance).to have_attributes(top_balance: 5000)
+
+      expect(subjects[2]).to have_attributes(
+        fiscal_year: new_year,
+        subject_type: profit,
+        code: '003',
+        balance: nil,
+        from_template: false)
+      expect(subjects[2].badget).to have_attributes(total_badget: 20000)
     end
   end
 

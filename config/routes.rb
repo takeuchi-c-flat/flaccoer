@@ -70,6 +70,7 @@ Rails.application.routes.draw do
   resources :watch_users, except: [:show]
   ## 会計年度の設定
   get 'fiscal_year/copy/:id/' => 'fiscal_years#copy', as: :copy_fiscal_year
+  get 'fiscal_year/carry/:id/' => 'fiscal_years#carry', as: :carry_fiscal_year
   resources :fiscal_years, except: [:show]
   ### 会計年度の保守
   get 'fiscal_year_maintenance/:id/' => 'fiscal_years_maintenance#index', as: :fiscal_year_maintenance
