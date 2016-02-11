@@ -9,6 +9,7 @@ class FiscalYearsController < BaseController
     @fiscal_year = FiscalYear.new.tap { |m|
       m.user = current_user
       m.base_fiscal_year_id = 0
+      m.for_copy = false
     }
   end
 
@@ -28,17 +29,17 @@ class FiscalYearsController < BaseController
     base_fiscal_year_id = strong_params[:base_fiscal_year_id].to_i
     ActiveRecord::Base.transaction do
       respond_to do |format|
-        if !strong_params[:for_copy]
-          # 科目(Subject)を、科目テンプレートより生成
-          @fiscal_year = FiscalYear.new(strong_params).tap { |m| m.user = current_user }
-          FiscalYearService.create_subjects_from_template(@fiscal_year.subject_template_type, @fiscal_year)
-        else
+        if strong_params[:for_copy] == 'true'
           # 科目(Subject)を、コピー／繰越元の科目より生成
           base_fiscal_year = FiscalYear.find(base_fiscal_year_id)
           with_carry = strong_params[:with_carry]
           @fiscal_year = base_fiscal_year.dup
           @fiscal_year.update(strong_params)
           FiscalYearService.create_subjects_from_base_fiscal_year(base_fiscal_year, @fiscal_year, with_carry)
+        else
+          # 科目(Subject)を、科目テンプレートより生成
+          @fiscal_year = FiscalYear.new(strong_params).tap { |m| m.user = current_user }
+          FiscalYearService.create_subjects_from_template(@fiscal_year.subject_template_type, @fiscal_year)
         end
 
         if @fiscal_year.save
