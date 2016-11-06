@@ -366,4 +366,16 @@ RSpec.describe FiscalYearService do
       expect(FiscalYearService.adjust_journal_date(Date.new(2016, 7, 1), fiscal_year)).to eq(Date.new(2016, 6, 30))
     end
   end
+
+  describe '#get_tab_types' do
+    example 'get' do
+      types = FiscalYearService.get_tab_types()
+      expect(types[0][:id]).to eq(0)
+      expect(types[0][:name]).to eq('１ヶ月ごと')
+      expect(types[1][:id]).to eq(1)
+      expect(types[1][:name]).to eq('２ヶ月ごと ※「最終２ヶ月」のタブが使えます')
+      expect(types[2][:id]).to eq(2)
+      expect(types[2][:name]).to eq('タブ無し(通年をまとめて表示)')
+    end
+  end
 end

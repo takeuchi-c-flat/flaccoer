@@ -43,6 +43,8 @@ ja:
         date_from: 開始日
         date_to: 終了日
         locked: ロック済
+        tab_type: 仕訳一覧のタブの種類
+        list_desc: 仕訳一覧を新しい順に表示する
       watch_user:
         user: 閲覧者
         can_modify: 変更可能権限
