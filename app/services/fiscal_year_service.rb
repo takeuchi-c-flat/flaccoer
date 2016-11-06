@@ -125,4 +125,18 @@ module FiscalYearService
     return fiscal_year.date_to if fiscal_year.date_to < journal_date
     journal_date
   end
+
+  # タブの種類のSelectBox用の一覧を取得します。
+  def get_tab_types()
+    [
+      { id: 0, name: '１ヶ月ごと' },
+      { id: 1, name: '２ヶ月ごと ※「最終２ヶ月」のタブが使えます' },
+      { id: 2, name: 'タブ無し(通年をまとめて表示)' }
+    ].each { |c|
+      TabType.new.tap { |m|
+        m.id = c[:id]
+        m.name = c[:name]
+      }
+    }
+  end
 end

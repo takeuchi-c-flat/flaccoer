@@ -1,5 +1,6 @@
 class FiscalYearsController < BaseController
   before_action :set_fiscal_year, only: [:copy, :edit, :update, :destroy]
+  before_action :set_tab_types, only: [:new, :edit]
 
   def index
     @fiscal_years = FiscalYear.where(user: current_user)
@@ -94,12 +95,16 @@ class FiscalYearsController < BaseController
     @fiscal_year = FiscalYear.find(params[:id])
   end
 
+  def set_tab_types
+    @tab_types = FiscalYearService.get_tab_types()
+  end
+
   def fiscal_year_params
     params.
       require(:fiscal_year).
       permit(
         :user_id, :account_type_id, :subject_template_type_id, :title, :organization_name,
-        :date_from, :date_to, :locked,
+        :date_from, :date_to, :locked, :tab_type, :list_desc,
         :for_copy, :with_carry, :base_fiscal_year_id)
   end
 
