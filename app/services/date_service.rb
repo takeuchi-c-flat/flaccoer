@@ -23,9 +23,11 @@ module DateService
     date_from <= date_to
   end
 
-  # 年月(%Y%m)から日付の範囲を取得します。
-  def date_range_from_year_month(year_month)
-    date = Date.strptime(year_month + '01', '%Y%m%d')
-    [date, date.end_of_month]
+  # 年月(%Y%m)の範囲から日付の範囲を取得します。
+  def date_range_from_year_month(from, to)
+    [
+      Date.strptime(from + '01', '%Y%m%d'),
+      Date.strptime(to + '01', '%Y%m%d').end_of_month
+    ]
   end
 end

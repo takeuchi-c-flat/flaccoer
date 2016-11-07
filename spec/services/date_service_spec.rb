@@ -45,7 +45,8 @@ RSpec.describe DateService do
 
   describe '#date_range_from_year_month' do
     example 'get' do
-      expect(DateService.date_range_from_year_month('201512')).to eq([Date.new(2015, 12, 1), Date.new(2015, 12, 31)])
+      expect(DateService.date_range_from_year_month('201512', '201602'))
+        .to eq([Date.new(2015, 12, 1), Date.new(2016, 2, 29)])
     end
   end
 end

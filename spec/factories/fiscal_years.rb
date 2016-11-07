@@ -8,5 +8,7 @@ FactoryGirl.define do
     date_from Date.new(2015, 1, 1)
     date_to Date.new(2015, 12, 31)
     locked false
+    tab_type nil
+    list_desc nil
   end
 end
