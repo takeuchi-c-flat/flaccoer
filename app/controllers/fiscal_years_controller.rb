@@ -1,6 +1,6 @@
 class FiscalYearsController < BaseController
   before_action :set_fiscal_year, only: [:copy, :edit, :update, :destroy]
-  before_action :set_tab_types, only: [:new, :edit]
+  before_action :set_tab_types, only: [:new, :edit, :copy, :carry]
 
   def index
     @fiscal_years = FiscalYear.where(user: current_user)
