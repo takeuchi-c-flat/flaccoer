@@ -23,7 +23,7 @@ module Flaccoer
 
     config.autoload_paths << Rails.root.join('app/models/_for_view/')
 
-    unless Rails.env.development?
+    unless Rails.env.production?
       config.web_console.development_only = false
     end
   end
