@@ -22,5 +22,7 @@ module Flaccoer
     config.i18n.default_locale = :ja
 
     config.autoload_paths << Rails.root.join('app/models/_for_view/')
+
+    config.web_console.development_only = false
   end
 end
