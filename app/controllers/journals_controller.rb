@@ -74,12 +74,12 @@ class JournalsController < WithFiscalBaseController
 
   def set_mark
     update_mark(params[:id], true)
-    render nothing: true
+    render body: nil
   end
 
   def reset_mark
     update_mark(params[:id], false)
-    render nothing: true
+    render body: nil
   end
 
   private

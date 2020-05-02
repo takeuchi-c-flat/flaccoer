@@ -1,4 +1,4 @@
-class ChangeUsers < ActiveRecord::Migration
+class ChangeUsers < ActiveRecord::Migration[4.2]
   def change
     # Userにadmin_userを追加
     add_column :users, :admin_user, :boolean, null: true

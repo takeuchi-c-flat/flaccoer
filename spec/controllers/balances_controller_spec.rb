@@ -25,7 +25,7 @@ describe BalancesController, 'ログイン・会計年度選択後' do
   describe '#edit' do
     example 'Balancesを作り込む' do
       expect(BalanceService).to receive(:pre_create_balances).with(current_fiscal_year).once
-      get :edit
+      process :edit, method: :get
     end
   end
 
@@ -33,7 +33,7 @@ describe BalancesController, 'ログイン・会計年度選択後' do
     example 'indexにリダイレクト' do
       expect(SubjectsService).to receive(:cleanup_subjects).with(current_fiscal_year)
 
-      post :update, fiscal_year: params_hash
+      process :update, method: :post, params: { fiscal_year: params_hash }
       expect(response).to redirect_to(balances_url)
     end
   end

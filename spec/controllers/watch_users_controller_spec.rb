@@ -27,7 +27,7 @@ describe WatchUsersController, 'ログイン・会計年度選択後' do
 
   describe '#index' do
     example 'set @watch_users' do
-      get :index
+      process :index, method: :get
       expect(assigns[:fiscal_year]).to eq(current_fiscal_year)
       expect(assigns[:watch_users]).to eq([watch_user1, watch_user2])
     end
@@ -35,7 +35,7 @@ describe WatchUsersController, 'ログイン・会計年度選択後' do
 
   describe '#new' do
     example 'set @watch_user' do
-      get :new
+      process :new, method: :get
       expect(assigns[:fiscal_year]).to eq(current_fiscal_year)
       expect(assigns[:watch_user]).to have_attributes(fiscal_year: current_fiscal_year)
     end
@@ -43,7 +43,7 @@ describe WatchUsersController, 'ログイン・会計年度選択後' do
 
   describe '#edit' do
     example 'set @watch_user' do
-      get :edit, id: watch_user2.id
+      process :edit, method: :get, params: { id: watch_user2.id }
       expect(assigns[:fiscal_year]).to eq(current_fiscal_year)
       expect(assigns[:watch_user]).to eq(watch_user2)
     end

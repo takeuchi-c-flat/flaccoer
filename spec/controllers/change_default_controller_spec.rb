@@ -28,7 +28,7 @@ describe ChangeDefaultController, 'ログイン・会計年度選択後' do
       today = Date.new(2015, 4, 1)
       allow(Date).to receive(:today).and_return(today)
 
-      get :edit
+      process :edit, method: :get
       expect(assigns[:fiscal_years]).to eq(dummy_years)
       expect(assigns[:change_default_form].fiscal_year_id).to eq(fiscal_year.id)
       expect(assigns[:change_default_form].journal_date).to eq(today)
@@ -44,7 +44,7 @@ describe ChangeDefaultController, 'ログイン・会計年度選択後' do
       today = Date.new(2017, 3, 1)
 
       params_hash = { fiscal_year_id: fiscal_year1.id, journal_date: today }
-      post :change, change_default_form: params_hash
+      process :change, method: :post, params: { change_default_form: params_hash}
       expect(session[:fiscal_year_id]).to eq(fiscal_year1.id.to_s)
       expect(session[:journal_date]).to eq('2016-12-31')
       expect(response).to redirect_to(root_url)

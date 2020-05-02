@@ -1,4 +1,4 @@
-class PatchSubjectTypes < ActiveRecord::Migration
+class PatchSubjectTypes < ActiveRecord::Migration[4.2]
   def change
 
     # 出納帳会計の収入・支出の科目の貸借が間違っているので修正する。

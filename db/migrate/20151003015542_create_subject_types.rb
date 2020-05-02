@@ -1,4 +1,4 @@
-class CreateSubjectTypes < ActiveRecord::Migration
+class CreateSubjectTypes < ActiveRecord::Migration[4.2]
   def change
     create_table :subject_types do |t|
       t.references  :account_type,          null: false,  index: true,  foreign_key: true

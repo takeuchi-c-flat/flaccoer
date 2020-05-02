@@ -1,4 +1,4 @@
-class AddSubjectTemplateCashBook < ActiveRecord::Migration
+class AddSubjectTemplateCashBook < ActiveRecord::Migration[4.2]
   def change
     # 既に追加済の場合は終了する。
     return if SubjectTemplateType.find_by(name: '出納帳').present?

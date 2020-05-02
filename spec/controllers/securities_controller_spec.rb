@@ -16,20 +16,20 @@ describe SecuritiesController, 'ログイン後' do
 
   describe '#edit' do
     example '通常はsecurityを表示' do
-      get :edit
+      process :edit, method: :get
       expect(response).to render_template('edit')
     end
 
     example '停止フラグの設定によりログアウト' do
       current_user.update_column(:suspended, true)
-      get :edit
+      process :edit, method: :get
       expect(session[:user_id]).to be_nil
       expect(response).to redirect_to(login_url)
     end
 
     example 'セッションタイムアウト' do
       session[:last_access_time] = BaseController::TIMEOUT.ago.advance(second: -1)
-      get :edit
+      process :edit, method: :get
       expect(session[:user_id]).to be_nil
       expect(response).to redirect_to(login_url)
     end
@@ -40,7 +40,8 @@ describe SecuritiesController, 'ログイン後' do
 
     example '現在のパスワードが不一致' do
       params_hash[:password] = 'dummy'
-      patch :update, id: user.id, user: params_hash
+
+      process :update, method: :patch, params: { id: user.id, user: params_hash }
       expect(response).to render_template('edit')
     end
 
@@ -48,7 +49,7 @@ describe SecuritiesController, 'ログイン後' do
       params_hash[:password] = 'password'
       params_hash[:new_password1] = 'a'
       params_hash[:new_password2] = 'b'
-      patch :update, id: user.id, user: params_hash
+      process :update, method: :patch, params: { id: user.id, user: params_hash }
       expect(response).to render_template('edit')
     end
 
@@ -56,7 +57,7 @@ describe SecuritiesController, 'ログイン後' do
       params_hash[:password] = 'password'
       params_hash[:new_password1] = 'a'
       params_hash[:new_password2] = 'a'
-      patch :update, id: user.id, user: params_hash
+      process :update, method: :patch, params: { id: user.id, user: params_hash }
       expect(response).to redirect_to(login_url)
     end
   end

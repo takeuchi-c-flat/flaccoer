@@ -26,7 +26,7 @@ describe FiscalYearsMaintenanceController, 'ログイン後' do
       FactoryGirl.create(:balance, fiscal_year: fiscal_year)
       FactoryGirl.create(:badget, fiscal_year: fiscal_year)
 
-      get :index, id: fiscal_year.id
+      process :index, method: :get, params: { id: fiscal_year.id }
       expect(assigns[:maintenance_items]).to eq(
         [
           {
@@ -72,7 +72,7 @@ describe FiscalYearsMaintenanceController, 'ログイン後' do
       FactoryGirl.create(:subject, fiscal_year: fiscal_year, code: '100')
       FactoryGirl.create(:subject, fiscal_year: fiscal_year, code: '200')
 
-      get :index, id: fiscal_year.id
+      process :index, method: :get, params: { id: fiscal_year.id }
       expect(assigns[:maintenance_items]).to eq(
         [
           {
@@ -115,7 +115,7 @@ describe FiscalYearsMaintenanceController, 'ログイン後' do
     end
 
     example 'redirect to fiscal_years when not assign fiscal_year' do
-      get :index, id: 0
+      process :index, method: :get, params: { id: 0 }
       expect(response).to redirect_to(fiscal_years_url)
     end
   end
@@ -127,7 +127,7 @@ describe FiscalYearsMaintenanceController, 'ログイン後' do
       FactoryGirl.create(:journal, fiscal_year: other_fiscal_year)
       expect(SubjectsCacheService).to receive(:clear_subjects_cache).with(fiscal_year)
 
-      delete :trunc_journals, id: fiscal_year.id
+      process :trunc_journals, method: :delete, params: { id: fiscal_year.id }
       expect(Journal.where(fiscal_year: fiscal_year).empty?).to eq(true)
       expect(Journal.where(fiscal_year: other_fiscal_year).length).to eq(1)
       expect(response).to redirect_to(fiscal_year_maintenance_path)
@@ -139,7 +139,7 @@ describe FiscalYearsMaintenanceController, 'ログイン後' do
       FactoryGirl.create(:subject, fiscal_year: other_fiscal_year, code: '100')
       expect(SubjectsCacheService).to receive(:clear_subjects_cache).with(fiscal_year)
 
-      delete :trunc_subjects, id: fiscal_year.id
+      process :trunc_subjects, method: :delete, params: { id: fiscal_year.id }
       expect(Subject.where(fiscal_year: fiscal_year).empty?).to eq(true)
       expect(Subject.where(fiscal_year: other_fiscal_year).length).to eq(1)
       expect(response).to redirect_to(fiscal_year_maintenance_path)
@@ -150,7 +150,7 @@ describe FiscalYearsMaintenanceController, 'ログイン後' do
       FactoryGirl.create(:balance, fiscal_year: fiscal_year)
       FactoryGirl.create(:balance, fiscal_year: other_fiscal_year)
 
-      delete :trunc_balances, id: fiscal_year.id
+      process :trunc_balances, method: :delete, params: { id: fiscal_year.id }
       expect(Balance.where(fiscal_year: fiscal_year).empty?).to eq(true)
       expect(Balance.where(fiscal_year: other_fiscal_year).length).to eq(1)
       expect(response).to redirect_to(fiscal_year_maintenance_path)
@@ -161,8 +161,7 @@ describe FiscalYearsMaintenanceController, 'ログイン後' do
       FactoryGirl.create(:badget, fiscal_year: fiscal_year)
       FactoryGirl.create(:badget, fiscal_year: other_fiscal_year)
 
-      delete :trunc_badgets, id: fiscal_year.id
-      expect(Badget.where(fiscal_year: fiscal_year).empty?).to eq(true)
+      process :trunc_badgets, method: :delete, params: { id: fiscal_year.id }
       expect(Badget.where(fiscal_year: other_fiscal_year).length).to eq(1)
       expect(response).to redirect_to(fiscal_year_maintenance_path)
     end
@@ -179,14 +178,14 @@ describe FiscalYearsMaintenanceController, 'ログイン後' do
       journal3 = FactoryGirl.create(:journal, fiscal_year: fiscal_year, journal_date: Date.new(2015, 1, 1))
       FactoryGirl.create(:journal, fiscal_year: other_fiscal_year)
 
-      get :export_journals, id: fiscal_year.id, format: :csv
+      process :export_journals, method: :get, params: { id: fiscal_year.id, format: :csv }
       expect(assigns[:journals]).to eq([journal2, journal3, journal1])
     end
 
     example 'subjects' do
       FactoryGirl.create(:subject, fiscal_year: other_fiscal_year)
 
-      get :export_subjects, id: fiscal_year.id, format: :csv
+      process :export_subjects, method: :get, params: { id: fiscal_year.id, format: :csv }
       expect(assigns[:subjects]).to eq([subject1, subject2, subject3])
     end
 
@@ -196,7 +195,7 @@ describe FiscalYearsMaintenanceController, 'ログイン後' do
       FactoryGirl.create(:balance, fiscal_year: fiscal_year, subject: subject1, top_balance: 0)
       FactoryGirl.create(:balance, fiscal_year: other_fiscal_year, top_balance: 100)
 
-      get :export_balances, id: fiscal_year.id, format: :csv
+      process :export_balances, method: :get, params: { id: fiscal_year.id, format: :csv }
       expect(assigns[:balances]).to eq([balance2, balance1])
     end
 
@@ -206,7 +205,7 @@ describe FiscalYearsMaintenanceController, 'ログイン後' do
       FactoryGirl.create(:badget, fiscal_year: fiscal_year, subject: subject1, total_badget: 0)
       FactoryGirl.create(:badget, fiscal_year: other_fiscal_year, total_badget: 100)
 
-      get :export_badgets, id: fiscal_year.id, format: :csv
+      process :export_badgets, method: :get, params: { id: fiscal_year.id, format: :csv }
       expect(assigns[:badgets]).to eq([badget2, badget1])
     end
   end
@@ -224,23 +223,23 @@ describe FiscalYearsMaintenanceController, 'ログイン後' do
     example 'journals' do
       expect(SubjectsCacheService).to receive(:clear_subjects_cache).with(fiscal_year)
       expect(CsvImportService).to receive(:import_csv_data).with(fiscal_year, :journals, 'DummyContent')
-      post :import_journals, id: fiscal_year.id
+      process :import_journals, method: :post, params: { id: fiscal_year.id }
     end
 
     example 'subjects' do
       expect(SubjectsCacheService).to receive(:clear_subjects_cache).with(fiscal_year)
       expect(CsvImportService).to receive(:import_csv_data).with(fiscal_year, :subjects, 'DummyContent')
-      post :import_subjects, id: fiscal_year.id
+      process :import_subjects, method: :post, params: { id: fiscal_year.id }
     end
 
     example 'balances' do
       expect(CsvImportService).to receive(:import_csv_data).with(fiscal_year, :balances, 'DummyContent')
-      post :import_balances, id: fiscal_year.id
+      process :import_balances, method: :post, params: { id: fiscal_year.id }
     end
 
     example 'badgets' do
       expect(CsvImportService).to receive(:import_csv_data).with(fiscal_year, :badgets, 'DummyContent')
-      post :import_badgets, id: fiscal_year.id
+      process :import_badgets, method: :post, params: { id: fiscal_year.id }
     end
   end
 end

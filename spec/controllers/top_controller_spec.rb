@@ -18,26 +18,26 @@ describe TopController, 'ログイン後' do
 
   describe '#index' do
     example '通常はtop/indexを表示' do
-      get :index
+      process :index, method: :get
       expect(response).to render_template('top/index')
     end
 
     example '停止フラグの設定によりログアウト' do
       current_user.update_column(:suspended, true)
-      get :index
+      process :index, method: :get
       expect(session[:user_id]).to be_nil
       expect(response).to redirect_to(login_url)
     end
 
     example 'セッションタイムアウト' do
       session[:last_access_time] = BaseController::TIMEOUT.ago.advance(second: -1)
-      get :index
+      process :index, method: :get
       expect(session[:user_id]).to be_nil
       expect(response).to redirect_to(login_url)
     end
 
     example 'セッション変数未設定状態＋会計年度なし' do
-      get :index
+      process :index, method: :get
       expect(session[:fiscal_year_id]).to be_nil
       expect(session[:journal_date]).to be_nil
       expect(assigns(:user)).to eq(current_user)
@@ -56,7 +56,7 @@ describe TopController, 'ログイン後' do
       allow(DashboardService).to receive(:create_dashboard_data_profit_and_loss).with(fiscal_year2, today).
           and_return(['DUMMY2'])
 
-      get :index
+      process :index, method: :get
       expect(session[:fiscal_year_id]).to eq(fiscal_year2.id)
       expect(session[:journal_date]).to eq(today)
       expect(assigns(:no_years)).to eq(false)
@@ -78,7 +78,7 @@ describe TopController, 'ログイン後' do
       allow(DashboardService).to receive(:create_dashboard_data_profit_and_loss).with(fiscal_year1, span_top).
           and_return(['DUMMY2'])
 
-      get :index
+      process :index, method: :get
       expect(session[:fiscal_year_id]).to eq(fiscal_year1.id)
       expect(session[:journal_date]).to eq(span_top)
       expect(assigns(:no_years)).to eq(false)
@@ -101,7 +101,7 @@ describe TopController, 'ログイン後' do
       allow(DashboardService).to receive(:create_dashboard_data_profit_and_loss).with(fiscal_year1, today).
           and_return(['DUMMY2'])
 
-      get :index
+      process :index, method: :get
       expect(session[:fiscal_year_id]).to eq(fiscal_year1.id)
       expect(session[:journal_date]).to eq(today)
       expect(assigns(:no_years)).to eq(false)

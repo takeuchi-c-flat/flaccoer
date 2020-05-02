@@ -1,4 +1,4 @@
-class AddSubjectTemplateBlue < ActiveRecord::Migration
+class AddSubjectTemplateBlue < ActiveRecord::Migration[4.2]
   def change
     # 既に追加済の場合は終了する。
     return if SubjectTemplateType.find_by(name: '個人事業主(青色申告)').present?

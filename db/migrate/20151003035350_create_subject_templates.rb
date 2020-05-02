@@ -1,4 +1,4 @@
-class CreateSubjectTemplates < ActiveRecord::Migration
+class CreateSubjectTemplates < ActiveRecord::Migration[4.2]
   def change
     create_table :subject_templates do |t|
       t.references  :subject_template_type, null:false, index: true,  foreign_key: true

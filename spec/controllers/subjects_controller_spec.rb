@@ -36,7 +36,7 @@ describe SubjectsController, 'ログイン・会計年度選択後' do
 
   describe '#edit_all' do
     example 'assign fiscal_year' do
-      get :edit_all
+      process :edit_all, method: :get
       expect(assigns(:fiscal_year)).to eq(fiscal_year)
     end
   end
@@ -46,14 +46,14 @@ describe SubjectsController, 'ログイン・会計年度選択後' do
       expect(SubjectsService).to receive(:cleanup_subjects).with(fiscal_year)
       expect(SubjectsCacheService).to receive(:clear_subjects_cache).with(fiscal_year)
 
-      post :update_all, fiscal_year: params_hash
+      process :update_all, method: :post, params: { fiscal_year: params_hash }
       expect(response).to redirect_to(subjects_url)
     end
   end
 
   describe '#new' do
     example 'subjectを設定' do
-      get :new
+      process :new, method: :get
       expect(assigns(:subject)).to have_attributes(fiscal_year: fiscal_year)
       expect(assigns(:subject_types)).to eq(subject_types)
     end
@@ -63,7 +63,7 @@ describe SubjectsController, 'ログイン・会計年度選択後' do
     example 'indexにリダイレクト' do
       expect(SubjectsCacheService).to receive(:clear_subjects_cache).with(fiscal_year)
 
-      post :create, subject: subject_params_hash
+      process :create, method: :post, params: { subject: subject_params_hash }
       expect(response).to redirect_to(subjects_url)
       expect(assigns(:subject_types)).to eq(subject_types)
     end
