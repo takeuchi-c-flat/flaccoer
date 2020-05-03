@@ -90,7 +90,7 @@ GEM
     factory_girl_rails (4.9.0)
       factory_girl (~> 4.9.0)
       railties (>= 3.0.0)
-    ffi (1.9.10)
+    ffi (1.12.2)
     font-awesome-rails (4.7.0.5)
       railties (>= 3.2, < 6.1)
     formatador (0.2.5)
@@ -305,7 +305,7 @@ DEPENDENCIES
   datetimepicker-rails!
   execjs
   factory_girl_rails
-  ffi (= 1.9.10)
+  ffi (= 1.12.2)
   font-awesome-rails
   guard
   guard-rubocop
