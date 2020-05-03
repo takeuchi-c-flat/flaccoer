@@ -36,14 +36,14 @@ describe LocationsController, 'ログイン・会計年度選択後' do
 
   describe '#edit_all' do
     example 'assign fiscal_year' do
-      get :edit_all
+      process :edit_all, method: :get
       expect(assigns(:fiscal_year)).to eq(fiscal_year)
     end
   end
 
   describe '#update_all' do
     example 'indexにリダイレクト' do
-      post :update_all, fiscal_year: params_hash
+      process :update_all, method: :post, params: { fiscal_year: params_hash }
       expect(response).to redirect_to(locations_url)
     end
   end

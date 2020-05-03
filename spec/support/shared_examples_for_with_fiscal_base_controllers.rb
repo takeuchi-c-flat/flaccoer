@@ -9,7 +9,7 @@ shared_examples 'a protected with fiscal base controller for edit with id' do
     end
 
     example '会計年度未選択時は、TOPにリダイレクト' do
-      get :edit, id: 0
+      process :edit, method: :get, params: { id: 0 }
       expect(response).to redirect_to(root_url)
     end
 
@@ -31,7 +31,7 @@ shared_examples 'a protected with fiscal base controller for new' do
     end
 
     example '会計年度未選択時は、TOPにリダイレクト' do
-      get :new
+      process :new, method: :get
       expect(response).to redirect_to(root_url)
     end
 
@@ -53,7 +53,7 @@ shared_examples 'a protected with fiscal base controller for index' do
     end
 
     example '会計年度未選択時は、TOPにリダイレクト' do
-      get :index
+      process :index, method: :get
       expect(response).to redirect_to(root_url)
     end
 
@@ -75,7 +75,7 @@ shared_examples 'a protected with fiscal base controller for edit_all' do
     end
 
     example '会計年度未選択時は、TOPにリダイレクト' do
-      get :edit_all
+      process :edit_all, method: :get
       expect(response).to redirect_to(root_url)
     end
 

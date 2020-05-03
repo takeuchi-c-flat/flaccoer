@@ -1,4 +1,4 @@
-class CreateFiscalYears < ActiveRecord::Migration
+class CreateFiscalYears < ActiveRecord::Migration[4.2]
   def change
     create_table :fiscal_years do |t|
       t.references :user,                   null: false,  index: true,  foreign_key: true

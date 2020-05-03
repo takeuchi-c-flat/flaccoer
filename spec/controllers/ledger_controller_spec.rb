@@ -26,7 +26,7 @@ describe LedgerController, 'ログイン・会計年度選択後' do
     example 'set @ledger_form and more' do
       allow(LedgerService).to receive(:get_subject_list).with(current_fiscal_year).and_return(['DUMMY'])
 
-      get :index
+      process :index, method: :get
       expect(assigns[:ledger_form]).to have_attributes(
         date_from: current_fiscal_year.date_from,
         date_to: current_fiscal_year.date_to,
@@ -37,7 +37,7 @@ describe LedgerController, 'ログイン・会計年度選択後' do
     example 'set @ledger_form and more with subject_id' do
       allow(LedgerService).to receive(:get_subject_list).with(current_fiscal_year).and_return(['DUMMY'])
 
-      get :index, subject_id: 55
+      process :index, method: :get, params: { subject_id: 55 }
       expect(assigns[:ledger_form]).to have_attributes(
         date_from: current_fiscal_year.date_from,
         date_to: current_fiscal_year.date_to,
@@ -55,7 +55,8 @@ describe LedgerController, 'ログイン・会計年度選択後' do
           with(current_fiscal_year, subject, Date.new(2015, 5, 1).to_s, Date.new(2015, 7, 1).to_s, 50000).
           and_return(['DUMMY'])
 
-      get :list, ledger_form: { subject_id: subject.id, date_from: Date.new(2015, 5, 1), date_to: Date.new(2015, 7, 1) }
+      ledger_form_params = { subject_id: subject.id, date_from: Date.new(2015, 5, 1), date_to: Date.new(2015, 7, 1) }
+      process :list, method: :get, params: { ledger_form: ledger_form_params }
       expect(assigns[:carried_balance]).to eq(50000)
       expect(assigns[:ledger_list]).to eq(['DUMMY'])
     end

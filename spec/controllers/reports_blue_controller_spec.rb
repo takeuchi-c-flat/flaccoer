@@ -22,7 +22,7 @@ describe ReportsBlueController, 'ログイン・会計年度選択後' do
 
   describe '#index' do
     example 'set @fiscal_year' do
-      get :index
+      process :index, method: :get
       expect(assigns[:fiscal_year]).to eq(current_fiscal_year)
     end
   end

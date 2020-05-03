@@ -31,7 +31,7 @@ describe JournalsController, 'ログイン・会計年度選択後' do
           with(current_fiscal_year, true).
           and_return(['DUMMY'])
 
-      get :subjects_debit
+      process :subjects_debit, method: :get
       expect(assigns[:subjects]).to eq(['DUMMY'])
       expect(assigns[:td_class_name]).to eq('select-subject-debit')
     end
@@ -43,7 +43,7 @@ describe JournalsController, 'ログイン・会計年度選択後' do
           with(current_fiscal_year, false).
           and_return(['DUMMY'])
 
-      get :subjects_credit
+      process :subjects_credit, method: :get
       expect(assigns[:subjects]).to eq(['DUMMY'])
       expect(assigns[:td_class_name]).to eq('select-subject-credit')
     end
@@ -57,7 +57,7 @@ describe JournalsController, 'ログイン・会計年度選択後' do
           with('tab201510', current_fiscal_year).
           and_return(dummy_journals)
 
-      get :list, id: 'tab201510'
+      process :list, method: :get, params: { id: 'tab201510' }
       expect(assigns[:fiscal_year]).to eq(current_fiscal_year)
       expect(assigns[:journal_date]).to eq(journal_date)
       expect(assigns[:can_modify]).to eq(true)
@@ -70,7 +70,7 @@ describe JournalsController, 'ログイン・会計年度選択後' do
       expect(SubjectsCacheService).to \
         receive(:get_subject_list).with(current_fiscal_year).and_return([subject1, subject2, subject3])
 
-      get :new
+      process :new, method: :get
       expect(assigns[:fiscal_year]).to eq(current_fiscal_year)
       expect(assigns[:journal_date]).to eq(journal_date)
       expect(assigns[:can_modify]).to eq(true)
@@ -85,7 +85,7 @@ describe JournalsController, 'ログイン・会計年度選択後' do
       expect(SubjectsCacheService).to \
         receive(:get_subject_list).with(current_fiscal_year).and_return([subject1, subject2, subject3])
 
-      get :copy, id: 9999
+      process :copy, method: :get, params: { id: 9999 }
       expect(assigns[:fiscal_year]).to eq(current_fiscal_year)
       expect(assigns[:journal_date]).to eq(journal_date)
       expect(assigns[:can_modify]).to eq(true)
@@ -105,7 +105,7 @@ describe JournalsController, 'ログイン・会計年度選択後' do
       expect(SubjectsCacheService).to \
         receive(:get_subject_list).with(current_fiscal_year).and_return([subject1, subject2, subject3])
 
-      get :edit, id: 9999
+      process :edit, method: :get, params: { id: 9999 }
       expect(assigns[:fiscal_year]).to eq(current_fiscal_year)
       expect(assigns[:journal_date]).to eq(journal_date)
       expect(assigns[:can_modify]).to eq(true)
@@ -139,7 +139,7 @@ describe JournalsController, '編集権限のない閲覧ユーザでログイ�
       expect(SubjectsCacheService).to \
         receive(:get_subject_list).with(current_fiscal_year).and_return([subject1, subject2, subject3])
 
-      get :new
+      process :new, method: :get
       expect(assigns[:can_modify]).to eq(false)
     end
   end
@@ -150,7 +150,7 @@ describe JournalsController, '編集権限のない閲覧ユーザでログイ�
       expect(SubjectsCacheService).to \
         receive(:get_subject_list).with(current_fiscal_year).and_return([subject1, subject2, subject3])
 
-      get :copy, id: 9999
+      process :copy, method: :get, params: { id: 9999 }
       expect(assigns[:can_modify]).to eq(false)
     end
   end
@@ -161,7 +161,7 @@ describe JournalsController, '編集権限のない閲覧ユーザでログイ�
       expect(SubjectsCacheService).to \
         receive(:get_subject_list).with(current_fiscal_year).and_return([subject1, subject2, subject3])
 
-      get :edit, id: 9999
+      process :edit, method: :get, params: { id: 9999 }
       expect(assigns[:can_modify]).to eq(false)
     end
   end
@@ -170,7 +170,7 @@ describe JournalsController, '編集権限のない閲覧ユーザでログイ�
     example 'set_mark success' do
       create(:journal, id: 99999999, fiscal_year: current_fiscal_year, mark: false)
 
-      patch :set_mark, id: 99999999
+      process :set_mark, method: :patch, params: { id: 99999999 }
       expect(Journal.find(99999999).mark).to eq(true)
     end
 
@@ -178,7 +178,7 @@ describe JournalsController, '編集権限のない閲覧ユーザでログイ�
       dummy_fiscal_year = create(:fiscal_year)
       create(:journal, id: 99999999, fiscal_year: dummy_fiscal_year, mark: false)
 
-      patch :set_mark, id: 99999999
+      process :set_mark, method: :patch, params: { id: 99999999 }
       expect(Journal.find(99999999).mark).to eq(false)
     end
   end
@@ -187,12 +187,12 @@ describe JournalsController, '編集権限のない閲覧ユーザでログイ�
     example 'reset_mark success' do
       create(:journal, id: 99999999, fiscal_year: current_fiscal_year, mark: true)
 
-      patch :reset_mark, id: 99999999
+      process :reset_mark, method: :patch, params: { id: 99999999 }
       expect(Journal.find(99999999).mark).to eq(false)
     end
 
     example 'not found journal' do
-      patch :reset_mark, id: 99999999
+      process :reset_mark, method: :patch, params: { id: 99999999 }
       expect(Journal.find_by(id: 99999999)).to be_nil
     end
   end

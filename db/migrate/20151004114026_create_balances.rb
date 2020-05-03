@@ -1,4 +1,4 @@
-class CreateBalances < ActiveRecord::Migration
+class CreateBalances < ActiveRecord::Migration[4.2]
   def change
     create_table :balances do |t|
       t.references  :fiscal_year, null: false,  index: true,  foreign_key: true
