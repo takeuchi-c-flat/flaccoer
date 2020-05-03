@@ -40,7 +40,7 @@ group :test do
   gem 'database_cleaner', '~> 1.2.0'
   gem 'rubocop'
   gem 'guard'
-  gem 'ffi', '1.9.10'
+  gem 'ffi', '1.12.2'
   gem 'guard-rubocop'
   gem 'terminal-notifier-guard'
   gem 'rails-controller-testing'
