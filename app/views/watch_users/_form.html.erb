@@ -1,9 +1,9 @@
 <%= simple_form_for @watch_user, wrapper: "horizontal_form", :html => { :class => 'form-horizontal' } do |f| %>
   <% if f.object.new_record? %>
     <%= f.input :user_email, label: '閲覧者のe-mail', input_wrapper_html: { class: "col-sm-5" } %>
-    <%= error_span(@watch_user[:user]) %>
+    <%= f.error_span(:user) %>
     <%= f.input :user, readonly: true, input_wrapper_html: { class: "col-sm-5" } %>
-    <%= error_span(@watch_user[:user]) %>
+    <%= f.error_span(:user) %>
   <% else %>
     <%= f.input :user, readonly: true, input_wrapper_html: { class: "col-sm-5" } %>
   <% end %>

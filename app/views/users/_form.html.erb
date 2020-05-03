@@ -1,16 +1,16 @@
 <%= simple_form_for @user, wrapper: "horizontal_form", :html => { :class => 'form-horizontal' } do |f| %>
   <%= f.input :name, input_wrapper_html: { class: "col-xs-5" } %>
-  <%= error_span(@user[:name]) %>
+  <%= f.error_span(:name) %>
   <% if f.object.new_record? %>
     <%= f.input :password, input_wrapper_html: { class: "col-xs-5" } %>
-    <%= error_span(@user[:password]) %>
+    <%= f.error_span(:password) %>
   <% end %>
   <%= f.input :email, input_wrapper_html: { class: "col-xs-5" } %>
-  <%= error_span(@user[:email]) %>
+  <%= f.error_span(:email) %>
   <%= f.input :suspended %>
-  <%= error_span(@user[:suspended]) %>
+  <%= f.error_span(:suspended) %>
   <%= f.input :admin_user %>
-  <%= error_span(@user[:admin_user]) %>
+  <%= f.error_span(:admin_user) %>
 
   <div>&nbsp;</div>
   <div>

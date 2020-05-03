@@ -7,7 +7,7 @@
       <div class='col-sm-1 col-xs-12 journal-field-title'><%= model_class.human_attribute_name(:journal_date) %></div>
       <div class='col-sm-3 col-xs-8'><%= f.input :journal_date, label: false, as: :date_picker %></div>
     </div>
-    <%= error_span(@journal[:journal_date]) %>
+    <%= f.error_span(:journal_date) %>
   </div>
   <div class='container journal-field-container'>
     <div class='row'>
@@ -20,14 +20,14 @@
       <div class='col-sm-3 col-xs-6'><%= f.association :subject_debit, collection: @subjects, label: false, input_wrapper_html: { class: "input_subject_debit" } %></div>
       <div class='col-sm-3 col-xs-6'><%= f.association :subject_credit, collection: @subjects, label: false, input_wrapper_html: { class: "input_subject_credit" } %></div>
     </div>
-    <%= error_span(@journal[:subject_debit]) %>
+    <%= f.error_span(:subject_debit) %>
   </div>
   <div class='container journal-field-container'>
     <div class='row'>
       <div class='col-sm-1 col-xs-12 journal-field-title'><%= model_class.human_attribute_name(:price) %></div>
       <div class='col-sm-3 col-xs-8'><%= f.input :price, label: false %></div>
     </div>
-    <%= error_span(@journal[:price]) %>
+    <%= f.error_span(:price) %>
   </div>
   <div class='container journal-field-container'>
     <div class='row'>
@@ -35,7 +35,7 @@
       <div class='col-sm-7 col-xs-12'><%= f.input :comment, label: false %></div>
     </div>
   </div>
-  <%= error_span(@journal[:comment]) %>
+  <%= f.error_span(:comment) %>
   <div class='container journal-field-container'>
     <div class='row'>
       <div class='col-sm-1 hidden-xs'>&nbsp;</div>
